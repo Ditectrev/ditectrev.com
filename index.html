@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Portfolio</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="css/style.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="lightbox/css/lightbox.css">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans|Baumans">
+
+		<script src="js/vendor/modernizr.min.js"></script>
+		<script src="js/vendor/respond.min.js"></script>
+
+        <!-- include extern jQuery file but fall back to local file if extern one fails to load !-->
+        <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="js\/vendor\/jquery-2.2.0.min.js"><\/script>')</script>
+
+        <script src="lightbox/js/lightbox.js"></script>
+        <script src="js/vendor/jquery.slides.min.js"></script>
+        <script src="js/vendor/prefixfree.min.js"></script>
+        <script src="js/script.js"></script>
+
+        <!--[if lt IE 9]>
+        <style>
+            header {
+                margin: 0 auto 20px auto;
+            }
+            #four_columns .img-item figure span.thumb-screen {
+                display: none;
+            }
+        </style>
+        <![endif]-->
+
+        <script>
+            $(function () {
+                $('#slides').slidesjs({
+                    height: 235,
+                    navigation: false,
+                    pagination: false,
+                    effect: {
+                        fade: {
+                            speed: 400
+                        }
+                    },
+                    callback: {
+                        start: function(number) {
+                            $("#slider_content1, #slider_content2, #slider_content3").fadeOut(500);
+                        },
+                        complete: function(number) {
+                            $("#slider_content" + number).delay(500).fadeIn(1000);
+                        }
+                    },
+                    play: {
+                        active: false,
+                        auto: true,
+                        interval: 6000,
+                        pauseOnHover: false,
+                        effect: "fade"
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            // If scroll bigger than 200px show "Go-top" button
+            $(document).ready(function() {
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > 200) {
+                        $(".go-top").fadeIn(200);
+                    }
+                });
+
+                // Go to the top of page
+                $(".go-top").click(function(event) {
+                    event.preventDefault();
+
+                    $("html, body").animate({scrollTop: 0}, 2000);
+                })
+            });
+        </script>
+    </head>
+
+    <body>
+        <!-- HEADER -->
+        <header>
+            <!-- Menu for less than 501px -->
+            <div class="toggleMobile">
+                <span class="menu1"></span>
+                <span class="menu2"></span>
+                <span class="menu3"></span>
+            </div>
+            <div id="mobileMenu">
+                <ul>
+                    <li><a href="javascript:void(0)">Home</a></li>
+                    <li><a href="javascript:void(0)">Portfolio</a></li>
+                    <li><a href="javascript:void(0)">About</a></li>
+                </ul>
+            </div>
+            <h1>Portfolio H1</h1>
+            <p>A responsive portfolio</p>
+
+            <!-- Menu for more than 500px -->
+            <nav>
+                <ul>
+                    <li><a href="javascript:void(0)">Home</a></li>
+                    <li><a href="javascript:void(0)">Portfolio</a></li>
+                    <li><a href="javascript:void(0)">About</a></li>
+                    <li><a href="javascript:void(0)">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- SLIDER -->
+        <section class="container">
+            <h2 class="hidden">H2 section container</h2>
+            <article id="slider_content1">
+                <h3>Slider1 article H3</h3>
+                <p>Paragrapht slider1 article<a href="javascript:void(0)" class="responsive_button">Read more</a></p>
+                <a class="button" href="javascript:void(0)">Read more</a>
+            </article>
+            <article id="slider_content2">
+                <h3>Slider2 article H3</h3>
+                <p>Paragrapht slider2 article<a href="javascript:void(0)" class="responsive_button">Read more</p>
+                <a class="button" href="javascript:void(0)">Read more</a>
+            </article>
+            <article id="slider_content3">
+                <h3>Slider3 article H3</h3>
+                <p>Paragrapht slider3 article<a href="javascript:void(0)" class="responsive_button">Read more</p>
+                <a class="button" href="javascript:void(0)">Read more</a>
+            </article>
+            <div id="slides">
+                <img src="img/slide1.jpg" alt="Alt text slide1"/>
+                <img src="img/slide2.jpg" alt="Alt text slide2"/>
+                <img src="img/slide3.jpg" alt="Alt text slide3"/>
+            </div>
+        </section>
+
+        <!-- SEARCH -->
+        <section id="spacer">
+            <h2 class="hidden">H2 section spacer</h2>
+            <p>Any paragraph</p>
+            <div class="search">
+                <form action="#">
+                    <input type="text" name="sitesearch" value="Enter a word..."/>
+                    <input type="submit" name="start_search" class="button" value="Search"/>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3 ICONS WITH PARAGRAPH -->
+        <section id="boxcontent">
+            <h2 class="hidden">H2 section boxcontent</h2>
+            <article>
+                <img src="img/icon1.png" alt="Alt text communication-icon"/>
+                <h3>Article H2 communication-icon</h3>
+                <p>Paragraph communication-icon in article, section boxcontent</p>
+            </article>
+            <article>
+                <img src="img/icon2.png" alt="Alt text application-icon"/>
+                <h3>Article H2 application-icon</h3>
+                <p>Paragraph application-icon in article, section boxcontent</p>
+            </article>
+            <article>
+                <img src="img/icon3.png" alt="Alt text arrows-icon"/>
+                <h3>Article H2 arrows-icon</h3>
+                <p>Paragraph arrows-icon in article, section boxcontent</p>
+            </article>
+            <br class="clear"/>
+        </section>
+
+        <!-- 4 COLUMNS WITH IMAGES -->
+        <section id="four_columns">
+            <h2>H2 section four columns</h2>
+            <article class="img-item">
+                <h3 class="hidden">H3 class hidden in img-item class</h3>
+                <figure>
+                    <a href="img/example-slide-1.jpg" rel="lightbox" title="Slide1 title">
+                        <span class="thumb-screen"></span>
+                        <img src="img/example-slide-1sml.jpg" alt="Small slide1 alt text">
+                    </a>
+                    <figcaption>
+                        <strong>Photo by: Some name1</strong>
+                        figcaption inside slide1
+                    </figcaption>
+                </figure>
+            </article>
+	        <article class="img-item">
+                <h3 class="hidden">H3 class hidden in img-item class</h3>
+                <figure>
+                    <a href="img/example-slide-2.jpg" rel="lightbox" title="Slide2 title">
+                        <span class="thumb-screen"></span>
+                        <img src="img/example-slide-2sml.jpg" alt="Small slide2 alt text">
+                    </a>
+                    <figcaption>
+                        <strong>Photo by: Some name2</strong>
+                        figcaption inside slide2
+                    </figcaption>
+                </figure>
+            </article>
+	        <article class="img-item">
+                <h3 class="hidden">H3 class hidden in img-item class</h3>
+                <figure>
+                    <a href="img/example-slide-3.jpg" rel="lightbox" title="Slide3 title">
+                        <span class="thumb-screen"></span>
+                        <img src="img/example-slide-3sml.jpg" alt="Small slide3 alt text">
+                    </a>
+                    <figcaption>
+                        <strong>Photo by: Some name3</strong>
+                        figcaption inside slide3
+                    </figcaption>
+                </figure>
+            </article>
+	        <article class="img-item">
+                <h3 class="hidden">H3 class hidden in img-item class</h3>
+                <figure>
+                    <a href="img/example-slide-4.jpg" rel="lightbox" title="Slide1 title">
+                        <span class="thumb-screen"></span>
+                        <img src="img/example-slide-4sml.jpg" alt="Small slide1 alt text">
+                    </a>
+                    <figcaption>
+                        <strong>Photo by: Some name1</strong>
+                        figcaption inside slide1
+                    </figcaption>
+                </figure>
+            </article>
+            <br class="clear"/>
+        </section>
+
+        <!-- 2 COLUMNS -->
+        <section id="text_columns">
+            <h2 class="hidden">H2 hidden text text_columnts</h2>
+            <article class="column1">
+                <h3>Article class column1</h3>
+                <p>Paragrapht column1. More text more text more text more text more text. 
+                More text more text more text more text more text. 
+                More text more text more text more text more text. 
+                More text more text more text more text more text.</p>
+            </article>
+            <section class="column2">
+                <h3 class="hidden">H3 hidden text column2 class</h3>
+                <article class="row">
+                    <h4 class="hidden">H4 class hidden</h4>
+                    <img src="img/icon4.png" width="80" class="rocket" alt="Icon1 alt text"/>
+                    <p>Icon1 paragraph. More text more text more text more text more text more text more text more text</p>
+                </article>
+                <article class="row">
+                    <h4 class="hidden">H4 class hidden</h4>
+                    <img src="img/icon5.png" width="80" class="clock" alt="Icon alt text"/>
+                    <p>Icon2 paragraph. More text more text more text more text more text more text more text more text</p>
+                </article>
+            </section>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <h2 class="hidden">Our footer</h2>
+            <section id="copyright">
+                <h3 class="hidden">Copyright notices</h3>
+                <div class="wrapper">
+
+		            <!-- SOCIAL -->
+                    <div class="social">
+                        <a href="javascript:void(0)"><img src="img/icon6.png" alt="google plus" width="25"></a>
+                        <a href="javascript:void(0)"><img src="img/icon7.png" alt="thumblr" width="25"></a>
+                        <a href="javascript:void(0)"><img src="img/icon8.png" alt="youtube" width="25"></a>
+                        <a href="javascript:void(0)"><img src="img/icon9.png" alt="bebo" width="25"></a>
+                        <a href="javascript:void(0)"><img src="img/icon10.png" alt="xing" width="25"></a>
+                    </div>
+                    &copy; Copyright 2016 by <a href="http://ditectrev.com/">Ditectrev</a>
+                </div>
+            </section>
+            <section class="wrapper">
+                <h3 class="hidden">Footer content</h3>
+                <article class="column">
+                    <h4>H4 class column</h4>
+                    Any stuff here. More text more text more text more text more text more text more text more text
+                    more text more text more text more text more text more text.
+                </article>
+
+                <!-- 4 ITEM LIST -->
+                <article class="column midlist">
+                    <h4>H4 class column midlist</h4>
+                    <ul>
+                        <li><a href="javascript:void(0)"></a>List 1</li>
+                        <li><a href="javascript:void(0)"></a>List 2</li>
+                        <li><a href="javascript:void(0)"></a>List 3</li>
+                        <li><a href="javascript:void(0)"></a>List 4</li>
+                    </ul>
+                </article>
+
+                <!-- 3 ITEM LIST WITH IMAGES-->
+                <article class="column rightlist">
+                    <h4>H4 class column rightlist</h4>
+                    <ul>
+                        <li><a href="javascript:void(0)"><img src="img/example-slide-1sml.jpg" width="80"
+                                                              alt="Some alt text example slide1"/>
+                            <span>Any stuff example slide1. More stuff more text</span></a></li>
+                        <li><a href="javascript:void(0)"><img src="img/example-slide-2sml.jpg" width="80"
+                                                              alt="Some alt text example slide1"/>
+                            <span>Any stuff example slide1. More stuff more text</span></a></li>
+                        <li><a href="javascript:void(0)"><img src="img/example-slide-3sml.jpg" width="80"
+                                                              alt="Some alt text example slide1"/>
+                            <span>Any stuff example slide1. More stuff more text</span></a></li>
+                    </ul>
+                </article>
+            </section>
+        </footer>
+    </body>
+</html>
