@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -35,17 +35,17 @@
         <script>
             $(function () {
                 $('#slides').slidesjs({
-                    height: 235,
+                    height: 510,
                     navigation: false,
                     pagination: false,
                     effect: {
                         fade: {
-                            speed: 400
+                            speed: 2000
                         }
                     },
                     callback: {
                         start: function(number) {
-                            $("#slider_content1, #slider_content2, #slider_content3").fadeOut(500);
+                            $("#slider_content1, #slider_content2, #slider_content3, #slider_content4").fadeOut(1000);
                         },
                         complete: function(number) {
                             $("#slider_content" + number).delay(500).fadeIn(1000);
@@ -54,7 +54,7 @@
                     play: {
                         active: false,
                         auto: true,
-                        interval: 6000,
+                        interval: 5000,
                         pauseOnHover: false,
                         effect: "fade"
                     }
@@ -92,18 +92,19 @@
             </div>
             <div id="mobileMenu">
                 <ul>
-                    <li><a href="javascript:void(0)">Home</a></li>
+                    <li><a href="javascript:void(0)">Cooperation</a></li>
                     <li><a href="javascript:void(0)">Portfolio</a></li>
                     <li><a href="javascript:void(0)">About</a></li>
+                    <li><a href="javascript:void(0)">Contact</a></li>
                 </ul>
             </div>
-            <h1>Portfolio H1</h1>
-            <p>A responsive portfolio</p>
+            <h1>Ditectrev</h1>
+            <p>Start your business here with a wonderful web page</p>
 
             <!-- Menu for more than 500px -->
             <nav>
                 <ul>
-                    <li><a href="javascript:void(0)">Home</a></li>
+                    <li><a href="javascript:void(0)">Cooperation</a></li>
                     <li><a href="javascript:void(0)">Portfolio</a></li>
                     <li><a href="javascript:void(0)">About</a></li>
                     <li><a href="javascript:void(0)">Contact</a></li>
@@ -115,112 +116,108 @@
         <section class="container">
             <h2 class="hidden">H2 section container</h2>
             <article id="slider_content1">
-                <h3>Slider1 article H3</h3>
-                <p>Paragrapht slider1 article<a href="javascript:void(0)" class="responsive_button">Read more</a></p>
-                <a class="button" href="javascript:void(0)">Read more</a>
+                <h3>Priority</h3>
+                <p>Here you are the most important person</p>
             </article>
             <article id="slider_content2">
-                <h3>Slider2 article H3</h3>
-                <p>Paragrapht slider2 article<a href="javascript:void(0)" class="responsive_button">Read more</p>
-                <a class="button" href="javascript:void(0)">Read more</a>
+                <h3>Businesss</h3>
+                <p>Here you can enter the business world</p>
             </article>
             <article id="slider_content3">
-                <h3>Slider3 article H3</h3>
-                <p>Paragrapht slider3 article<a href="javascript:void(0)" class="responsive_button">Read more</p>
-                <a class="button" href="javascript:void(0)">Read more</a>
+                <h3>Dreams</h3>
+                <p>Then you can fulfill your dreams entirely</p>
+            </article>
+            <article id="slider_content4">
+                <h3>Contact us</h3>
+                <p>Don't wait, just contact us and get it all</p>
+                <a class="button" href="mailto:contact@ditectrev.com?Subject=Create%20web%20page">Contact us</a>
             </article>
             <div id="slides">
                 <img src="img/slide1.jpg" alt="Alt text slide1"/>
                 <img src="img/slide2.jpg" alt="Alt text slide2"/>
                 <img src="img/slide3.jpg" alt="Alt text slide3"/>
-            </div>
-        </section>
-
-        <!-- SEARCH -->
-        <section id="spacer">
-            <h2 class="hidden">H2 section spacer</h2>
-            <p>Any paragraph</p>
-            <div class="search">
-                <form action="#">
-                    <input type="text" name="sitesearch" value="Enter a word..."/>
-                    <input type="submit" name="start_search" class="button" value="Search"/>
-                </form>
+                <img src="img/slide4.jpg" alt="Alt text slide4"/>
             </div>
         </section>
 
         <!-- 3 ICONS WITH PARAGRAPH -->
         <section id="boxcontent">
             <h2 class="hidden">H2 section boxcontent</h2>
+            <h2>Cooperation</h2>
             <article>
-                <img src="img/icon1.png" alt="Alt text communication-icon"/>
-                <h3>Article H2 communication-icon</h3>
-                <p>Paragraph communication-icon in article, section boxcontent</p>
+                <img src="img/contact.png" alt="Contact" title="Contact"/>
+                <h3>Contact</h3>
+                <p>Write to us for a web page with your wish or even without any idea</p>
             </article>
             <article>
-                <img src="img/icon2.png" alt="Alt text application-icon"/>
-                <h3>Article H2 application-icon</h3>
-                <p>Paragraph application-icon in article, section boxcontent</p>
+                <img src="img/quality.png" alt="Quality" title="Quality"/>
+                <h3>Effect</h3>
+                <p>Admire quality of web page created by us on every possible device</p>
             </article>
             <article>
-                <img src="img/icon3.png" alt="Alt text arrows-icon"/>
-                <h3>Article H2 arrows-icon</h3>
-                <p>Paragraph arrows-icon in article, section boxcontent</p>
+                <img src="img/todolist.png" alt="To do list" title="To do list"/>
+                <h3>To do list</h3>
+                <p>Send us your wishlist to do and we will prepare it immediately</p>
             </article>
             <br class="clear"/>
         </section>
 
         <!-- 4 COLUMNS WITH IMAGES -->
         <section id="four_columns">
-            <h2>H2 section four columns</h2>
+            <h2>Portfolio</h2>
             <article class="img-item">
                 <h3 class="hidden">H3 class hidden in img-item class</h3>
                 <figure>
-                    <a href="img/example-slide-1.jpg" rel="lightbox" title="Slide1 title">
+                    <a href="img/portfolio1.jpg" rel="lightbox" title="Slide1 title">
                         <span class="thumb-screen"></span>
-                        <img src="img/example-slide-1sml.jpg" alt="Small slide1 alt text">
+                        <img src="img/portfolio1_thumbnail.jpg" alt="Small slide1 alt text">
                     </a>
                     <figcaption>
-                        <strong>Photo by: Some name1</strong>
-                        figcaption inside slide1
+                        <strong><a href="http://eco-wod-kan.pl">Eco-Wod-Kan.pl</a></strong>
+                        Thermovision and civil engineering website company.<br />
+                        <strong>Location: Poland</strong>
                     </figcaption>
                 </figure>
             </article>
 	        <article class="img-item">
                 <h3 class="hidden">H3 class hidden in img-item class</h3>
                 <figure>
-                    <a href="img/example-slide-2.jpg" rel="lightbox" title="Slide2 title">
+                    <a href="img/portfolio2.jpg" rel="lightbox" title="Slide2 title">
                         <span class="thumb-screen"></span>
-                        <img src="img/example-slide-2sml.jpg" alt="Small slide2 alt text">
+                        <img src="img/portfolio2_thumbnail.jpg" alt="Small slide2 alt text">
                     </a>
                     <figcaption>
-                        <strong>Photo by: Some name2</strong>
-                        figcaption inside slide2
+                        <strong><a href="https://doyban.com">Doyban.com</a></strong>
+                        Mobile and browser games developers website.<br />
+                        <strong>Location: Poland</strong>
                     </figcaption>
                 </figure>
             </article>
 	        <article class="img-item">
                 <h3 class="hidden">H3 class hidden in img-item class</h3>
                 <figure>
-                    <a href="img/example-slide-3.jpg" rel="lightbox" title="Slide3 title">
+                    <a href="img/portfolio1.jpg" rel="lightbox" title="Slide3 title">
                         <span class="thumb-screen"></span>
-                        <img src="img/example-slide-3sml.jpg" alt="Small slide3 alt text">
+                        <img src="img/portfolio1_thumbnail.jpg" alt="Small slide3 alt text">
                     </a>
                     <figcaption>
-                        <strong>Photo by: Some name3</strong>
-                        figcaption inside slide3
+                        <strong><a href="http://eco-wod-kan.pl">Eco-Wod-Kan.pl</a></strong>
+                        Thermovision and civil engineering website company.<br />
+                        <strong>Location: Poland</strong>
                     </figcaption>
                 </figure>
             </article>
 	        <article class="img-item">
                 <h3 class="hidden">H3 class hidden in img-item class</h3>
                 <figure>
-                    <a href="img/example-slide-4.jpg" rel="lightbox" title="Slide1 title">
+                    <a href="img/portfolio2.jpg" rel="lightbox" title="Slide4 title">
                         <span class="thumb-screen"></span>
-                        <img src="img/example-slide-4sml.jpg" alt="Small slide1 alt text">
+                        <img src="img/portfolio2_thumbnail.jpg" alt="Small slide1 alt text">
                     </a>
                     <figcaption>
-                        <strong>Photo by: Some name1</strong>
-                        figcaption inside slide1
+                        <strong><a href="https://doyban.com">Doyban.com</a></strong>
+                        Mobile and browser games developers website.<br />
+                        <strong>Location: Poland</strong>
                     </figcaption>
                 </figure>
             </article>
@@ -229,24 +226,31 @@
 
         <!-- 2 COLUMNS -->
         <section id="text_columns">
+            <h2>About</h2>
             <h2 class="hidden">H2 hidden text text_columnts</h2>
             <article class="column1">
-                <h3>Article class column1</h3>
-                <p>Paragrapht column1. More text more text more text more text more text. 
-                More text more text more text more text more text. 
-                More text more text more text more text more text. 
-                More text more text more text more text more text.</p>
+                <h3 class="hidden">H3 hidden text column2 class</h3>
+                <article class="row">
+                    <h4 class="hidden">H4 class hidden</h4>
+                    <img src="img/working.png" width="80" class="rocket" alt="Icon1 alt text"/>
+                    <p>Icon1 paragraph. More text more text more text more text more text more text more text more text</p>
+                </article>
+                <article class="row">
+                    <h4 class="hidden">H4 class hidden</h4>
+                    <img src="img/detail.png" width="80" class="clock" alt="Icon alt text"/>
+                    <p>Icon2 paragraph. More text more text more text more text more text more text more text more text</p>
+                </article>
             </article>
             <section class="column2">
                 <h3 class="hidden">H3 hidden text column2 class</h3>
                 <article class="row">
                     <h4 class="hidden">H4 class hidden</h4>
-                    <img src="img/icon4.png" width="80" class="rocket" alt="Icon1 alt text"/>
+                    <img src="img/customer.png" width="80" class="rocket" alt="Icon1 alt text"/>
                     <p>Icon1 paragraph. More text more text more text more text more text more text more text more text</p>
                 </article>
                 <article class="row">
                     <h4 class="hidden">H4 class hidden</h4>
-                    <img src="img/icon5.png" width="80" class="clock" alt="Icon alt text"/>
+                    <img src="img/security.png" width="80" class="clock" alt="Icon alt text"/>
                     <p>Icon2 paragraph. More text more text more text more text more text more text more text more text</p>
                 </article>
             </section>
@@ -255,19 +259,20 @@
         <!-- FOOTER -->
         <footer>
             <h2 class="hidden">Our footer</h2>
+	    <button class="go-top">Top</button>
             <section id="copyright">
                 <h3 class="hidden">Copyright notices</h3>
                 <div class="wrapper">
 
 		            <!-- SOCIAL -->
                     <div class="social">
-                        <a href="javascript:void(0)"><img src="img/icon6.png" alt="google plus" width="25"></a>
-                        <a href="javascript:void(0)"><img src="img/icon7.png" alt="thumblr" width="25"></a>
-                        <a href="javascript:void(0)"><img src="img/icon8.png" alt="youtube" width="25"></a>
-                        <a href="javascript:void(0)"><img src="img/icon9.png" alt="bebo" width="25"></a>
-                        <a href="javascript:void(0)"><img src="img/icon10.png" alt="xing" width="25"></a>
+                        <a href="mailto:contact@ditectrev.com?Subject=Create%20web%20page">
+                            <img src="img/mail.png" alt="mail" width="25" title="Write to us"></a>
+                        <a href="https://facebook.com/"><img src="img/facebook.png" alt="facebook" width="25" title="Like on Facebook"></a>
+                        <a href="https://twitter.com/"><img src="img/twitter.png" alt="twitter" width="25" title="Follow on Twitter"></a>
+                        <a href="https://instagram.com/"><img src="img/instagram.png" alt="instagram" width="25" title="Follow on Instagram"></a>
                     </div>
-                    &copy; Copyright 2016 by <a href="http://ditectrev.com/">Ditectrev</a>
+                    &copy; Copyright 2016 by Ditectrev
                 </div>
             </section>
             <section class="wrapper">
@@ -280,12 +285,12 @@
 
                 <!-- 4 ITEM LIST -->
                 <article class="column midlist">
-                    <h4>H4 class column midlist</h4>
+                    <h4>Our purpose</h4>
                     <ul>
-                        <li><a href="javascript:void(0)"></a>List 1</li>
-                        <li><a href="javascript:void(0)"></a>List 2</li>
-                        <li><a href="javascript:void(0)"></a>List 3</li>
-                        <li><a href="javascript:void(0)"></a>List 4</li>
+                        <li><a href="javascript:void(0)"></a>Stunning web page</li>
+                        <li><a href="javascript:void(0)"></a>Supreme quality</li>
+                        <li><a href="javascript:void(0)"></a>Immediately contact</li>
+                        <li><a href="javascript:void(0)"></a>Wonderful effect</li>
                     </ul>
                 </article>
 
@@ -293,15 +298,9 @@
                 <article class="column rightlist">
                     <h4>H4 class column rightlist</h4>
                     <ul>
-                        <li><a href="javascript:void(0)"><img src="img/example-slide-1sml.jpg" width="80"
-                                                              alt="Some alt text example slide1"/>
-                            <span>Any stuff example slide1. More stuff more text</span></a></li>
-                        <li><a href="javascript:void(0)"><img src="img/example-slide-2sml.jpg" width="80"
-                                                              alt="Some alt text example slide1"/>
-                            <span>Any stuff example slide1. More stuff more text</span></a></li>
-                        <li><a href="javascript:void(0)"><img src="img/example-slide-3sml.jpg" width="80"
-                                                              alt="Some alt text example slide1"/>
-                            <span>Any stuff example slide1. More stuff more text</span></a></li>
+                        <li><span>Any stuff example. More stuff more text</span></li>
+                        <li><span>Any stuff example. More stuff more text</span></li>
+                        <li><span>Any stuff example. More stuff more text</span></li>
                     </ul>
                 </article>
             </section>
