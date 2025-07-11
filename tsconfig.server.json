@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/server",
+    "types": []
+  },
+  "files": [
+    "src/main.server.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}
