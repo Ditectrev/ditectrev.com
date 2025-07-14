@@ -1,0 +1,19 @@
+mat-card {
+  mat-form-field {
+    width: 100%;
+  }
+  mat-list {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 960px) {
+  mat-cell {
+    &:first-child {
+      margin-top: 2em;
+    }
+  }
+  mat-row {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+  }
+}

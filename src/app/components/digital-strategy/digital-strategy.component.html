@@ -1,0 +1,21 @@
+<section aria-label="This is Digital Strategy page to inform your about our Digital Strategy services.">
+  <h1 title="Digital Strategy">Digital Strategy</h1>
+  <!-- Container for cards. -->
+  <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-evenly top">
+    <ng-container *ngFor="let digitalStrategyItem of digitalStrategyItems">
+      <!-- Card container that binds all card information. -->
+      <mat-card attr.aria-label="This is {{digitalStrategyItem.name}} service short description."
+        class="mat-elevation-z24" fxFlex="25" fxFlex.md="40" fxFlex.lt-md="90" role="region">
+        <!-- Title of the card. -->
+        <mat-card-title aria-level="2" title="{{digitalStrategyItem.name}}" role="heading">
+          {{digitalStrategyItem.name}}
+        </mat-card-title>
+        <img [alt]="digitalStrategyItem.name" [src]="digitalStrategyItem.src" [title]="digitalStrategyItem.name" />
+        <!-- Subtitle of the card. -->
+        <mat-card-subtitle
+          attr.aria-label="We provide these services as part of {{digitalStrategyItem.name}}: {{digitalStrategyItem.description}}"
+          aria-level="3" role="heading">{{digitalStrategyItem.description}}</mat-card-subtitle>
+      </mat-card>
+    </ng-container>
+  </div>
+</section>

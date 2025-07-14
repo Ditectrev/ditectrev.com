@@ -1,0 +1,14 @@
+$linkHoverColor: #212121;
+$linkColor: #039be5;
+
+a {
+  color: $linkColor;
+  transition: 1s;
+  &:hover {
+    color: $linkHoverColor;
+  }
+}
+
+strong {
+  text-transform: uppercase;
+}

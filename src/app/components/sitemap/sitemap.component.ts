@@ -1,0 +1,39 @@
+import { Component } from "@angular/core";
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+
+@Component({
+  selector: "app-sitemap",
+  templateUrl: "./sitemap.component.html",
+  styleUrls: ["./sitemap.component.scss"],
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatCardModule]
+})
+export class SitemapComponent {
+  public companyItems: { name: string; path: string }[] = [
+    { name: "Home", path: "/" },
+    { name: "Methodology", path: "/methodology" },
+    { name: "About us", path: "/about-us" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  public informationItems: { name: string; path: string }[] = [
+    { name: "FAQ", path: "/faq" },
+    { name: "Glossary", path: "/glossary" },
+    { name: "Partnerships", path: "/partnerships" },
+  ];
+
+  // TODO: Make this name DomSanitizier/SafeHtml and replace & by &amp;?
+  public resourcesItems: { name: string; path: string }[] = [
+    { name: "Copyrights", path: "/copyrights" },
+    { name: "Sitemap", path: "/sitemap" },
+    { name: "Terms of Use", path: "/terms-of-use" },
+  ];
+
+  public servicesItems: { name: string; path: string }[] = [
+    { name: "Cyber Security", path: "/cyber-security" },
+    { name: "Digital Strategy", path: "/digital-strategy" },
+    { name: "Software Development", path: "/software-development" },
+  ];
+}
