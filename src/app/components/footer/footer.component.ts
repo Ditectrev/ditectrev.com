@@ -7,16 +7,20 @@ import {
   faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 import {
+  faDiscord,
   faFacebookF,
+  faGithub,
   faInstagram,
   faLinkedinIn,
-  faTwitter,
+  faMedium,
+  faXTwitter,
+  faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +36,6 @@ interface ResponseMailChimp {
 }
 
 // TODO: Add invisible reCAPTCHA?
-// TODO: Social icons with education included, when blog/courses will be done then: CodeSandbox, Discord, GitHub, Medium and YouTube too.
 // TODO: Zoom in a bit this section/region of footer (one of the three only: "Ditectrev", "Stay Informed", "Information") which is on hover.
 @Component({
   selector: 'app-footer',
@@ -41,6 +44,7 @@ interface ResponseMailChimp {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -57,13 +61,17 @@ export class FooterComponent {
     private library: FaIconLibrary
   ) {
     this.library.addIcons(faAt);
+    this.library.addIcons(faDiscord);
     this.library.addIcons(faFacebookF);
+    this.library.addIcons(faGithub);
     this.library.addIcons(faHome);
     this.library.addIcons(faInstagram);
     this.library.addIcons(faInfoCircle);
     this.library.addIcons(faLinkedinIn);
+    this.library.addIcons(faMedium);
     this.library.addIcons(faPhone);
-    this.library.addIcons(faTwitter);
+    this.library.addIcons(faXTwitter);
+    this.library.addIcons(faYoutube);
   }
 
   public formControlEmail: FormControl = new FormControl(null, [
@@ -80,6 +88,7 @@ export class FooterComponent {
 
   public bottomMenuItems: { name: string; path: string }[] = [
     { name: 'Copyrights', path: '/copyrights' },
+    { name: 'Privacy & Security', path: '/privacy-and-security' },
     { name: 'Sitemap', path: '/sitemap' },
     { name: 'Terms of Use', path: '/terms-of-use' },
   ];
@@ -95,11 +104,11 @@ export class FooterComponent {
       name: 'Address',
     },
     {
-      content: '+48 732 280 741', // TODO: Make phone number unsafe HTML and interactive.
+      content: '+48 732 280 741',
       icon: ['fas', 'phone'],
       name: 'Phone number',
     },
-    { content: 'contact@ditectrev.com', icon: ['fas', 'at'], name: 'Email' }, // TODO: Make e-mail unsafe HTML and interactive.
+    { content: 'contact@ditectrev.com', icon: ['fas', 'at'], name: 'Email' },
     {
       content: 'Tax ID: PL9121899240',
       icon: ['fas', 'info-circle'],
@@ -117,10 +126,21 @@ export class FooterComponent {
     name: string;
     url: string;
   }[] = [
+
+    {
+      icon: ['fab', 'discord'],
+      name: 'Discord',
+      url: 'https://discord.com/invite/RFjtXKfJy3',
+    },
     {
       icon: ['fab', 'facebook-f'],
       name: 'Facebook',
       url: 'https://www.facebook.com/ditectrev',
+    },
+    {
+      icon: ['fab', 'github'],
+      name: 'GitHub',
+      url: 'https://github.com/ditectrev',
     },
     {
       icon: ['fab', 'instagram'],
@@ -133,11 +153,29 @@ export class FooterComponent {
       url: 'https://www.linkedin.com/company/ditectrev',
     },
     {
-      icon: ['fab', 'twitter'],
-      name: 'Twitter',
-      url: 'https://twitter.com/ditectrev',
+      icon: ['fab', 'medium'],
+      name: 'Medium',
+      url: 'https://medium.com/@ditectrev',
+    },
+    {
+      icon: ['fab', 'x-twitter'],
+      name: 'X',
+      url: 'https://x.com/ditectrev',
+    },
+    {
+      icon: ['fab', 'youtube'],
+      name: 'YouTube',
+      url: 'https://www.youtube.com/@Ditectrev',
     },
   ];
+
+  public getPhoneHref(phone: string): string {
+    return 'tel:' + phone.replace(/\s+/g, '');
+  }
+
+  public getEmailHref(email: string): string {
+    return 'mailto:' + email;
+  }
 
   public onSubmit(): void {
     const params = new HttpParams()
