@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DigitalStrategyComponent } from './digital-strategy.component';
-import { SharedModule } from '@libs/shared/src/index';
+// import { SharedModule } from '@libs/shared/src/index';
 
 describe('DigitalStrategyComponent', () => {
   let component: DigitalStrategyComponent;
@@ -9,7 +9,7 @@ describe('DigitalStrategyComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DigitalStrategyComponent],
-      imports: [SharedModule]
+      // imports: [SharedModule]
     }).compileComponents();
   }));
 

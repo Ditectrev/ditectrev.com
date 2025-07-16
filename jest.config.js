@@ -1,9 +1,10 @@
 module.exports = {
   testMatch: ['**/+(*.)+(spec|test).[tj]s?(x)'],
   transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest',
+    '^.+\\.(ts|js|html)$': 'babel-jest',
+    '^.+\\.(css|scss|sass|less|styl)$': 'jest-transform-stub',
+    '^.+\\.html$': 'jest-transform-stub',
   },
-  resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   collectCoverage: true,
   coverageReporters: ['html'],
@@ -17,10 +18,12 @@ module.exports = {
   },
   moduleNameMapper: {
     '^lodash-es$': 'lodash', //! Fix ERROR "export { default as add } from './add.js';^^^^^^SyntaxError: Unexpected token export".
+    '^sweetalert2$': '<rootDir>/src/test-utils/sweetalert2-mock.js'
   },
-  snapshotSerializers: [
-    'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
-    'jest-preset-angular/build/AngularSnapshotSerializer.js',
-    'jest-preset-angular/build/HTMLCommentSerializer.js',
+  testEnvironment: 'jsdom',
+  transformIgnorePatterns: [
+    'node_modules/(?!@angular|rxjs|ngx-spinner|ngx-owl-carousel-o|@fortawesome|@ngrx|ng-circle-progress|ng2-charts|ngx-moment|lodash-es)'
   ],
+  preset: 'jest-preset-angular',
+  extensionsToTreatAsEsm: ['.ts'],
 };

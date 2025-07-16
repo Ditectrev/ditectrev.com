@@ -30,7 +30,7 @@ import { NgModule } from '@angular/core';
 import { RoutingModule } from './routing/app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 // tslint:disable-next-line:nx-enforce-module-boundaries
-import { SharedModule } from './../../../../libs/shared/src/index';
+// import { SharedModule } from './../../../../libs/shared/src/index';
 
 new Agastya(String(process.env.AGASTYA_API_KEY)); // Make sure the environmental variable is a string.
 @NgModule({
@@ -40,7 +40,7 @@ new Agastya(String(process.env.AGASTYA_API_KEY)); // Make sure the environmental
     CoreModule,
     HomeModule,
     RoutingModule,
-    SharedModule,
+    // SharedModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

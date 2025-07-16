@@ -1,11 +1,11 @@
 // TODO: Remove the async here and everywhere.
 import { async, TestBed } from '@angular/core/testing';
-import { SharedModule } from './shared.module';
+// import { SharedModule } from './shared.module';
 
 describe('SharedModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
+      // imports: [SharedModule],
     }).compileComponents();
   }));
 

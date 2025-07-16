@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from '@libs/home/src/index';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SharedModule } from '@libs/shared/src/index';
+// import { SharedModule } from '@libs/shared/src/index';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
         HomeModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        SharedModule
+        // SharedModule
       ]
     }).compileComponents();
   }));

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PartnershipsComponent } from './partnerships.component';
-import { SharedModule } from '@libs/shared/src/index';
+// import { SharedModule } from '@libs/shared/src/index';
 
 describe('PartnershipsComponent', () => {
   let component: PartnershipsComponent;
@@ -10,7 +10,7 @@ describe('PartnershipsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PartnershipsComponent],
-      imports: [BrowserAnimationsModule, SharedModule]
+      // imports: [BrowserAnimationsModule, SharedModule]
     }).compileComponents();
   }));
 

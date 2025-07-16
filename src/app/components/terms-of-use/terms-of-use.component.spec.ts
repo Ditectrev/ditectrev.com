@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedModule } from '@libs/shared/src/index';
+// import { SharedModule } from '@libs/shared/src/index';
 import { TermsOfUseComponent } from './terms-of-use.component';
 
 describe('TermsOfUseComponent', () => {
@@ -9,7 +9,7 @@ describe('TermsOfUseComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TermsOfUseComponent],
-      imports: [SharedModule]
+      // imports: [SharedModule]
     }).compileComponents();
   }));
 

@@ -1,31 +1,69 @@
-// TODO: Name all colors.
+// Social brand colors
+$discord-color: #5865F2;
+$facebook-color: #3b5998;
+$github-color: #181717;
+$instagram-color: #e1306c;
+$linkedin-color: #0077b5;
+$medium-color: #000000;
+$x-twitter-color: #000000;
+$youtube-color: #ff0000;
+
+// App-specific colors
+$app-link-color: #039be5;
+$app-link-hover-color: #7afffb;
+$app-bg-color: #fafafa;
+$app-footer-input-color: white;
 
 a {
   text-decoration: none;
   &:hover {
     svg {
+      &.fa-discord {
+        path {
+          transition: 1s;
+          fill: $discord-color;
+        }
+      }
       &.fa-facebook-f {
         path {
           transition: 1s;
-          fill: #3b5998;
+          fill: $facebook-color;
+        }
+      }
+      &.fa-github {
+        path {
+          transition: 1s;
+          fill: $github-color;
         }
       }
       &.fa-instagram {
         path {
           transition: 1s;
-          fill: #e1306c;
+          fill: $instagram-color;
         }
       }
       &.fa-linkedin-in {
         path {
           transition: 1s;
-          fill: #0077b5;
+          fill: $linkedin-color;
         }
       }
-      &.fa-twitter {
+      &.fa-medium {
         path {
           transition: 1s;
-          fill: #1da1f2;
+          fill: $medium-color;
+        }
+      }
+      &.fa-x-twitter {
+        path {
+          transition: 1s;
+          fill: $x-twitter-color;
+        }
+      }
+      &.fa-youtube {
+        path {
+          transition: 1s;
+          fill: $youtube-color;
         }
       }
     }
@@ -34,9 +72,9 @@ a {
 
 app-gallery {
   a {
-    color: #039be5;
+    color: $app-link-color;
     &:hover {
-      color: #7afffb;
+      color: $app-link-hover-color;
       transition: 1s;
     }
   }
@@ -85,23 +123,23 @@ footer {
   mat-hint,
   .placeholder,
   .mat-form-field-label {
-    color: white !important;
+    color: $app-footer-input-color !important;
   }
 
   mat-hint {
-    color: white !important;
+    color: $app-footer-input-color !important;
   }
   .mat-form-field-hint-spacer {
     display: none;
   }
   .mat-form-field-underline {
-    background-color: white !important;
+    background-color: $app-footer-input-color !important;
   }
 }
 
 body,
 html {
-  background-color: #fafafa;
+  background-color: $app-bg-color;
   height: 100%;
 }
 

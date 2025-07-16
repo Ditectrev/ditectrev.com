@@ -3,9 +3,10 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "types": [
-      "jasmine",
-      "node"
+      "jest",
     ]
   },
   "files": [

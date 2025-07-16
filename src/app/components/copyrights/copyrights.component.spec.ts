@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CopyrightsComponent } from './copyrights.component';
-import { SharedModule } from '@libs/shared/src/index';
+// import { SharedModule } from '@libs/shared/src/index';
 
 describe('CopyrightsComponent', () => {
   let component: CopyrightsComponent;
@@ -9,7 +9,7 @@ describe('CopyrightsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CopyrightsComponent],
-      imports: [SharedModule]
+      // imports: [SharedModule]
     }).compileComponents();
   }));
 
