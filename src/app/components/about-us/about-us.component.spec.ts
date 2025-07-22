@@ -1,18 +1,17 @@
 import { AboutUsComponent } from './about-us.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgCircleProgressModule } from 'ng-circle-progress';
-// import { SharedModule } from '@libs/shared/src/index';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 
 describe('AboutUsComponent', () => {
   let component: AboutUsComponent;
   let fixture: ComponentFixture<AboutUsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AboutUsComponent],
-      imports: [NgCircleProgressModule.forRoot({}), SharedModule]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AboutUsComponent, MatCardModule, CommonModule]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AboutUsComponent);
