@@ -1,109 +1,99 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Term } from '../../interfaces';
+import { GLOSSARY_DATA } from '../../data';
 
 @Component({
   selector: 'app-glossary',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="glossary">
-      <h1>Glossary</h1>
-      <p>Technical terms and definitions used in our industry.</p>
-
-      <div class="search-box">
-        <input
-          type="text"
-          placeholder="Search terms..."
-          [(ngModel)]="searchTerm"
-          (input)="filterTerms()"
-        >
-      </div>
-
-      <div class="terms-list">
-        <div class="term-item" *ngFor="let term of filteredTerms">
-          <h3>{{ term.term }}</h3>
-          <p>{{ term.definition }}</p>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .glossary {
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .glossary h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .glossary > p {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #666;
-    }
-    .search-box {
-      margin-bottom: 2rem;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .term-item {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      background: #f8f9fa;
-    }
-    .term-item h3 {
-      color: #667eea;
-      margin-bottom: 0.5rem;
-    }
-    .term-item p {
-      margin: 0;
-      line-height: 1.6;
-    }
-  `]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatIconModule
+  ],
+  templateUrl: './glossary.component.html',
+  styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent {
-  searchTerm = '';
-  allTerms = [
-    {
-      term: 'API',
-      definition: 'Application Programming Interface - a set of rules that allows one software application to interact with another.'
-    },
-    {
-      term: 'Frontend',
-      definition: 'The part of a website or application that users interact with directly, including the user interface and user experience.'
-    },
-    {
-      term: 'Backend',
-      definition: 'The server-side of an application that handles data processing, business logic, and database operations.'
-    },
-    {
-      term: 'Database',
-      definition: 'An organized collection of structured information or data, typically stored electronically in a computer system.'
-    },
-    {
-      term: 'Cloud Computing',
-      definition: 'The delivery of computing services over the internet, including servers, storage, databases, networking, and software.'
-    }
-  ];
-  filteredTerms = [...this.allTerms];
+export class GlossaryComponent implements OnInit, OnDestroy {
+  private searchSubject$: Subject<string> = new Subject<string>();
+  private searchSubscription?: Subscription;
 
-  filterTerms() {
-    if (!this.searchTerm.trim()) {
-      this.filteredTerms = [...this.allTerms];
-    } else {
-      this.filteredTerms = this.allTerms.filter(term =>
-        term.term.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        term.definition.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+  public dataSource: MatTableDataSource<Term> = new MatTableDataSource<Term>(GLOSSARY_DATA);
+  public displayedColumns: string[] = ['position', 'name', 'description'];
+  public hasSearched: boolean = false;
+  public lastSearchTerm: string = '';
+
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+
+  ngOnInit(): void {
+    this.initializeSearch();
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeTableFeatures();
+  }
+
+  ngOnDestroy(): void {
+    this.searchSubscription?.unsubscribe();
+  }
+
+  private initializeSearch(): void {
+    this.searchSubscription = this.searchSubject$
+      .pipe(
+        debounceTime(1000), // Limit requests to maximum one per second.
+        distinctUntilChanged() // Eliminate duplicate values.
+      )
+      .subscribe((filterValue: string) => {
+        this.lastSearchTerm = filterValue;
+        this.hasSearched = filterValue.trim().length > 0;
+        this.dataSource.filter = filterValue.trim().toLowerCase(); // Filter data in glossary table.
+      });
+  }
+
+  private initializeTableFeatures(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  public applyFilter(filterValue: string): void {
+    this.searchSubject$.next(filterValue);
+  }
+
+  public onSearchInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.lastSearchTerm = value;
+    this.hasSearched = value.trim().length > 0;
+  }
+
+  public clearSearch(): void {
+    this.hasSearched = false;
+    this.lastSearchTerm = '';
+    this.dataSource.filter = '';
+    // Clear the search input field
+    const searchInput = document.querySelector('input[matInput]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = '';
     }
   }
 }

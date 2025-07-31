@@ -1,19 +1,173 @@
-mat-card {
-  mat-form-field {
-    width: 100%;
-  }
-  mat-list {
-    margin-bottom: 20px;
-  }
-}
+:host {
+  .search-field {
+    width: 94%;
+    margin: 2rem 3%;
 
-@media (max-width: 960px) {
-  mat-cell {
-    &:first-child {
-      margin-top: 2em;
+    .clickable {
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #f44336;
+      }
     }
   }
-  mat-row {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+
+  // No results styling
+  .no-results {
+    text-align: center;
+    padding: 2.5rem 1.25rem;
+    margin: 1.25rem 0;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    border: 1px solid #e9ecef;
+
+    .no-results-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      color: #6c757d;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: #495057;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    p {
+      color: #6c757d;
+      margin: 0 0 1.25rem 0;
+      font-size: 1rem;
+      line-height: 1.5;
+
+      strong {
+        color: #495057;
+        font-weight: 600;
+      }
+    }
+
+    .suggestions {
+      text-align: left;
+      max-width: 25rem;
+      margin: 0 auto 1.5rem auto;
+      background-color: white;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      border: 1px solid #dee2e6;
+
+      p {
+        margin: 0 0 0.5rem 0;
+        font-weight: 500;
+        color: #495057;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: #6c757d;
+
+        li {
+          margin-bottom: 0.25rem;
+          line-height: 1.4;
+        }
+      }
+    }
+
+    button {
+      margin-top: 0.5rem;
+    }
+  }
+
+  // Mobile labels - hidden on desktop
+  .mobile-label-text {
+    display: none !important;
+    font-weight: bold;
+  }
+
+  // Ensure proper table display on desktop
+  mat-table {
+    display: table !important;
+    width: 100%;
+  }
+
+  mat-header-cell,
+  mat-cell {
+    display: table-cell !important;
+    padding: 0.75rem 1rem !important;
+    vertical-align: middle !important;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  mat-header-cell {
+    font-weight: 500;
+    color: #333;
+  }
+
+  mat-row:last-child mat-cell {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  @media (max-width: 60rem) {
+    .search-field {
+      margin-bottom: 1rem;
+    }
+
+    .no-results {
+      padding: 1.5rem 1rem;
+      margin: 1rem 0;
+
+      .no-results-icon {
+        font-size: 2.25rem;
+        width: 2.25rem;
+        height: 2.25rem;
+        margin-bottom: 0.75rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+      }
+
+      .suggestions {
+        max-width: 100%;
+        padding: 0.75rem;
+      }
+    }
+
+    .mobile-label-text {
+      display: inline !important;
+      margin-right: 0.5rem;
+      font-weight: 600;
+      color: #666;
+    }
+
+    mat-header-row {
+      display: none !important;
+    }
+
+    mat-row {
+      display: flex;
+      width: 94%;
+      margin: 0 3%;
+      flex-direction: column;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    mat-cell {
+      text-align: center;
+      border: none !important;
+    }
+
+    mat-card-content {
+      padding: 0;
+    }
   }
 }
