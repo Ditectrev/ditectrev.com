@@ -1,4 +1,15 @@
 .mega {
-  font-size: 12em;
-  margin: 0 -150px;
+  font-size: 12rem;
+  margin: 0 -9.5rem;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  display: flex;
+  justify-content: center;
 }
