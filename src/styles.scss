@@ -168,6 +168,16 @@ mat-card {
   mat-card-subtitle {
     margin-top: 2rem !important;
   }
+
+  mat-card-content {
+    h3 {
+      text-align: center;
+    }
+    p {
+      text-align: justify;
+    }
+  }
+
   mat-card-title,
   mat-card-subtitle {
     text-align: center;
