@@ -42,6 +42,10 @@ export const routes: Routes = [
     path: 'terms-of-use',
     loadComponent: () => import('./components/terms-of-use/terms-of-use.component').then(m => m.TermsOfUseComponent)
   },
+  {
+    path: 'privacy-and-security',
+    loadComponent: () => import('./components/privacy-and-security/privacy-and-security.component').then(m => m.PrivacyAndSecurityComponent)
+  },
 
   {
     path: 'partnerships',
