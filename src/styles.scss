@@ -9,14 +9,20 @@ $x-twitter-color: #000000;
 $youtube-color: #ff0000;
 
 // App-specific colors
-$app-link-color: #039be5;
-$app-link-hover-color: #7afffb;
+$app-link-color: #3f51b5;
+$app-link-hover-color: #039be5;
 $app-bg-color: #fafafa;
 $app-footer-input-color: white;
 
+// Global link styles - applies to all links across the project
 a {
   text-decoration: none;
+  color: $app-link-color;
+  transition: 1s;
+
   &:hover {
+    color: $app-link-hover-color;
+
     svg {
       &.fa-discord {
         path {
@@ -155,6 +161,7 @@ mat-card {
   display: flex;
   justify-content: space-around;
   margin: 2rem auto;
+  padding-top: 1rem;
   width: 50%;
 
   @media (max-width: 1325px) {
@@ -170,6 +177,7 @@ mat-card {
   }
 
   mat-card-content {
+    margin-top: 1rem;
     h3 {
       text-align: center;
     }
