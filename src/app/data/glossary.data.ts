@@ -1,6 +1,5 @@
 import { Term } from '../interfaces';
 
-// TODO: Think of having some kind of database for this and create a REST API call.
 export const GLOSSARY_DATA: Term[] = [
   {
     position: 1,
