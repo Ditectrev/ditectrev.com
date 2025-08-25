@@ -24,9 +24,9 @@ export class SitemapComponent {
     { name: "Partnerships", path: "/partnerships" },
   ];
 
-  // TODO: Make this name DomSanitizier/SafeHtml and replace & by &amp;?
   public resourcesItems: { name: string; path: string }[] = [
     { name: "Copyrights", path: "/copyrights" },
+    { name: "Privacy & Security", path: "/privacy-and-security" },
     { name: "Sitemap", path: "/sitemap" },
     { name: "Terms of Use", path: "/terms-of-use" },
   ];

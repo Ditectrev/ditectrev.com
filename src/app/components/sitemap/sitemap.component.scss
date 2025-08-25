@@ -1,14 +1,22 @@
-$linkHoverColor: #212121;
-$linkColor: #039be5;
+mat-card-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
 
-a {
-  color: $linkColor;
-  transition: 1s;
-  &:hover {
-    color: $linkHoverColor;
+.sitemap-section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  strong {
+    margin-bottom: 1rem;
+    text-transform: uppercase;
   }
 }
 
-strong {
-  text-transform: uppercase;
+// Responsive design
+@media (max-width: 768px) {
+  mat-card-content {
+    grid-template-columns: 1fr;
+  }
 }
