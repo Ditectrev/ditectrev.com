@@ -1,34 +1,33 @@
-<div class="gallery-container">
-  <h2 class="gallery-title">What can we do for You?</h2>
-
-  <div class="gallery">
-    <div class="gallery-main">
-      <div class="gallery-slide" *ngFor="let image of images; let i = index"
-           [class.active]="i === currentIndex"
-           [@slideAnimation]="i === currentIndex ? 'in' : 'out'">
-        <img [src]="image.src" [alt]="image.title">
-        <div class="gallery-info">
-          <h3>{{image.title}}</h3>
-          <p>{{image.description}}</p>
-          <a [routerLink]="image.link" class="gallery-link">Learn More</a>
-        </div>
-      </div>
+<h2>What can we do for You?</h2>
+<div class="gallery-container"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()">
+  <div class="gallery-main">
+    <img
+      [src]="images[currentIndex].src"
+      [alt]="images[currentIndex].title"
+      class="gallery-image"
+      [@slideAnimation]="currentIndex"
+    />
+    <div class="gallery-overlay">
+      <h3>{{ images[currentIndex].title }}</h3>
+      <p>{{ images[currentIndex].description }}</p>
+      <a [href]="images[currentIndex].link" class="gallery-link">Learn More</a>
     </div>
-
-    <div class="gallery-controls">
-      <button class="gallery-control" (click)="previous()">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="gallery-dots">
-        <button *ngFor="let image of images; let i = index"
-                class="gallery-dot"
-                [class.active]="i === currentIndex"
-                (click)="goTo(i)">
-        </button>
-      </div>
-      <button class="gallery-control" (click)="next()">
-        <i class="fas fa-chevron-right"></i>
-      </button>
+    <button class="gallery-nav gallery-prev" (click)="previous()" aria-label="Previous image">‹</button>
+    <button class="gallery-nav gallery-next" (click)="next()" aria-label="Next image">›</button>
+    <div class="gallery-progress-bar">
+      <div class="gallery-progress-fill" [style.width.%]="progress"></div>
     </div>
+  </div>
+  <div class="gallery-thumbnails">
+    <img
+      *ngFor="let image of images; let i = index"
+      [src]="image.src"
+      [alt]="image.title"
+      class="thumbnail"
+      [class.active]="i === currentIndex"
+      (click)="goTo(i)"
+    />
   </div>
 </div>
