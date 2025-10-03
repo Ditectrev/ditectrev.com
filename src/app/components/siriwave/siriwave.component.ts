@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { CommonModule } from '@angular/common';
 import SiriWave from "siriwave";
 
 /**
@@ -10,6 +11,8 @@ import SiriWave from "siriwave";
   selector: "app-siriwave",
   templateUrl: "./siriwave.component.html",
   styleUrls: ["./siriwave.component.scss"],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class SiriWaveComponent implements AfterViewInit {
   @ViewChild("renderSiri", { static: false })
