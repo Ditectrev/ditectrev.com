@@ -5,20 +5,19 @@ import { ParticlesConfig } from './particles/particles-config';
 
 declare let particlesJS: any; // Required to be properly interpreted by TypeScript.
 
-// TODO: Change the SliderComponent name?
 /**
- * @component SliderComponent
- * @description Create the component.
+ * @component HeroComponent
+ * @description Main hero section component with animated text and particles background.
  * @implements OnInit, AfterViewInit
  */
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss'],
+  selector: 'app-hero',
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.scss'],
   standalone: true,
   imports: [CommonModule]
 })
-export class SliderComponent implements OnInit, AfterViewInit {
+export class HeroComponent implements OnInit, AfterViewInit {
   private headerText: string =
     "<span style='color: #3f51b5'>#Build</span> <span style='font-weight: 100'>Your</span> Digital Future."; // Styles and text for the heading.
   public headerSafeHtml: SafeHtml; // Required for mixing styles in HTML tags within a string.

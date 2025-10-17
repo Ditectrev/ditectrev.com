@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 /**
  * @component PartnershipsComponent
@@ -8,6 +10,8 @@ import { Component } from '@angular/core';
   selector: 'app-partnerships',
   templateUrl: './partnerships.component.html',
   styleUrls: ['./partnerships.component.scss'],
+  standalone: true,
+  imports: [MatTabsModule, MatCardModule],
 })
 export class PartnershipsComponent {
   // Array to hold all Cyber Security services.

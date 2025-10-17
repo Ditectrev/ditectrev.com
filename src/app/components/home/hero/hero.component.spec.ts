@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SliderComponent } from './slider.component';
+import { HeroComponent } from './hero.component';
 
 // Mock particlesJS
 declare global {
@@ -9,9 +9,9 @@ declare global {
   }
 }
 
-describe('SliderComponent', () => {
-  let component: SliderComponent;
-  let fixture: ComponentFixture<SliderComponent>;
+describe('HeroComponent', () => {
+  let component: HeroComponent;
+  let fixture: ComponentFixture<HeroComponent>;
   let domSanitizer: DomSanitizer;
 
   beforeEach(async () => {
@@ -19,11 +19,11 @@ describe('SliderComponent', () => {
     window.particlesJS = jasmine.createSpy('particlesJS');
 
     await TestBed.configureTestingModule({
-      imports: [SliderComponent],
+      imports: [HeroComponent],
       providers: [DomSanitizer]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SliderComponent);
+    fixture = TestBed.createComponent(HeroComponent);
     component = fixture.componentInstance;
     domSanitizer = TestBed.inject(DomSanitizer);
   });
@@ -33,7 +33,7 @@ describe('SliderComponent', () => {
   });
 
   describe('Component Initialization', () => {
-    it('should create slider', () => {
+    it('should create hero component', () => {
       expect(component).toBeTruthy();
     });
 
