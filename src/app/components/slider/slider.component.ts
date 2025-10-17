@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { trigger, style, animate, transition } from '@angular/animations';
 import { ParticlesConfig } from './particles/particles-config';
 
 declare let particlesJS: any; // Required to be properly interpreted by TypeScript.
@@ -9,29 +9,28 @@ declare let particlesJS: any; // Required to be properly interpreted by TypeScri
 /**
  * @component SliderComponent
  * @description Create the component.
- * @implements OnInit
+ * @implements OnInit, AfterViewInit
  */
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(-100%)' }),
-        animate('1s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-      ])
-    ])
-  ]
+  standalone: true,
+  imports: [CommonModule]
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent implements OnInit, AfterViewInit {
   private headerText: string =
-    "<span style='color: #3f51b5'>#Build</span> <span style='font-weight: 100'>Your</span> Digital Future.<br><a href='/contact'>Contact Us</a>"; // Styles and text for the heading.
+    "<span style='color: #3f51b5'>#Build</span> <span style='font-weight: 100'>Your</span> Digital Future."; // Styles and text for the heading.
   public headerSafeHtml: SafeHtml; // Required for mixing styles in HTML tags within a string.
 
-  // ng-animate & ngx-teximate settings.
-  public subheaderText: string =
+  // Subheader text
+  private subheaderFullText: string =
     'Online Education and Information Technology (IT) Consulting.';
+  private subheaderMobileText: string =
+    'Online Education and Information\nTechnology (IT) Consulting.';
+  public subheaderLetters: string[] = [];
+  public showScrollButton = true;
+  public isMobile: boolean = false;
 
   /**
    * @constructor
@@ -53,6 +52,25 @@ export class SliderComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.invokeParticles();
+    // Check if mobile device
+    this.isMobile = window.innerWidth <= 600;
+    // Use mobile text if on mobile device, otherwise use full text
+    const textToUse = this.isMobile ? this.subheaderMobileText : this.subheaderFullText;
+    // Split text into individual letters for CSS animation
+    this.subheaderLetters = textToUse.split('');
+  }
+
+  /**
+   * @access public
+   * @callback ngAfterViewInit
+   * @description Invoked after view initialization to trigger animations.
+   * @returns {void}
+   */
+  public ngAfterViewInit(): void {
+    // Show scroll button after a delay
+    setTimeout(() => {
+      this.showScrollButton = true;
+    }, 3000);
   }
 
   /**
@@ -63,5 +81,18 @@ export class SliderComponent implements OnInit {
    */
   public invokeParticles(): void {
     particlesJS('particles-js', ParticlesConfig, function () {});
+  }
+
+  /**
+   * @access public
+   * @description Scroll to the next section (gallery).
+   * @function scrollToNextSection
+   * @returns {void}
+   */
+  public scrollToNextSection(): void {
+    const galleryElement = document.querySelector('app-gallery');
+    if (galleryElement) {
+      galleryElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

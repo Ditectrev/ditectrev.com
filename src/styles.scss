@@ -8,6 +8,62 @@ $medium-color: #000000;
 $x-twitter-color: #000000;
 $youtube-color: #ff0000;
 
+/* Contact button wave animation - Global styles */
+.contact-btn {
+  display: inline-block;
+  font-weight: 900;
+  height: 3.125rem;
+  line-height: 3.125rem;
+  margin-top: 1rem;
+  padding: 0 1.5rem;
+  transition: background-position-x 2s linear;
+  width: auto;
+
+  &:hover {
+    animation: line 1s, colorInvert 1.5s 1s forwards, sizeIncrease 1.5s 1s forwards;
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjM2Y1MWI1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+    color: #3f51b5 !important;
+
+    span {
+      animation: textColorChange 1.5s 1s forwards;
+    }
+  }
+}
+
+@keyframes line {
+  0% {
+    background-position-x: 25rem;
+  }
+}
+
+@keyframes colorInvert {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: #3f51b5;
+    background-image: none;
+  }
+}
+
+@keyframes sizeIncrease {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes textColorChange {
+  0% {
+    color: #3f51b5;
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+
 // App-specific colors
 $app-link-color: #3f51b5;
 $app-link-hover-color: #039be5;
@@ -147,14 +203,15 @@ body,
 html {
   background-color: $app-bg-color;
   height: 100%;
+  overflow-x: hidden; // Prevent horizontal scrolling
 }
 
-h1 {
+h1, h2 {
   text-align: center;
 }
 
 main {
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
 }
 
 mat-card {
@@ -164,11 +221,11 @@ mat-card {
   padding-top: 1rem;
   width: 50%;
 
-  @media (max-width: 1325px) {
+  @media (max-width: 82.8125rem) {
     width: 80%;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 56.25rem) {
     width: 90%;
   }
 
@@ -202,7 +259,7 @@ mat-card {
 }
 
 mat-tab-body {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 // Required to put it here in order overwrite Angular Material's styles for global behaviours.
@@ -217,11 +274,11 @@ mat-tab-body {
 
 // Remove unecessary default padding for first and last cell enforced by Angular Material on small and medium devices.
 // TODO: Use "clamp()" for fonts a.k.a. Fluid Typography.
-@media (max-width: 960px) {
+@media (max-width: 60rem) {
   mat-cell {
     &:first-of-type,
     &:last-of-type {
-      padding: 0px !important;
+      padding: 0 !important;
     }
   }
 }
