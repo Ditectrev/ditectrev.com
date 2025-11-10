@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { Testimonial } from '@interfaces';
 
 @Component({
   selector: 'app-testimonials',
   templateUrl: './testimonials.component.html',
   styleUrls: ['./testimonials.component.scss'],
+  standalone: true,
+  imports: [CommonModule, CarouselModule]
 })
 export class TestimonialsComponent {
   public customOptions: OwlOptions = {
@@ -26,14 +31,7 @@ export class TestimonialsComponent {
     touchDrag: true,
   };
 
-  // TODO: Make this an interface.
-  public slidesItems: {
-    id: string;
-    name: string;
-    position: string;
-    src: string;
-    testimonial: string;
-  }[] = [
+  public slidesItems: Testimonial[] = [
     {
       id: '1',
       name: 'Jarosław Miężał',
