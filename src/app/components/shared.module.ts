@@ -5,7 +5,7 @@ import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
 } from "@angular/material/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
+// import { FlexLayoutModule } from "@angular/flex-layout"; // Obsolete, using CSS Grid/Flexbox instead
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FooterComponent } from "./footer/footer.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -36,7 +36,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
 import { MomentModule } from "ngx-moment";
 import { NgModule } from "@angular/core";
-// import { NgxGalleryModule } from "ngx-gallery-9";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { RouterModule } from "@angular/router";
 // import { TeximateModule } from "ngx-teximate";
@@ -44,16 +43,16 @@ import { RouterModule } from "@angular/router";
 // TODO: Create separated module MaterialModule
 // TODO: Looks like header & footer should be part of CoreModule, because they're not changing any data (no login/register for example), therefore are static and are available globally.
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent],
+  // declarations: [FooterComponent, HeaderComponent], // These are now standalone components
   exports: [
     CarouselModule,
     // ChartsModule,
     CommonModule,
-    FlexLayoutModule,
+    // FlexLayoutModule, // Obsolete, using CSS Grid/Flexbox instead
     FontAwesomeModule,
-    FooterComponent,
+    // FooterComponent, // Now standalone component
     FormsModule,
-    HeaderComponent,
+    // HeaderComponent, // Now standalone component
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -78,8 +77,7 @@ import { RouterModule } from "@angular/router";
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    MomentModule,
-    // NgxGalleryModule,
+    // MomentModule, // Not compatible with Angular 17
     NgxSpinnerModule,
     ReactiveFormsModule,
     RouterModule,
@@ -88,7 +86,7 @@ import { RouterModule } from "@angular/router";
   imports: [
     CarouselModule,
     CommonModule,
-    FlexLayoutModule,
+    // FlexLayoutModule, // Obsolete, using CSS Grid/Flexbox instead
     FontAwesomeModule,
     FormsModule,
     MatBadgeModule,
@@ -115,8 +113,7 @@ import { RouterModule } from "@angular/router";
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    MomentModule,
-    // NgxGalleryModule,
+    // MomentModule, // Not compatible with Angular 17
     NgxSpinnerModule,
     ReactiveFormsModule,
     RouterModule,
