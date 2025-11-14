@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/methodology/methodology.component').then(m => m.MethodologyComponent)
   },
   {
+    path: 'services',
+    loadComponent: () => import('./components/services/services.component').then(m => m.ServicesComponent)
+  },
+  {
     path: 'faq',
     loadComponent: () => import('./components/faq/faq.component').then(m => m.FaqComponent)
   },
