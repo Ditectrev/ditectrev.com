@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
+import { ServiceDetailComponent } from "../service-detail/service-detail.component";
 import { ServiceItem } from "@interfaces";
 
 /**
@@ -10,13 +9,12 @@ import { ServiceItem } from "@interfaces";
 @Component({
   selector: "app-software-development",
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [ServiceDetailComponent],
   templateUrl: "./software-development.component.html",
-  styleUrls: ["./software-development.component.scss"],
 })
 export class SoftwareDevelopmentComponent {
   // Array to hold all Software Development services.
-  public softwareDevelopmentItems: ServiceItem[] = [
+  public readonly softwareDevelopmentItems: ServiceItem[] = [
     {
       description:
         "Amazon, Discord, Facebook, Google, MailChimp, Microsoft, PayPal, SAP, Slack, Stripe, More...",

@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
+import { ServiceDetailComponent } from "../service-detail/service-detail.component";
 import { ServiceItem } from "@interfaces";
 
 /**
@@ -10,13 +9,12 @@ import { ServiceItem } from "@interfaces";
 @Component({
   selector: "app-cyber-security",
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [ServiceDetailComponent],
   templateUrl: "./cyber-security.component.html",
-  styleUrls: ["./cyber-security.component.scss"],
 })
 export class CyberSecurityComponent {
   // Array to hold all Cyber Security services.
-  public cyberSecurityItems: ServiceItem[] = [
+  public readonly cyberSecurityItems: ServiceItem[] = [
     {
       description:
         "Classifications, E-Law Advisory, General Data Protection Regulation (GDPR), International Organization for Standardization (ISO) 27001, Privacy Audits.",

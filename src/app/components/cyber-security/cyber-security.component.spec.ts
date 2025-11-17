@@ -30,99 +30,18 @@ describe('CyberSecurityComponent', () => {
     expect(component.cyberSecurityItems.length).toBeGreaterThan(0);
   });
 
-  it('should render page title', () => {
+  it('should render service detail component', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const title = compiled.querySelector('h1');
+    const serviceDetail = compiled.querySelector('app-service-detail');
 
-    expect(title).toBeTruthy();
-    expect(title?.textContent?.trim()).toBe('Cyber Security');
+    expect(serviceDetail).toBeTruthy();
   });
 
-  it('should render services grid', () => {
+  it('should pass correct data to service detail component', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const grid = compiled.querySelector('.services-grid');
+    const serviceDetail = compiled.querySelector('app-service-detail');
 
-    expect(grid).toBeTruthy();
-  });
-
-  it('should render all cyber security service cards', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('mat-card');
-
-    expect(cards.length).toBe(component.cyberSecurityItems.length);
-  });
-
-  it('should render service titles correctly', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const titles = Array.from(
-      compiled.querySelectorAll('mat-card-title'),
-    ).map((title) => title.textContent?.trim());
-
-    const expectedTitles = component.cyberSecurityItems.map(
-      (item) => item.name,
-    );
-    expect(titles).toEqual(expectedTitles);
-  });
-
-  it('should render service images with correct attributes', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const images = compiled.querySelectorAll('img');
-
-    expect(images.length).toBe(component.cyberSecurityItems.length);
-
-    images.forEach((img, index) => {
-      const item = component.cyberSecurityItems[index];
-      expect(img.getAttribute('alt')).toBe(item.name);
-      expect(img.getAttribute('src')).toBe(item.src);
-      expect(img.getAttribute('title')).toBe(item.name);
-    });
-  });
-
-  it('should render service descriptions', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const descriptions = Array.from(
-      compiled.querySelectorAll('mat-card-subtitle'),
-    ).map((subtitle) => subtitle.textContent?.trim());
-
-    const expectedDescriptions = component.cyberSecurityItems.map(
-      (item) => item.description,
-    );
-    expect(descriptions).toEqual(expectedDescriptions);
-  });
-
-  it('should have proper aria labels on section', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const section = compiled.querySelector('section[aria-label]');
-
-    expect(section).toBeTruthy();
-    expect(section?.getAttribute('aria-label')).toContain(
-      'Cyber Security page to inform',
-    );
-  });
-
-  it('should have proper aria labels on cards', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('mat-card[aria-label]');
-
-    expect(cards.length).toBe(component.cyberSecurityItems.length);
-
-    cards.forEach((card, index) => {
-      const item = component.cyberSecurityItems[index];
-      expect(card.getAttribute('aria-label')).toContain(item.name);
-    });
-  });
-
-  it('should have service-card class on all cards', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('.service-card');
-
-    expect(cards.length).toBe(component.cyberSecurityItems.length);
-  });
-
-  it('should have mat-elevation-z24 class on all cards', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('.mat-elevation-z24');
-
-    expect(cards.length).toBe(component.cyberSecurityItems.length);
+    expect(serviceDetail).toBeTruthy();
+    expect(component.cyberSecurityItems.length).toBe(12);
   });
 });

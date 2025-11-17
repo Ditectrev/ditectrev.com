@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { ServiceDetailComponent } from '../service-detail/service-detail.component';
 import { ServiceItem } from '@interfaces';
 
 /**
@@ -10,13 +9,12 @@ import { ServiceItem } from '@interfaces';
 @Component({
   selector: 'app-digital-strategy',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [ServiceDetailComponent],
   templateUrl: './digital-strategy.component.html',
-  styleUrls: ['./digital-strategy.component.scss'],
 })
 export class DigitalStrategyComponent {
   // Array to hold all Digital Strategy services.
-  public digitalStrategyItems: ServiceItem[] = [
+  public readonly digitalStrategyItems: ServiceItem[] = [
     {
       description:
         'Business Model Canvas, Business Processes, Customer Development & Journey, Customer Relationship Management (CRM), Innovation Acceleration, Lean Canvas, Product Management, User Journey Mapping.',
