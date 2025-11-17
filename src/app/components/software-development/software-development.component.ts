@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MatCardModule } from "@angular/material/card";
 
 /**
  * @component SoftwareDevelopmentComponent
@@ -6,6 +8,8 @@ import { Component } from "@angular/core";
  */
 @Component({
   selector: "app-software-development",
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
   templateUrl: "./software-development.component.html",
   styleUrls: ["./software-development.component.scss"],
 })

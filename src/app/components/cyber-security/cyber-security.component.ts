@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MatCardModule } from "@angular/material/card";
 
 /**
  * @component CyberSecurityComponent
@@ -6,6 +8,8 @@ import { Component } from "@angular/core";
  */
 @Component({
   selector: "app-cyber-security",
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
   templateUrl: "./cyber-security.component.html",
   styleUrls: ["./cyber-security.component.scss"],
 })

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 /**
  * @component DigitalStrategyComponent
@@ -6,6 +8,8 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-digital-strategy',
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
   templateUrl: './digital-strategy.component.html',
   styleUrls: ['./digital-strategy.component.scss'],
 })

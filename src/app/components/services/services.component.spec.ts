@@ -70,9 +70,9 @@ describe('ServicesComponent', () => {
     const buttons = compiled.querySelectorAll('button[routerLink]');
 
     expect(buttons.length).toBe(3);
-    expect(buttons[0].getAttribute('routerLink')).toBe('/cyber-security');
-    expect(buttons[1].getAttribute('routerLink')).toBe('/digital-strategy');
-    expect(buttons[2].getAttribute('routerLink')).toBe('/software-development');
+    expect(buttons[0].getAttribute('routerLink')).toBe('/services/cyber-security');
+    expect(buttons[1].getAttribute('routerLink')).toBe('/services/digital-strategy');
+    expect(buttons[2].getAttribute('routerLink')).toBe('/services/software-development');
   });
 
   it('should render torus knot animation element', () => {
