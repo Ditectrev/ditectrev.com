@@ -1,11 +1,11 @@
 <section aria-label="This is Software Development page to inform your about our Software Development services.">
   <h1 title="Software Development">Software Development</h1>
   <!-- Container for cards. -->
-  <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-evenly top">
+  <div class="services-grid">
     <ng-container *ngFor="let softwareDevelopmentItem of softwareDevelopmentItems">
       <!-- Card container that binds all card information. -->
       <mat-card attr.aria-label="This is {{softwareDevelopmentItem.name}} service short description."
-        class="mat-elevation-z24" fxFlex="25" fxFlex.md="40" fxFlex.lt-md="90" role="region">
+        class="mat-elevation-z24 service-card" role="region">
         <!-- Title of the card. -->
         <mat-card-title aria-level="2" title="{{softwareDevelopmentItem.name}}" role="heading">
           {{softwareDevelopmentItem.name}}

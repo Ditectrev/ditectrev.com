@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { ServiceItem } from '@interfaces';
 
 /**
  * @component DigitalStrategyComponent
@@ -15,11 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class DigitalStrategyComponent {
   // Array to hold all Digital Strategy services.
-  public digitalStrategyItems: {
-    description: string;
-    name: string;
-    src: string;
-  }[] = [
+  public digitalStrategyItems: ServiceItem[] = [
     {
       description:
         'Business Model Canvas, Business Processes, Customer Development & Journey, Customer Relationship Management (CRM), Innovation Acceleration, Lean Canvas, Product Management, User Journey Mapping.',

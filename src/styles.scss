@@ -290,3 +290,14 @@ mat-tab-body {
     0 0.6875rem 0.9375rem -0.4375rem rgba(0, 0, 0, 0.2) !important;
   border-radius: 1rem !important;
 }
+
+// Service card styles - shared across cyber-security, digital-strategy, and software-development components
+.service-card {
+  padding: 2rem;
+  width: 100%;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}

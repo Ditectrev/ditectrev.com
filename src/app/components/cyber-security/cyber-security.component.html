@@ -1,11 +1,11 @@
 <section aria-label="This is Cyber Security page to inform your about our Cyber Security services.">
   <h1 title="Cyber Security">Cyber Security</h1>
   <!-- Container for cards. -->
-  <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="space-evenly top">
+  <div class="services-grid">
     <ng-container *ngFor="let cyberSecurityItem of cyberSecurityItems">
       <!-- Card container that binds all card information. -->
       <mat-card attr.aria-label="This is {{cyberSecurityItem.name}} service short description."
-        class="mat-elevation-z24" fxFlex="25" fxFlex.md="40" fxFlex.lt-md="90" role="region">
+        class="mat-elevation-z24 service-card" role="region">
         <!-- Title of the card. -->
         <mat-card-title aria-level="2" title="{{cyberSecurityItem.name}}" role="heading">
           {{cyberSecurityItem.name}}

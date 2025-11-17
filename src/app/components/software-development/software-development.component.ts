@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
+import { ServiceItem } from "@interfaces";
 
 /**
  * @component SoftwareDevelopmentComponent
@@ -15,11 +16,7 @@ import { MatCardModule } from "@angular/material/card";
 })
 export class SoftwareDevelopmentComponent {
   // Array to hold all Software Development services.
-  public softwareDevelopmentItems: {
-    description: string;
-    name: string;
-    src: string;
-  }[] = [
+  public softwareDevelopmentItems: ServiceItem[] = [
     {
       description:
         "Amazon, Discord, Facebook, Google, MailChimp, Microsoft, PayPal, SAP, Slack, Stripe, More...",

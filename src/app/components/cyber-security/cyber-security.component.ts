@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
+import { ServiceItem } from "@interfaces";
 
 /**
  * @component CyberSecurityComponent
@@ -15,11 +16,7 @@ import { MatCardModule } from "@angular/material/card";
 })
 export class CyberSecurityComponent {
   // Array to hold all Cyber Security services.
-  public cyberSecurityItems: {
-    description: string;
-    name: string;
-    src: string;
-  }[] = [
+  public cyberSecurityItems: ServiceItem[] = [
     {
       description:
         "Classifications, E-Law Advisory, General Data Protection Regulation (GDPR), International Organization for Standardization (ISO) 27001, Privacy Audits.",
