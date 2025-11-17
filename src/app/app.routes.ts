@@ -58,15 +58,15 @@ export const routes: Routes = [
   // Service routes
   {
     path: 'services/cyber-security',
-    loadComponent: () => import('./components/cyber-security/cyber-security.component').then(m => m.CyberSecurityComponent)
+    loadComponent: () => import('./components/services/cyber-security/cyber-security.component').then(m => m.CyberSecurityComponent)
   },
   {
     path: 'services/digital-strategy',
-    loadComponent: () => import('./components/digital-strategy/digital-strategy.component').then(m => m.DigitalStrategyComponent)
+    loadComponent: () => import('./components/services/digital-strategy/digital-strategy.component').then(m => m.DigitalStrategyComponent)
   },
   {
     path: 'services/software-development',
-    loadComponent: () => import('./components/software-development/software-development.component').then(m => m.SoftwareDevelopmentComponent)
+    loadComponent: () => import('./components/services/software-development/software-development.component').then(m => m.SoftwareDevelopmentComponent)
   },
   // Catch all route for 404
   {
