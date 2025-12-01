@@ -17,7 +17,7 @@
     >
 
     <!-- Group of tabs. -->
-    <mat-tab-group mat-align-tabs="center">
+    <mat-tab-group>
       <ng-container *ngFor="let partnershipsItem of partnershipsItems">
         <mat-tab>
           <ng-template mat-tab-label>
@@ -25,10 +25,7 @@
             {{ partnershipsItem.name }}
           </ng-template>
           <ng-template matTabContent>
-            <p
-              class="example-large-box mat-elevation-z24"
-              fxLayoutAlign="center center"
-            >
+            <p class="example-large-box mat-elevation-z24">
               {{ partnershipsItem.description }}
             </p>
           </ng-template>
