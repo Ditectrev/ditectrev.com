@@ -11,7 +11,7 @@ $youtube-color: #ff0000;
 /* Contact button wave animation - Global styles */
 .contact-btn {
   display: inline-block;
-  font-weight: 900;
+  font-weight: 700; // Changed from 900 to 700 (bold weight we imported)
   height: 3.125rem;
   line-height: 3.125rem;
   margin-top: 1rem;
@@ -142,30 +142,49 @@ app-gallery {
   }
 }
 
+html {
+  font-family: 'Lora', serif !important;
+}
+
 body {
+  font-family: 'Lora', serif !important;
   margin: 0;
 }
 
-.mat-tree-node,
-.mat-step-text-label,
-.mat-tab-label-content,
-a,
+// Philosopher font for headings and buttons
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
+button,
+mat-button,
+.mat-button,
+.mat-raised-button,
+.mat-flat-button,
+.mat-stroked-button,
+.mat-icon-button,
+.mat-fab,
+.mat-mini-fab,
+.contact-btn,
+.service-button,
 mat-card-title,
+.mat-card-title {
+  font-family: 'Philosopher', sans-serif !important;
+  font-weight: 400; // Regular weight by default
+}
+
+// Lora font for all other text
+.mat-tree-node,
+.mat-step-text-label,
+.mat-tab-label-content,
+a,
 mat-error,
 mat-header-cell,
 mat-hint,
 span,
-strong,
-tspan {
-  font-family: 'Thasadith', sans-serif;
-}
-
+tspan,
 .mat-list-item-content,
 body,
 input[type='email'],
@@ -176,7 +195,14 @@ mat-menu-item,
 p,
 // TODO: textarea doesn't change the font.
 textarea {
-  font-family: 'Trirong', serif;
+  font-family: 'Lora', serif !important;
+  font-weight: 400; // Regular weight by default
+}
+
+// Bold text should use weight 700
+strong {
+  font-family: 'Lora', serif !important;
+  font-weight: 700;
 }
 
 // Required to put it here in order to overwrite Angular Material's styles used in a footer.
