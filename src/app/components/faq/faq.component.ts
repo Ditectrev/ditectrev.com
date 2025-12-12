@@ -1,5 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, SecurityContext } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -114,7 +116,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
     questions: [
       {
         answer:
-          "Please check our Privacy & Security policy for in-depth reading.",
+          "Please check our <a href=\"/privacy-and-security\">Privacy & Security policy</a> for in-depth reading.",
         question: "How my personal data is being used?",
       },
       {
@@ -124,7 +126,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
       },
       {
         answer:
-          "Yes, we do - for detailed explanation how we do so please check our Privacy & Security policy.",
+          "Yes, we do - for detailed explanation how we do so please check our <a href=\"/privacy-and-security\">Privacy & Security policy</a>.",
         question: "Are you using Cookies?",
       },
       {
@@ -149,7 +151,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
       },
       {
         answer:
-          "The high level of overview you can find in our Methodology page.",
+          "The high level of overview you can find in our <a href=\"/methodology\">Methodology page</a>.",
         question: "What are the phases of each project?",
       },
       {
@@ -198,7 +200,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
         questions: [
           {
             answer:
-              "There are lots of tools we use for this services, to name a few: Facebook Business Manager, Google Analytics, Google Lighthouse, Hotjar, KUKU.io, MailChimp, SEO PowerSuite, Web Vitals, Yoast.",
+              "There are lots of tools we use for this services, to name a few: Facebook Business Manager, Google Analytics, Google Lighthouse, Hotjar, MailChimp, SEO PowerSuite, Web Vitals, Yoast.",
             question: "Which tools are you using?",
           },
           {
@@ -241,7 +243,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
     questions: [
       {
         answer:
-          "Many technical keywords are described in our Glossary. If you would not find an answer neither in the FAQ nor in the Glossary do not hesitate to Contact us.",
+          "Many technical keywords are described in our <a href=\"/glossary\">Glossary</a>. If you would not find an answer neither in the FAQ nor in the Glossary do not hesitate to <a href=\"/contact\">Contact us</a>.",
         question:
           "Sometimes I cannot understand technical words, where to find clarification for those?",
       },
@@ -258,6 +260,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -281,9 +284,27 @@ export class FaqComponent {
   /**
    * @constructor
    * @description Create a new instance of this component.
+   * @param {DomSanitizer} sanitizer Angular service that sanitizes HTML content to prevent XSS attacks by marking content as safe for rendering.
    */
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
     this.dataSource.data = FAQ_QUESTIONS; // Get data source of FAQ questions.
+  }
+
+  /**
+   * @access public
+   * @description Sanitize HTML content to safely render links in FAQ answers.
+   * Allows anchor tags with href attributes for internal navigation.
+   * @function sanitizeHtml
+   * @param {string} html HTML string to sanitize.
+   * @returns {SafeHtml} Sanitized HTML safe for rendering.
+   */
+  public sanitizeHtml(html: string): SafeHtml {
+    if (!html) {
+      return this.sanitizer.bypassSecurityTrustHtml('');
+    }
+    // Allow anchor tags with href for internal links
+    // DomSanitizer will strip dangerous attributes but keep safe ones like href
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   /**

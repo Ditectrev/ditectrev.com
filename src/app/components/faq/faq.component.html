@@ -18,7 +18,8 @@
             <!-- Display questions and answers for each category. -->
             <p>
               <strong>{{ node.question }}</strong><br />
-              <mat-divider></mat-divider><br />{{ node.answer }}
+              <mat-divider></mat-divider><br />
+              <span [innerHTML]="sanitizeHtml(node.answer || '')"></span>
             </p>
           </li>
         </mat-tree-node>

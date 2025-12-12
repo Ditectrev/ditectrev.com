@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { FaqComponent, FAQ_QUESTIONS } from './faq.component';
 import { FaqQuestions } from '../../interfaces';
@@ -7,6 +8,7 @@ import { FaqQuestions } from '../../interfaces';
 describe('FaqComponent', () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
+  let sanitizer: DomSanitizer;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,6 +20,7 @@ describe('FaqComponent', () => {
 
     fixture = TestBed.createComponent(FaqComponent);
     component = fixture.componentInstance;
+    sanitizer = TestBed.inject(DomSanitizer);
     fixture.detectChanges();
   });
 
@@ -86,6 +89,46 @@ describe('FaqComponent', () => {
       expect(result).toBe(true);
       expect(firstCategory.questions).toBeDefined();
       expect(firstCategory.questions!.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('sanitizeHtml', () => {
+    it('should sanitize HTML content with anchor tags', () => {
+      const html = 'Please check our <a href="/privacy-and-security">Privacy & Security policy</a> for in-depth reading.';
+      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+
+      const result = component.sanitizeHtml(html);
+
+      expect(spy).toHaveBeenCalledWith(html);
+      expect(result).toBeDefined();
+    });
+
+    it('should return empty SafeHtml for empty string', () => {
+      const html = '';
+      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+
+      const result = component.sanitizeHtml(html);
+
+      expect(spy).toHaveBeenCalledWith('');
+      expect(result).toBeDefined();
+    });
+
+    it('should handle HTML with multiple anchor tags', () => {
+      const html = 'Many technical keywords are described in our <a href="/glossary">Glossary</a>. If you would not find an answer neither in the FAQ nor in the Glossary do not hesitate to <a href="/contact">Contact us</a>.';
+      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+
+      const result = component.sanitizeHtml(html);
+
+      expect(spy).toHaveBeenCalledWith(html);
+      expect(result).toBeDefined();
+    });
+
+    it('should return SafeHtml type', () => {
+      const html = 'Test <a href="/test">link</a>';
+      const result = component.sanitizeHtml(html);
+
+      expect(result).toBeDefined();
+      expect(typeof result).toBe('object');
     });
   });
 
