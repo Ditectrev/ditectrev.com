@@ -128,7 +128,7 @@ mat-hint {
   "copyrights copyrights copyrights copyrights copyrights copyrights";
   justify-content: space-evenly;
 
-  @media (max-width: 960px) {
+  @media (max-width: 959px) {
     grid-template-areas:
       "address"
       "information"
@@ -146,7 +146,7 @@ mat-hint {
   grid-area: address;
   display: flex;
   flex-direction: column;
-  @media (max-width: 960px) {
+  @media (max-width: 959px) {
     align-items: center;
   }
   p {
@@ -160,7 +160,7 @@ mat-hint {
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: 961px) {
+  @media (min-width: 960px) {
     padding-right: 13.5rem;
   }
 }
@@ -193,7 +193,7 @@ mat-hint {
     flex-wrap: wrap;
     gap: 1.5rem;
 
-    @media (max-width: 960px) {
+    @media (max-width: 959px) {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -203,7 +203,7 @@ mat-hint {
     display: inline-block;
     font-style: italic;
   }
-  @media (max-width: 960px) {
+  @media (max-width: 959px) {
     align-items: center;
     text-align: center;
   }
@@ -214,7 +214,7 @@ mat-hint {
   display: flex;
   justify-content: flex-end;
   gap: 1.25rem;
-  @media (max-width: 960px) {
+  @media (max-width: 959px) {
     justify-content: center;
   }
   fa-icon {
