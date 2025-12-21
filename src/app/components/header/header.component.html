@@ -1,7 +1,3 @@
-<!--
-  TODO: If time permits polish a bit roles & aria-labels for menu elements, especially for desktop.
--->
-<!-- TODO: Add matTooltip to header. -->
 <header>
   <mat-sidenav-container class="container">
     <!-- Desktop header main menu (toolbar). -->
@@ -16,7 +12,7 @@
         mat-icon-button
         matTooltip="Toggle sidenav"
         (click)="sidenav.toggle()"
-        fxHide.gt-sm
+        class="menu-toggle-button"
         aria-label="Click here to toggle sidenav."
       >
         <mat-icon>menu</mat-icon>
@@ -32,16 +28,16 @@
       <!--
         The below element is hidden by default, and will be shown only on devices with min-width: 960px.
       -->
-      <div fxFlex="row" fxLayoutAlign="end" fxHide.lt-md role="navigation">
+      <div class="desktop-navigation" role="navigation">
         <!-- Grouping element for list of menu items. -->
         <ng-container
           *ngFor="let menuItem of menuItems; let j = index; let lastItem = last"
         >
-          <!-- Desktop main menu elements. -->
+          <!-- Desktop main menu elements - Internal links -->
           <a
             mat-button
-            *ngIf="!lastItem"
-            routerLink="{{ menuItem.path }}"
+            *ngIf="!lastItem && !menuItem.external"
+            [routerLink]="menuItem.path"
             attr.aria-label="{{
               menuItem.name
             }}. Click here to read more about {{ menuItem.name }}."
@@ -57,6 +53,25 @@
               aria-haspopup="true"
               aria-label="Click here to read about available services."
               >arrow_drop_down
+            </mat-icon></a
+          >
+          <!-- Desktop main menu elements - External links -->
+          <a
+            mat-button
+            *ngIf="!lastItem && menuItem.external"
+            [href]="menuItem.path"
+            [target]="'_blank'"
+            [attr.rel]="'noopener noreferrer'"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            role="menuitem"
+            title="{{ menuItem.name }}"
+            >{{ menuItem.name }}
+            <mat-icon
+              aria-label="This link opens in a new tab."
+              class="external-link-icon"
+              >open_in_new
             </mat-icon></a
           >
           <!--
@@ -95,6 +110,7 @@
     <mat-sidenav #sidenav fixedInViewport="true">
       <mat-toolbar
         aria-label="This is a sidenav with menu elements for mobile devices."
+        color="primary"
         >Menu</mat-toolbar
       >
       <!-- Navbar list. -->
@@ -103,36 +119,12 @@
         <ng-container
           *ngFor="let menuItem of menuItems; let i = index; let lastItem = last"
         >
-          <hr
-            *ngIf="lastItem"
-            aria-label="This is a separator between sidenav elements and close button for the sidenav."
-            role="separator"
-          />
-          <!-- Mobile main menu elements. -->
-          <a
-            mat-list-item
-            *ngIf="i !== 1 && !lastItem; else servicesTemplate"
-            routerLink="{{ menuItem.path }}"
-            attr.aria-label="{{
-              menuItem.name
-            }}. Click here to read more about {{ menuItem.name }}."
-            role="menuitem"
-            title="{{ menuItem.name }}"
-          >
-            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon
-            >&nbsp;{{ menuItem.name }}
-          </a>
-          <!-- Template element for menu of services. -->
-          <ng-template #servicesTemplate>
-            <!-- Services element in main menu. -->
-            <!--
-              TODO: Make the list of services with small margin from the left.
-            -->
+          <!-- Services element in main menu (index 1). -->
+          <ng-container *ngIf="i === 1 && !lastItem">
             <a
               mat-list-item
-              *ngIf="!lastItem; else closeTemplate"
               [matMenuTriggerFor]="menuMobile"
-              routerLink="{{ menuItem.path }}"
+              (click)="onServicesClick($event)"
               attr.aria-label="{{ menuItem.name }}. Click to read more about {{
                 menuItem.name
               }}."
@@ -147,24 +139,65 @@
                 >
               </mat-icon>
             </a>
-            <!-- Template element for close button. -->
-            <ng-template #closeTemplate>
-              <!-- Close button element in main menu. -->
-              <a
-                mat-list-item
-                (click)="sidenav.close()"
-                routerLink="{{ menuItem.path }}"
-                attr.aria-label="{{
-                  menuItem.name
-                }}. Click here to close the sidenav."
-                role="menuitem"
-                title="{{ menuItem.name }}"
-              >
-                <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon>
-                &nbsp;{{ menuItem.name }}
-              </a>
-            </ng-template>
-          </ng-template>
+          </ng-container>
+          <!-- Mobile main menu elements - Internal links -->
+          <a
+            mat-list-item
+            *ngIf="i !== 1 && !lastItem && !menuItem.external"
+            [routerLink]="menuItem.path"
+            (click)="sidenav.close()"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            role="menuitem"
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon
+            >&nbsp;{{ menuItem.name }}
+          </a>
+          <!-- Mobile main menu elements - External links -->
+          <a
+            mat-list-item
+            *ngIf="i !== 1 && !lastItem && menuItem.external"
+            [href]="menuItem.path"
+            [target]="'_blank'"
+            [attr.rel]="'noopener noreferrer'"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            role="menuitem"
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon
+            >&nbsp;{{ menuItem.name }}
+            <mat-icon
+              aria-label="This link opens in a new tab."
+              class="external-link-icon"
+              aria-hidden="true"
+              >open_in_new
+            </mat-icon>
+          </a>
+          <!-- Horizontal separator before close button. -->
+          <hr
+            *ngIf="lastItem"
+            aria-label="This is a separator between sidenav elements and close button for the sidenav."
+            role="separator"
+          />
+          <!-- Close button element in main menu. -->
+          <a
+            mat-list-item
+            *ngIf="lastItem"
+            (click)="sidenav.close()"
+            [routerLink]="menuItem.path"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to close the sidenav."
+            role="menuitem"
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon>
+            &nbsp;{{ menuItem.name }}
+          </a>
           <!-- Menu of services. -->
           <mat-menu #menuMobile="matMenu" role="navigation">
             <!-- Lazy loaded menu of services. -->
@@ -175,6 +208,7 @@
                 <a
                   mat-menu-item
                   routerLink="{{ servicesItem.path }}"
+                  (click)="sidenav.close()"
                   attr.aria-label="{{
                     servicesItem.name
                   }}. Click here to read more about {{ servicesItem.name }}."

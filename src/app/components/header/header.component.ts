@@ -7,6 +7,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListModule } from "@angular/material/list";
 import { CommonModule } from "@angular/common";
+import { MenuItem } from "../../interfaces";
 
 @Component({
   selector: 'app-header',
@@ -25,32 +26,38 @@ import { CommonModule } from "@angular/common";
   ]
 })
 export class HeaderComponent {
-  public menuItems: { icon: string; name: string; path: string }[] = [
+  public onServicesClick(event: Event): void {
+    // Prevent navigation when clicking to expand the dropdown
+    event.preventDefault();
+  }
+
+  public menuItems: MenuItem[] = [
     { icon: "home", name: "Home", path: "/" },
     { icon: "playlist_add_check", name: "Services", path: "/services" },
     { icon: "fingerprint", name: "Methodology", path: "/methodology" },
     { icon: "sentiment_satisfied_alt", name: "About us", path: "/about-us" },
-    // { icon: 'format_quote', name: 'Blog', path: '/blog' }, // TODO: Change blog to external URL.
     { icon: "alternate_email", name: "Contact", path: "/contact" },
+    { icon: "edit_note", name: "Blog", path: "https://blog.ditectrev.com", external: true },
+    { icon: "school", name: "Education", path: "https://education.ditectrev.com", external: true },
+    { icon: "shopping_cart", name: "Shop", path: "https://shop.ditectrev.com", external: true },
     { icon: "close", name: "Close", path: "/" },
   ];
 
-  // Change this as a subroute (not child) of services.
-  public servicesItems: { icon: string; name: string; path: string }[] = [
+  public servicesItems: MenuItem[] = [
     {
       icon: "security",
       name: "Cyber Security",
-      path: "/cyber-security",
+      path: "/services/cyber-security",
     },
     {
       icon: "star",
       name: "Digital Strategy",
-      path: "/digital-strategy",
+      path: "/services/digital-strategy",
     },
     {
       icon: "code",
       name: "Software Development",
-      path: "/software-development",
+      path: "/services/software-development",
     },
   ];
 }
