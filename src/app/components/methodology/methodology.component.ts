@@ -1,94 +1,209 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MethodologyStageItem } from "../../interfaces";
 
+/**
+ * @component MethodologyComponent
+ * @description Create the component.
+ */
 @Component({
-  selector: 'app-methodology',
+  selector: "app-methodology",
+  templateUrl: "./methodology.component.html",
+  styleUrls: ["./methodology.component.scss"],
   standalone: true,
-  imports: [CommonModule, MatCardModule],
-  template: `
-    <div class="methodology">
-      <h1>Our Methodology</h1>
-      <p>Modern delivery approach that ensures success.</p>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Discovery</h3>
-          <p>We start by understanding your business needs, goals, and challenges.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Planning</h3>
-          <p>We create a detailed roadmap and strategy to achieve your objectives.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Development</h3>
-          <p>We build your solution using modern technologies and best practices.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-number">4</div>
-          <h3>Testing</h3>
-          <p>We thoroughly test everything to ensure quality and reliability.</p>
-        </div>
-
-        <div class="step">
-          <div class="step-number">5</div>
-          <h3>Deployment</h3>
-          <p>We launch your solution and provide ongoing support and maintenance.</p>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .methodology {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .methodology h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .methodology > p {
-      text-align: center;
-      margin-bottom: 3rem;
-      font-size: 1.2rem;
-      color: #666;
-    }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .step {
-      text-align: center;
-      padding: 2rem;
-      background: #f8f9fa;
-      border-radius: 10px;
-      position: relative;
-    }
-    .step-number {
-      width: 50px;
-      height: 50px;
-      background: #667eea;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0 auto 1rem;
-    }
-    .step h3 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
-  `]
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatListModule,
+    MatStepperModule,
+    MatTooltipModule,
+  ],
 })
-export class MethodologyComponent {}
+export class MethodologyComponent {
+  // Array of arrays to hold all stages with all steps related to each stage.
+  public stageItems: MethodologyStageItem[][] = [
+    [
+      // First stage of Methodology.
+      {
+        name: "Business Analysis",
+        nextStageCount: "Second",
+        previousStageCount: "",
+        stageCount: "First",
+        stageDescription: "listening and asking question",
+        stepCount: "First",
+        stepDescription:
+          "Learn about your project, try to understand its business needs and ask questions.",
+        stepIcon: "looks_one",
+      },
+      {
+        name: "Business Analysis",
+        nextStageCount: "Second",
+        previousStageCount: "",
+        stageCount: "First",
+        stageDescription: "listening and asking question",
+        stepCount: "Second",
+        stepDescription:
+          "Find your differentiators and unique value proposition.",
+        stepIcon: "looks_two",
+      },
+    ],
+    // Second stage of Methodology.
+    [
+      {
+        name: "Research",
+        nextStageCount: "Third",
+        previousStageCount: "First",
+        stageCount: "Second",
+        stageDescription: "researching business and technical capabilities",
+        stepCount: "First",
+        stepDescription:
+          "Investigate your business needs and combine them with a technical realities.",
+        stepIcon: "looks_one",
+      },
+      {
+        name: "Research",
+        nextStageCount: "Third",
+        previousStageCount: "First",
+        stageCount: "Second",
+        stageDescription: "researching business and technical capabilities",
+        stepCount: "Second",
+        stepDescription:
+          "Find a golden ratio for business needs and technical realities.",
+        stepIcon: "looks_two",
+      },
+      {
+        name: "Research",
+        nextStageCount: "Third",
+        previousStageCount: "First",
+        stageCount: "Second",
+        stageDescription: "researching business and technical capabilities",
+        stepCount: "Third",
+        stepDescription: "Provide you a feedback what we can do.",
+        stepIcon: "looks_3",
+      },
+      {
+        name: "Research",
+        nextStageCount: "Third",
+        previousStageCount: "First",
+        stageCount: "Second",
+        stageDescription: "researching business and technical capabilities",
+        stepCount: "Fourth",
+        stepDescription:
+          "Estimate range of the project in terms of budget and deadline.",
+        stepIcon: "looks_4",
+      },
+    ],
+    // Third stage of Methodology.
+    [
+      {
+        name: "Technical Assessment",
+        nextStageCount: "Fourth",
+        previousStageCount: "Second",
+        stageCount: "Third",
+        stageDescription:
+          "evaluation technical possibilities with certain budget",
+        stepCount: "First",
+        stepDescription: "Determine the budget.",
+        stepIcon: "looks_one",
+      },
+      {
+        name: "Technical Assessment",
+        nextStageCount: "Fourth",
+        previousStageCount: "Second",
+        stageCount: "Third",
+        stageDescription:
+          "evaluation technical possibilities with certain budget",
+        stepCount: "Second",
+        stepDescription: "Analysis what kind of technologies and tools to use.",
+        stepIcon: "looks_two",
+      },
+      {
+        name: "Technical Assessment",
+        nextStageCount: "Fourth",
+        previousStageCount: "Second",
+        stageCount: "Third",
+        stageDescription:
+          "evaluation technical possibilities with certain budget",
+        stepCount: "Third",
+        stepDescription:
+          "Propose a solution according to your needs and budget.",
+        stepIcon: "looks_3",
+      },
+    ],
+    // Fourth stage of Methodology.
+    [
+      {
+        name: "Realization",
+        nextStageCount: "Fifth",
+        previousStageCount: "Third",
+        stageCount: "Fourth",
+        stageDescription: "execution for the project",
+        stepCount: "First",
+        stepDescription: "Start with small part of the project.",
+        stepIcon: "looks_one",
+      },
+      {
+        name: "Realization",
+        nextStageCount: "Fifth",
+        previousStageCount: "Third",
+        stageCount: "Fourth",
+        stageDescription: "execution for the project",
+        stepCount: "Second",
+        stepDescription: "Finish the small part of the project.",
+        stepIcon: "looks_two",
+      },
+      {
+        name: "Realization",
+        nextStageCount: "Fifth",
+        previousStageCount: "Third",
+        stageCount: "Fourth",
+        stageDescription: "execution for the project",
+        stepCount: "Third",
+        stepDescription: "Apply your remarks.",
+        stepIcon: "looks_3",
+      },
+      {
+        name: "Realization",
+        nextStageCount: "Fifth",
+        previousStageCount: "Third",
+        stageCount: "Fourth",
+        stageDescription: "execution for the project",
+        stepCount: "Fourth",
+        stepDescription:
+          "Iterate these steps for yet another parts of the project.",
+        stepIcon: "looks_4",
+      },
+    ],
+    // Fifth stage of Methodology.
+    [
+      {
+        name: "Further Cooperation",
+        nextStageCount: "",
+        previousStageCount: "Fourth",
+        stageCount: "Fifth",
+        stageDescription: "long term partnership",
+        stepCount: "First",
+        stepDescription: "Support you with what we delivered.",
+        stepIcon: "looks_one",
+      },
+      {
+        name: "Further Cooperation",
+        nextStageCount: "",
+        previousStageCount: "Fourth",
+        stageCount: "Fifth",
+        stageDescription: "long term partnership",
+        stepCount: "Second",
+        stepDescription: "Further improvements.",
+        stepIcon: "looks_two",
+      },
+    ],
+  ];
+}

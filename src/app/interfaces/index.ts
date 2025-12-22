@@ -5,3 +5,4 @@ export * from './service-item.interface';
 export * from './partnership-item.interface';
 export * from './faq-questions.interface';
 export * from './menu-item.interface';
+export * from './methodology-stage-item.interface';

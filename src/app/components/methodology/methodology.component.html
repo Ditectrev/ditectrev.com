@@ -2,13 +2,7 @@
   <!-- Card container that binds all together. -->
   <mat-card
     aria-label="These are methodology details."
-    class="mat-elevation-z24"
-    fxFlex="50"
-    fxFlex.md="80"
-    fxFlex.lt-md="90"
-    fxFlexOffset="25"
-    fxFlexOffset.md="10"
-    fxFlexOffset.lt-md="5"
+    class="mat-elevation-z24 methodology-card"
     role="region"
   >
     <!-- Title of the card. -->
@@ -63,28 +57,30 @@
                 </mat-list-item>
               </mat-list>
             </ng-container>
-            <button
-              *ngIf="!isFirst"
-              attr.aria-label="Click here to see {{
-                stageItem[0].previousStageCount
-              }} stage of our methodology."
-              mat-stroked-button
-              matStepperPrevious
-              matTooltip="Back"
-            >
-              Back
-            </button>
-            <button
-              *ngIf="!isLast"
-              attr.aria-label="Click here to see {{
-                stageItem[0].nextStageCount
-              }} stage of our methodology."
-              mat-stroked-button
-              matStepperNext
-              matTooltip="Next"
-            >
-              Next
-            </button>
+            <div class="step-actions">
+              <button
+                *ngIf="!isFirst"
+                attr.aria-label="Click here to see {{
+                  stageItem[0].previousStageCount
+                }} stage of our methodology."
+                mat-stroked-button
+                matStepperPrevious
+                matTooltip="Back"
+              >
+                Back
+              </button>
+              <button
+                *ngIf="!isLast"
+                attr.aria-label="Click here to see {{
+                  stageItem[0].nextStageCount
+                }} stage of our methodology."
+                mat-stroked-button
+                matStepperNext
+                matTooltip="Next"
+              >
+                Next
+              </button>
+            </div>
           </mat-step>
         </ng-container>
       </mat-vertical-stepper>
