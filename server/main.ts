@@ -178,7 +178,7 @@ async function bootstrap() {
     name: 'SESSION_ID', // Change default name of session cookie which reveals application's internal technology. For Express apps this is "connect.sid".
     resave: false, // Disable forcing session to be saved back to the sessions store, even if the session was never modified during the request. Enabling it could potentially create race conditions where client makes 2 parallels requests to the server.
     saveUninitialized: true, // Save uninitialized session to the store.
-    secret: String(process.env.SESSION_SECRET), // Make sure the environmental variable is a string.
+    secret: String(process.env['SESSION_SECRET']), // Make sure the environmental variable is a string.
   });
 
   expressApp.use(sessionSettings); // Improve sessions and cookies security.
@@ -213,11 +213,11 @@ async function onCreateSendEmail(
 
     const mailTransport: Mail = nodemailer.createTransport({
       // Make sure the environmental variables have proper typings.
-      host: String(process.env.MAIL_HOST),
-      port: Number(process.env.MAIL_PORT),
+      host: String(process.env['MAIL_HOST']),
+      port: Number(process.env['MAIL_PORT']),
       auth: {
-        user: String(process.env.MAIL_ACCOUNT),
-        pass: String(process.env.MAIL_PASSWORD),
+        user: String(process.env['MAIL_ACCOUNT']),
+        pass: String(process.env['MAIL_PASSWORD']),
       },
       tls: {
         rejectUnauthorized: false, //! Fix ERROR "Hostname/IP doesn't match certificate's altnames".
@@ -247,7 +247,7 @@ async function onCreateSendEmail(
         <h3>Message content:</h3>
         <ul>
           <li>Name: ${contactFormData!.formControlName}</li>
-          <li>E-mail: ${contactFormData!.formControlEmail}</li>
+          <li>Email: ${contactFormData!.formControlEmail}</li>
           <li>Phone: ${contactFormData!.formControlPhone}</li>
           <li>Project deadline: ${new Date(
             contactFormData!.formControlDeadline._seconds * 1000
@@ -275,10 +275,10 @@ async function onCreateSendEmail(
 // Firebase Cloud Function for Server Side Rendering (SSR).
 exports.angularUniversalFunction = functions.https.onRequest(<any>expressApp);
 
-// Firebase Cloud Function for sending e-mail from a contact form.
+// Firebase Cloud Function for sending email from a contact form.
 exports.contactFormFunction = functions.firestore
   .document(
-    String(process.env.FIRESTORE_COLLECTION_MESSAGES) + '/{formControlEmail}' // Make sure the environmental variable is a string.
+    String(process.env['FIRESTORE_COLLECTION_MESSAGES']) + '/{formControlEmail}' // Make sure the environmental variable is a string.
   )
   .onCreate(onCreateSendEmail);
 

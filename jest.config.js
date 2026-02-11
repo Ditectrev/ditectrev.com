@@ -22,7 +22,7 @@ module.exports = {
   },
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [
-    'node_modules/(?!@angular|rxjs|ngx-spinner|ngx-owl-carousel-o|@fortawesome|@ngrx|ng-circle-progress|ng2-charts|ngx-moment|lodash-es)'
+    'node_modules/(?!@angular|rxjs|ngx-spinner|ngx-owl-carousel-o|@fortawesome|@ngrx|ng-circle-progress|ng2-charts|ngx-moment|lodash-es|ngx-mat-intl-tel-input|ng-recaptcha)'
   ],
   preset: 'jest-preset-angular',
   extensionsToTreatAsEsm: ['.ts'],

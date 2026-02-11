@@ -18,11 +18,10 @@
         #formDirective="ngForm"
         [formGroup]="contactForm"
         (ngSubmit)="onSubmit(contactForm.value, formDirective)"
-        fxLayout="column"
-        fxLayoutAlign="space-between stretch"
-        fxLayoutGap="20px"
+        class="contact-form"
       >
         <mat-form-field>
+          <mat-label>Your name</mat-label>
           <input
             matInput
             formControlName="formControlName"
@@ -48,6 +47,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
+          <mat-label>Your email</mat-label>
           <input
             matInput
             formControlName="formControlEmail"
@@ -72,55 +72,34 @@
             >This is an <strong>invalid</strong> email address.
           </mat-error>
         </mat-form-field>
-        <!-- TODO: Fix getting the dial code on user input, issue #42. -->
-        <!-- TODO: Detect phone number based on localization. -->
-        <!--
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            ng2TelInput
-            [ng2TelInputOptions]="{
-              initialCountry: 'us',
-              preferredCountries: [
-                'au',
-                'ca',
-                'de',
-                'ie',
-                'nl',
-                'no',
-                'pl',
-                'ch',
-                'uk',
-                'us'
-              ]
-            }"
+        <mat-form-field>
+          <mat-label>Your phone number</mat-label>
+          <ngx-mat-intl-tel-input
             formControlName="formControlPhone"
-            (hasError)="hasError($event)"
-            aria-label="Here provide your phone number according to your country of origin."
+            [preferredCountries]="preferredCountries"
+            [enablePlaceholder]="true"
+            [enableSearch]="true"
             placeholder="Your phone number"
-            title="Your phone number"
-            type="tel"
-          />
+            aria-label="Here provide your phone number according to your country of origin."
+          ></ngx-mat-intl-tel-input>
           <mat-icon matSuffix>phone</mat-icon>
-          <mat-hint>Your phone number with country prefix.</mat-hint>-->
+          <mat-hint>Your phone number with country prefix.</mat-hint>
           <!--
             Non-null assertion operator is required to let know the compiler that this value is not empty and exists. In addition to that, the safe navigation operator stops evaluating when it finds "null" or "undefined", which throws errors when reseting the form.
           -->
-            <!--
           <mat-hint align="end"
-            >{{ contactForm.get('formControlPhone')!.value?.length }} /
+            >{{ contactForm.get('formControlPhone')!.value?.length || 0 }} /
             {{ validatorPhoneMaxLength }}</mat-hint
-          >-->
+          >
           <!--
             Non-null assertion operator is required to let know the compiler that this value is not empty and exists.
           -->
-            <!--
           <mat-error *ngIf="!contactForm.get('formControlPhone')!.valid"
             >This is an <strong>invalid</strong> phone number.
           </mat-error>
-        </mat-form-field>-->
-        -->
+        </mat-form-field>
         <mat-form-field>
+          <mat-label>Project deadline</mat-label>
           <input
             matInput
             [matDatepicker]="deadlineDatepicker"
@@ -149,11 +128,13 @@
           <mat-datepicker touchUi="true" #deadlineDatepicker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
+          <mat-label>Project description</mat-label>
           <textarea
             matInput
             matTextareaAutosize
-            matAutosizeMinRows="5"
-            matAutosizeMaxRows="20"
+            matAutosizeMinRows="8"
+            matAutosizeMaxRows="25"
+            class="project-description-textarea"
             formControlName="formControlDescription"
             required
             aria-label="Here describe what is your project about."
@@ -179,58 +160,69 @@
             >
           </mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <!--
-            Accept only files in the following format: .doc, .docx, .jpg, .jpeg, .pdf, .png, .xls, .xlsx. However, this is easy to bypass, Cloud Storage rules has been set up on the back-end side.
-          -->
-          <ngx-mat-file-input
-            [accept]="[
-              '.doc',
-              '.docx',
-              '.jpg',
-              '.jpeg',
-              '.pdf',
-              '.png',
-              '.xls',
-              '.xlsx'
-            ]"
-            (change)="uploadFile($event)"
-            formControlName="fileUploader"
-            multiple
-            aria-label="Here you can add additional files about your project, which can be helpeful for us."
-            placeholder="Additional files"
-            title="Additional files"
+        <div class="file-upload-container">
+          <input
+            #fileInput
             type="file"
+            (change)="onFileChange($event)"
+            [accept]="'.doc,.docx,.jpg,.jpeg,.pdf,.png,.xls,.xlsx'"
+            multiple
+            style="display: none;"
+            aria-label="Here you can add additional files about your project, which can be helpeful for us."
+            title="Additional files"
+          />
+          <button
+            mat-raised-button
+            type="button"
+            (click)="fileInput.click()"
+            color="primary"
+            class="file-upload-button"
           >
-          </ngx-mat-file-input>
-          <mat-icon matSuffix>folder</mat-icon>
-          <mat-hint
-            >Accepted formats: DOC, DOCX, JPG, JPEG, PDF, PNG, XLS and XLSX,
+            <mat-icon>folder</mat-icon>
+            Choose Files
+          </button>
+          <div *ngIf="contactForm.get('fileUploader')?.value || getSelectedFilesCount() > 0" class="file-selection-info">
+            <span
+              >{{ getSelectedFilesCount() }} file(s) selected
+              ({{ getSelectedFilesTotalSize() | byteFormat }} / {{ maxFileSize | byteFormat }})</span
+            >
+            <ul class="file-names-list">
+              <li *ngFor="let name of getSelectedFileNames()">{{ name }}</li>
+            </ul>
+          </div>
+          <div *ngIf="isUploading" class="file-upload-progress">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="uploadProgress"
+              aria-label="File upload progress"
+            ></mat-progress-bar>
+            <span class="file-upload-progress-label">Uploading... {{ uploadProgress }}%</span>
+          </div>
+          <div class="file-upload-hint">
+            Accepted formats: DOC, DOCX, JPG, JPEG, PDF, PNG, XLS and XLSX,
             maximum files upload size: 20 MB.
-          </mat-hint>
-          <!--
-            Non-null assertion operator is required to let know the compiler that this value is not empty and exists.
-          -->
+          </div>
           <mat-error
             *ngIf="contactForm.get('fileUploader')!.hasError('maxContentSize')"
+            class="file-upload-error"
           >
             This size is too large,
             <strong
               >maximum acceptable upload size is
               {{
                 contactForm.get('fileUploader')?.getError('maxContentSize')
-                  .maxSize | byteFormat
+                  ?.maxSize | byteFormat
               }}</strong
             >
             (uploaded size:
             {{
               contactForm.get('fileUploader')?.getError('maxContentSize')
-                .actualSize | byteFormat
+                ?.actualSize | byteFormat
             }}).
           </mat-error>
-        </mat-form-field>
+        </div>
         <h4
-          fxFlexAlign="center"
+          class="form-section-title"
           aria-label="Here choose preferred form of contact with you."
           title="Choose preferred form of contact"
         >
@@ -238,7 +230,7 @@
         </h4>
         <mat-radio-group
           formControlName="formControlContactPreference"
-          fxFlexAlign="center"
+          class="form-section-content"
           multiple
           aria-label="You can choose between email or phone as a preferred form of contact with you."
           color="primary"
@@ -257,7 +249,7 @@
           </mat-radio-button>
         </mat-radio-group>
         <h4
-          fxFlexAlign="center"
+          class="form-section-title"
           aria-label="Here you can choose in which services are you interested in."
           title="Select in which services are you interested in"
         >
@@ -279,27 +271,18 @@
             >
           </ng-container>
         </mat-selection-list>
-        <!--
-          Non-null assertion operator is required to let know the compiler that this value is not empty and exists.
-        -->
-        <mat-error
-          *ngIf="
-            !contactForm.get('formControlService')!.valid &&
-            contactForm.get('formControlService')!.touched
-          "
-          >You have to select <strong>at least 1</strong> service.
-        </mat-error>
-        <re-captcha
-          formControlName="recaptchaCheck"
-          fxFlexAlign="center"
-          aria-label="This is a security check. In order to send a message to use please follow what is mentioned in the pop up window."
-          title="Security check"
-        ></re-captcha>
+        <div class="form-section-content recaptcha-container">
+          <re-captcha
+            formControlName="recaptchaCheck"
+            aria-label="This is a security check. In order to send a message to use please follow what is mentioned in the pop up window."
+            title="Security check"
+          ></re-captcha>
+        </div>
         <mat-slide-toggle
           (change)="handleTerms()"
           color="primary"
           formControlName="acceptedTerms"
-          fxFlexAlign="center"
+          class="form-section-content"
           aria-label="You have to agree on terms if you want to send a message to us. Please click here in order to agree on terms."
           title="Agree on terms"
           >Agree on terms
