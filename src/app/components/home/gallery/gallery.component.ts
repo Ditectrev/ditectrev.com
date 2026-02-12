@@ -101,9 +101,11 @@ export class GalleryComponent implements OnInit {
   private pauseAutoPlay(): void {
     if (this.autoPlayInterval) {
       clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = undefined;
     }
     if (this.progressInterval) {
       clearInterval(this.progressInterval);
+      this.progressInterval = undefined;
     }
   }
 

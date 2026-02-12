@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -34,7 +34,7 @@ import { GLOSSARY_DATA } from '../../data';
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit, OnDestroy {
+export class GlossaryComponent implements OnInit, AfterViewInit, OnDestroy {
   private searchSubject$: Subject<string> = new Subject<string>();
   private searchSubscription?: Subscription;
 

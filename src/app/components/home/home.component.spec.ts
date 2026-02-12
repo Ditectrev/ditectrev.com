@@ -1,34 +1,22 @@
 import "hammerjs";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CarouselModule } from "ngx-owl-carousel-o";
-import { GalleryComponent } from "./gallery/gallery.component";
-import { HomeComponent } from "./home.component";
-import { NgxGalleryModule } from "ngx-gallery-9";
 import { RouterTestingModule } from "@angular/router/testing";
-import { SliderComponent } from "./../slider/slider.component";
-import { TestimonialsComponent } from "./testimonials/testimonials.component";
+import { HomeComponent } from "./home.component";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        GalleryComponent,
-        HomeComponent,
-        SliderComponent,
-        TestimonialsComponent,
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        CarouselModule,
-        NgxGalleryModule,
+        HomeComponent,
         RouterTestingModule,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
@@ -40,9 +28,9 @@ describe("HomeComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should have slider component", () => {
+  it("should have hero component", () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector("app-slider")).not.toBeNull();
+    expect(compiled.querySelector("app-hero")).not.toBeNull();
   });
 
   it("should have gallery component", () => {

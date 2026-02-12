@@ -11,19 +11,19 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
 
 function createMockFirestore() {
-  const add = jest.fn().mockResolvedValue({ id: 'test-id' });
+  const add = jasmine.createSpy('add').and.returnValue(Promise.resolve({ id: 'test-id' }));
   return {
-    collection: jest.fn().mockReturnValue({ add }),
+    collection: jasmine.createSpy('collection').and.returnValue({ add }),
     add,
   };
 }
 
 function createMockFireStorage() {
-  const getDownloadURL = jest.fn().mockReturnValue(of('https://example.com/file'));
-  const ref = jest.fn().mockReturnValue({ getDownloadURL });
-  const snapshotChanges = jest.fn().mockReturnValue(of({ state: 'success' }));
-  const percentageChanges = jest.fn().mockReturnValue(of(100));
-  const upload = jest.fn().mockReturnValue({
+  const getDownloadURL = jasmine.createSpy('getDownloadURL').and.returnValue(of('https://example.com/file'));
+  const ref = jasmine.createSpy('ref').and.returnValue({ getDownloadURL });
+  const snapshotChanges = jasmine.createSpy('snapshotChanges').and.returnValue(of({ state: 'success' }));
+  const percentageChanges = jasmine.createSpy('percentageChanges').and.returnValue(of(100));
+  const upload = jasmine.createSpy('upload').and.returnValue({
     snapshotChanges: () => snapshotChanges(),
     percentageChanges: () => percentageChanges(),
   });
@@ -40,16 +40,28 @@ describe('ContactComponent', () => {
   let component: ContactComponent;
   let mockFirestore: ReturnType<typeof createMockFirestore>;
   let mockFireStorage: ReturnType<typeof createMockFireStorage>;
-  let mockCdr: { detectChanges: ReturnType<typeof jest.fn> };
+  let mockCdr: { detectChanges: jasmine.Spy };
   let localStorageStore: Record<string, string>;
 
   beforeAll(() => {
+    (window as any).process = (window as any).process || { env: {} };
+    (window as any).process.env = {
+      ...(window as any).process.env,
+      FIRESTORE_COLLECTION_MESSAGES: 'messages',
+      FIRESTORE_COLLECTION_FILES: 'files',
+    };
     Object.defineProperty(window, 'matchMedia', {
-      value: jest.fn(() => ({ matches: true })),
+      value: jasmine.createSpy('matchMedia').and.returnValue({
+        matches: true,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }),
       writable: true,
     });
     Object.defineProperty(window, 'intlTelInput', {
-      value: jest.fn(() => ({})),
+      value: jasmine.createSpy('intlTelInput').and.returnValue({}),
       writable: true,
     });
   });
@@ -57,22 +69,21 @@ describe('ContactComponent', () => {
   beforeEach(() => {
     mockFirestore = createMockFirestore();
     mockFireStorage = createMockFireStorage();
-    mockCdr = { detectChanges: jest.fn() };
+    mockCdr = { detectChanges: jasmine.createSpy('detectChanges') };
     localStorageStore = {};
-    jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key: string) => localStorageStore[key] ?? null);
-    jest.spyOn(Storage.prototype, 'setItem').mockImplementation((key: string, value: string) => {
+    spyOn(Storage.prototype, 'getItem').and.callFake((key: string) => localStorageStore[key] ?? null);
+    spyOn(Storage.prototype, 'setItem').and.callFake((key: string, value: string) => {
       localStorageStore[key] = value;
     });
-    jest.spyOn(Storage.prototype, 'removeItem').mockImplementation((key: string) => {
+    spyOn(Storage.prototype, 'removeItem').and.callFake((key: string) => {
       delete localStorageStore[key];
     });
 
-    const origEnv = process.env;
-    process.env = {
-      ...origEnv,
-      FIRESTORE_COLLECTION_MESSAGES: 'messages',
-      FIRESTORE_COLLECTION_FILES: 'files',
-    };
+    const proc = typeof process !== 'undefined' ? process : (window as any).process;
+    if (proc && proc.env) {
+      proc.env.FIRESTORE_COLLECTION_MESSAGES = 'messages';
+      proc.env.FIRESTORE_COLLECTION_FILES = 'files';
+    }
 
     const formBuilder = new FormBuilder();
     component = new ContactComponent(
@@ -81,10 +92,6 @@ describe('ContactComponent', () => {
       formBuilder,
       mockCdr as unknown as ChangeDetectorRef
     );
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   it('should create', () => {
@@ -129,13 +136,13 @@ describe('ContactComponent', () => {
       expect(formSub).toBeDefined();
       expect(phoneSub).toBeDefined();
 
-      const formUnsub = jest.spyOn(formSub, 'unsubscribe');
-      const phoneUnsub = jest.spyOn(phoneSub, 'unsubscribe');
+      spyOn(formSub, 'unsubscribe');
+      spyOn(phoneSub, 'unsubscribe');
 
       component.ngOnDestroy();
 
-      expect(formUnsub).toHaveBeenCalled();
-      expect(phoneUnsub).toHaveBeenCalled();
+      expect(formSub.unsubscribe).toHaveBeenCalled();
+      expect(phoneSub.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -188,7 +195,6 @@ describe('ContactComponent', () => {
     it('should not set errors when phone is empty', () => {
       component.contactForm.get('formControlPhone')?.setValue('');
       component.hasError(null);
-      // hasError does nothing when phone is empty; control may still have incompletePhone from subscription
       const errors = component.contactForm.get('formControlPhone')?.errors;
       expect(Array.isArray(errors) ? errors[0] : (errors as any)?.invalid_cell_phone).not.toBe('invalid_cell_phone');
     });
@@ -305,7 +311,7 @@ describe('ContactComponent', () => {
         acceptedTerms: true,
         recaptchaCheck: 'token',
       };
-      const formDirective = { resetForm: jest.fn() } as any;
+      const formDirective = { resetForm: jasmine.createSpy('resetForm') } as any;
 
       component.contentType = ['text/plain'];
       component.downloadURL = ['https://example.com/f'];
@@ -314,11 +320,11 @@ describe('ContactComponent', () => {
 
       component.onSubmit(form, formDirective);
 
-      await Promise.resolve(); // allow .then() to run
+      await Promise.resolve();
 
       expect(mockFirestore.collection).toHaveBeenCalledWith('messages');
       expect(mockFirestore.add).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           ...form,
           contentType: ['text/plain'],
           fileUploader: ['https://example.com/f'],
@@ -334,9 +340,8 @@ describe('ContactComponent', () => {
       expect(formDirective.resetForm).toHaveBeenCalled();
     });
 
-    // Skipped: component's .catch() rethrows, causing an unhandled rejection in the test runner.
-    it.skip('should show error when Firestore add rejects', async () => {
-      mockFirestore.add.mockRejectedValueOnce(new Error('Network error'));
+    xit('should show error when Firestore add rejects', async () => {
+      (mockFirestore.add as jasmine.Spy).and.returnValue(Promise.reject(new Error('Network error')));
       const form = {
         formControlName: 'John',
         formControlEmail: 'john@example.com',
@@ -348,8 +353,8 @@ describe('ContactComponent', () => {
         acceptedTerms: true,
         recaptchaCheck: 'token',
       };
-      const formDirective = { resetForm: jest.fn() } as any;
-      const swalFireSpy = jest.spyOn(Swal, 'fire').mockResolvedValue({} as any);
+      const formDirective = { resetForm: jasmine.createSpy('resetForm') } as any;
+      const swalFireSpy = spyOn(Swal, 'fire').and.returnValue(Promise.resolve({} as any));
 
       component.onSubmit(form, formDirective);
       await new Promise((r) => setTimeout(r, 10));
@@ -360,7 +365,6 @@ describe('ContactComponent', () => {
         'It was not possible to send the contact form. Please try again or contact us directly.',
         'error'
       );
-      swalFireSpy.mockRestore();
     });
   });
 });

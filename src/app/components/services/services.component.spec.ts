@@ -127,7 +127,7 @@ describe('ServicesComponent', () => {
       '2024',
       '2025',
     ]);
-    expect(component.lineChartData.datasets).toHaveLength(1);
+    expect(component.lineChartData.datasets.length).toBe(1);
     expect(component.lineChartData.datasets[0].data).toEqual([
       0, 33, 34, 66, 67, 100,
     ]);

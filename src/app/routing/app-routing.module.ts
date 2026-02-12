@@ -1,110 +1,11 @@
-// tslint:disable-next-line:nx-enforce-module-boundaries
-import { HomeComponent } from "./../../../../../libs/home/src/index";
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-
-// TODO: Make the lazy loading routes with @libs (https://github.com/nrwl/nx/issues/164#issuecomment-507221072).
-const routes: Routes = [
-  {
-    path: "",
-    component: HomeComponent,
-    data: { animation: "home" },
-    pathMatch: "full",
-  },
-  {
-    data: { animation: "about-us" },
-    loadChildren: "./../../../../../libs/about-us/src/index#AboutUsModule",
-    path: "about-us",
-  },
-  {
-    data: { animation: "contact" },
-    loadChildren: "./../../../../../libs/contact/src/index#ContactModule",
-    path: "contact",
-  },
-  {
-    data: { animation: "copyrights" },
-    loadChildren: "./../../../../../libs/copyrights/src/index#CopyrightsModule",
-    path: "copyrights",
-  },
-  {
-    data: { animation: "cyber-security" },
-    loadChildren:
-      "./../../../../../libs/cyber-security/src/index#CyberSecurityModule",
-    path: "cyber-security",
-  },
-  {
-    data: { animation: "digital-strategy" },
-    loadChildren:
-      "./../../../../../libs/digital-strategy/src/index#DigitalStrategyModule",
-    path: "digital-strategy",
-  },
-  {
-    data: { animation: "faq" },
-    loadChildren: "./../../../../../libs/faq/src/index#FaqModule",
-    path: "faq",
-  },
-  {
-    data: { animation: "glossary" },
-    loadChildren: "./../../../../../libs/glossary/src/index#GlossaryModule",
-    path: "glossary",
-  },
-  {
-    data: { animation: "methodology" },
-    loadChildren:
-      "./../../../../../libs/methodology/src/index#MethodologyModule",
-    path: "methodology",
-  },
-  {
-    data: { animation: "partnerships" },
-    loadChildren:
-      "./../../../../../libs/partnerships/src/index#PartnershipsModule",
-    path: "partnerships",
-  },
-  {
-    data: { animation: "privacy-and-security" },
-    loadChildren:
-      "./../../../../../libs/privacy-and-security/src/index#PrivacyAndSecurityModule",
-    path: "privacy-and-security",
-  },
-  {
-    data: { animation: "services" },
-    loadChildren: "./../../../../../libs/services/src/index#ServicesModule",
-    path: "services",
-  },
-  {
-    data: { animation: "sitemap" },
-    loadChildren: "./../../../../../libs/sitemap/src/index#SitemapModule",
-    path: "sitemap",
-  },
-  {
-    data: { animation: "software-development" },
-    loadChildren:
-      "./../../../../../libs/software-development/src/index#SoftwareDevelopmentModule",
-    path: "software-development",
-  },
-  {
-    data: { animation: "terms-of-use" },
-    loadChildren:
-      "./../../../../../libs/terms-of-use/src/index#TermsOfUseModule",
-    path: "terms-of-use",
-  },
-  {
-    data: { animation: "not-found" },
-    loadChildren: "./../../../../../libs/not-found/src/index#NotFoundModule",
-    path: "not-found",
-  },
-  // It's important that wildcard route has to be the last element in array of routes, because routes parses from top to bottom.
-  {
-    path: "**", // Wildcard path, which means to catch all other routes, not specified above.
-    redirectTo: "not-found", // Alternative to component in routes, which redirects to specific path.
-    pathMatch: "full",
-  },
-];
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { routes } from '../app.routes';
 
 @NgModule({
   exports: [RouterModule],
   imports: [
-    RouterModule.forRoot(routes, { scrollPositionRestoration: "enabled" }), // On changing route keep user on the top of the page.
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
   ],
 })
 export class RoutingModule {}

@@ -208,22 +208,24 @@ describe('GlossaryComponent', () => {
 
   it('should have clear search button in no results message', () => {
     component.hasSearched = true;
-    component.lastSearchTerm = 'test';
-    component.dataSource.filter = 'test';
+    component.lastSearchTerm = 'xyznonexistent';
+    component.dataSource.filter = 'xyznonexistent';
 
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement;
-    const clearButton = compiled.querySelector('.no-results button');
+    const noResults = compiled.querySelector('.no-results');
+    const clearButton = noResults?.querySelector('button');
 
+    expect(noResults).toBeTruthy();
     expect(clearButton).toBeTruthy();
-    expect(clearButton.textContent).toContain('Clear Search');
+    expect(clearButton?.textContent).toContain('Clear Search');
   });
 
   it('should call clearSearch when clear button is clicked', () => {
     component.hasSearched = true;
-    component.lastSearchTerm = 'test';
-    component.dataSource.filter = 'test';
+    component.lastSearchTerm = 'xyznonexistent';
+    component.dataSource.filter = 'xyznonexistent';
 
     fixture.detectChanges();
 
@@ -231,7 +233,8 @@ describe('GlossaryComponent', () => {
 
     const compiled = fixture.nativeElement;
     const clearButton = compiled.querySelector('.no-results button');
-    clearButton.click();
+    expect(clearButton).toBeTruthy();
+    (clearButton as HTMLElement).click();
 
     expect(component.clearSearch).toHaveBeenCalled();
   });

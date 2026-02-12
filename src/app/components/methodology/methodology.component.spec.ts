@@ -211,8 +211,8 @@ describe('MethodologyComponent', () => {
     it('should render mat-step elements for each stage', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
-      const steps = compiled.querySelectorAll('mat-step');
-      expect(steps.length).toBe(component.stageItems.length);
+      const stepActions = compiled.querySelectorAll('.step-actions');
+      expect(stepActions.length).toBe(component.stageItems.length);
     });
 
     it('should render step-actions div for button container', () => {

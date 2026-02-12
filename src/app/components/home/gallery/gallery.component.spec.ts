@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from "@angular/core/testing";
 import { GalleryComponent } from "./gallery.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -95,25 +95,35 @@ describe("GalleryComponent", () => {
 
   describe("AutoPlay", () => {
     it("should advance to next image after autoPlayDuration", fakeAsync(() => {
-      component.currentIndex = 0;
-      tick(component.autoPlayDuration);
-      expect(component.currentIndex).toBe(1);
+      const testFixture = TestBed.createComponent(GalleryComponent);
+      const testComponent = testFixture.componentInstance;
+      testFixture.detectChanges();
+      testComponent.currentIndex = 0;
+      tick(testComponent.autoPlayDuration);
+      expect(testComponent.currentIndex).toBe(1);
+      discardPeriodicTasks();
     }));
 
     it("should continuously advance images", fakeAsync(() => {
-      component.currentIndex = 0;
-      tick(component.autoPlayDuration);
-      expect(component.currentIndex).toBe(1);
-      tick(component.autoPlayDuration);
-      expect(component.currentIndex).toBe(2);
-      tick(component.autoPlayDuration);
-      expect(component.currentIndex).toBe(0);
+      const testFixture = TestBed.createComponent(GalleryComponent);
+      const testComponent = testFixture.componentInstance;
+      testFixture.detectChanges();
+      testComponent.currentIndex = 0;
+      tick(testComponent.autoPlayDuration);
+      expect(testComponent.currentIndex).toBe(1);
+      tick(testComponent.autoPlayDuration);
+      expect(testComponent.currentIndex).toBe(2);
+      tick(testComponent.autoPlayDuration);
+      expect(testComponent.currentIndex).toBe(0);
+      discardPeriodicTasks();
     }));
 
     it("should pause autoPlay on mouse enter", () => {
       const autoPlayInterval = component.autoPlayInterval;
       const progressInterval = component.progressInterval;
       component.onMouseEnter();
+      expect(component.autoPlayInterval).toBeFalsy();
+      expect(component.progressInterval).toBeFalsy();
       expect(component.autoPlayInterval).not.toBe(autoPlayInterval);
       expect(component.progressInterval).not.toBe(progressInterval);
     });
@@ -123,6 +133,8 @@ describe("GalleryComponent", () => {
       component.onMouseLeave();
       expect(component.autoPlayInterval).toBeDefined();
       expect(component.progressInterval).toBeDefined();
+      tick(component.autoPlayDuration);
+      discardPeriodicTasks();
     }));
   });
 
@@ -132,16 +144,24 @@ describe("GalleryComponent", () => {
     });
 
     it("should increment progress over time", fakeAsync(() => {
-      component.progress = 0;
-      const initialProgress = component.progress;
-      tick(500); // Wait 500ms
-      expect(component.progress).toBeGreaterThan(initialProgress);
+      const testFixture = TestBed.createComponent(GalleryComponent);
+      const testComponent = testFixture.componentInstance;
+      testFixture.detectChanges();
+      testComponent.progress = 0;
+      const initialProgress = testComponent.progress;
+      tick(500);
+      expect(testComponent.progress).toBeGreaterThan(initialProgress);
+      discardPeriodicTasks();
     }));
 
     it("should not exceed 100%", fakeAsync(() => {
-      component.progress = 99;
+      const testFixture = TestBed.createComponent(GalleryComponent);
+      const testComponent = testFixture.componentInstance;
+      testFixture.detectChanges();
+      testComponent.progress = 99;
       tick(1000);
-      expect(component.progress).toBeLessThanOrEqual(100);
+      expect(testComponent.progress).toBeLessThanOrEqual(100);
+      discardPeriodicTasks();
     }));
 
     it("should reset progress to 0 when calling resetProgress", () => {
@@ -164,6 +184,8 @@ describe("GalleryComponent", () => {
       component.onMouseLeave();
       tick(100);
       expect(component.progress).toBeGreaterThan(pausedProgress);
+      tick(component.autoPlayDuration);
+      discardPeriodicTasks();
     }));
   });
 

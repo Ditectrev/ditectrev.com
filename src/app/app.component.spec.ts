@@ -1,37 +1,38 @@
 import 'hammerjs';
 import { AppComponent } from './app.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeModule } from '@libs/home/src/index';
+import { HomeModule } from './home/home.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-// import { SharedModule } from '@libs/shared/src/index';
 
 describe('AppComponent', () => {
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
       imports: [
+        AppComponent,
         BrowserAnimationsModule,
         HomeModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        // SharedModule
       ]
     }).compileComponents();
   }));
 
-  // Jest uses JSDOM to create browser environment. JSDOM doesn't support window.matchMedia, so it's required to create it on our own in the tests.
+  // JSDOM/Karma: matchMedia may not be supported; stub it for tests.
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
-      value: jest.fn(() => {
-        return {
-          matches: true
-        };
-      })
+      value: jasmine.createSpy('matchMedia').and.returnValue({
+        matches: true,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }),
+      writable: true,
     });
   });
 

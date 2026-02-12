@@ -1,21 +1,15 @@
-import 'zone.js';
-import 'zone.js/testing';
 import { TestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer.component';
-
-TestBed.initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
-);
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterComponent, HttpClientTestingModule],
+      imports: [FooterComponent, HttpClientTestingModule, RouterTestingModule, NoopAnimationsModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(FooterComponent);

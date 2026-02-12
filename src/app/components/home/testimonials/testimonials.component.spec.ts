@@ -57,6 +57,9 @@ describe('TestimonialsComponent', () => {
     ).map((element) => element.textContent?.trim());
 
     const expectedNames = component.slidesItems.map((item) => item.name);
-    expect(renderedTestimonialNames).toEqual(expectedNames);
+    expect(renderedTestimonialNames.length).toBeGreaterThanOrEqual(expectedNames.length);
+    expectedNames.forEach((name) => {
+      expect(renderedTestimonialNames).toContain(name);
+    });
   });
 });

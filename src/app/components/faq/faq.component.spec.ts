@@ -95,7 +95,7 @@ describe('FaqComponent', () => {
   describe('sanitizeHtml', () => {
     it('should sanitize HTML content with anchor tags', () => {
       const html = 'Please check our <a href="/privacy-and-security">Privacy & Security policy</a> for in-depth reading.';
-      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+      const spy = spyOn(sanitizer, 'bypassSecurityTrustHtml').and.returnValue({} as any);
 
       const result = component.sanitizeHtml(html);
 
@@ -105,7 +105,7 @@ describe('FaqComponent', () => {
 
     it('should return empty SafeHtml for empty string', () => {
       const html = '';
-      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+      const spy = spyOn(sanitizer, 'bypassSecurityTrustHtml').and.returnValue({} as any);
 
       const result = component.sanitizeHtml(html);
 
@@ -115,7 +115,7 @@ describe('FaqComponent', () => {
 
     it('should handle HTML with multiple anchor tags', () => {
       const html = 'Many technical keywords are described in our <a href="/glossary">Glossary</a>. If you would not find an answer neither in the FAQ nor in the Glossary do not hesitate to <a href="/contact">Contact us</a>.';
-      const spy = jest.spyOn(sanitizer, 'bypassSecurityTrustHtml');
+      const spy = spyOn(sanitizer, 'bypassSecurityTrustHtml').and.returnValue({} as any);
 
       const result = component.sanitizeHtml(html);
 

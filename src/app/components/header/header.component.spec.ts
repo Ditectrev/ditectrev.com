@@ -142,8 +142,8 @@ describe('HeaderComponent', () => {
   describe('onServicesClick', () => {
     it('should prevent default behavior when called', () => {
       const mockEvent = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn(),
+        preventDefault: jasmine.createSpy('preventDefault'),
+        stopPropagation: jasmine.createSpy('stopPropagation'),
       } as unknown as Event;
 
       component.onServicesClick(mockEvent);
@@ -153,8 +153,8 @@ describe('HeaderComponent', () => {
 
     it('should handle click events correctly', () => {
       const mockEvent = {
-        preventDefault: jest.fn(),
-        stopPropagation: jest.fn(),
+        preventDefault: jasmine.createSpy('preventDefault'),
+        stopPropagation: jasmine.createSpy('stopPropagation'),
       } as unknown as Event;
 
       expect(() => component.onServicesClick(mockEvent)).not.toThrow();

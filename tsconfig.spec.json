@@ -3,14 +3,12 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "types": [
-      "jest",
-    ]
+    "types": ["jasmine"]
   },
   "files": [
-    "src/test-setup.ts"
+    "src/test-polyfills.ts",
+    "src/test-setup.ts",
+    "src/polyfills.ts"
   ],
   "include": [
     "src/**/*.spec.ts",
