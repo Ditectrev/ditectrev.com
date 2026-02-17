@@ -51,7 +51,6 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "acorn": "^8.15.0",
-    "agastya": "^4.2.0",
     "angular-google-tag-manager": "^1.11.0",
     "animate.css": "^4.1.1",
     "aos": "^3.0.0-beta.6",

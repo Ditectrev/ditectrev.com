@@ -8,7 +8,6 @@
 // TODO: Use native lazy loading on images (loading="lazy").
 // TODO: Maybe instead of manually copying .env file to functions try https://stackoverflow.com/questions/51883178/firebase-functions-environment-variables-can-not-read-property-of-undefined/
 
-import Agastya from 'agastya';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { environment } from '../environments/environment';
@@ -17,7 +16,6 @@ import { NgModule } from '@angular/core';
 import { RoutingModule } from './routing/app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-new Agastya(String(process.env.AGASTYA_API_KEY)); // Make sure the environmental variable is a string.
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],

@@ -36,7 +36,6 @@
     "@nguniversal/common": "^10.1.0",
     "@nguniversal/express-engine": "^10.1.0",
     "@nrwl/angular": "^10.1.0",
-    "agastya": "^4.2.0",
     "angular-google-tag-manager": "^1.1.4",
     "animate.css": "^4.1.0",
     "aos": "^2.3.4",
