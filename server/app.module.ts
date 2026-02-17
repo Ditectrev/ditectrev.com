@@ -1,5 +1,5 @@
 import { AngularUniversalModule } from '@nestjs/ng-universal';
-import { AppServerModule } from './../apps/ditectrev/src/app/app.server.module';
+import { AppServerModule } from '../src/app/app.server.module';
 import { join } from 'path';
 import { Module } from '@nestjs/common';
 
@@ -11,7 +11,7 @@ import { Module } from '@nestjs/common';
 //   'apps',
 //   'ditectrev-browser'
 // ); // Use when testing locally without Firebase Cloud Functions solely on NestJS.
-const BROWSER_DIR = join(process.cwd(), 'dist/apps/ditectrev-browser'); // Use when deploying to & testing with Firebase Cloud Functions.
+const BROWSER_DIR = join(process.cwd(), 'dist/ditectrev-browser'); // Use when deploying to & testing with Firebase Cloud Functions.
 
 @Module({
   imports: [

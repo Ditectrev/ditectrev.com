@@ -1,13 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "outDir": "./out-tsc/server",
     "types": []
   },
-  "files": [
-    "src/main.server.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/server.ts"],
+  "include": ["src/**/*.d.ts"]
 }

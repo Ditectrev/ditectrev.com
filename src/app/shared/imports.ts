@@ -1,6 +1,5 @@
 import { CarouselModule } from "ngx-owl-carousel-o";
 import { CommonModule } from "@angular/common";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatBadgeModule } from "@angular/material/badge";
@@ -35,7 +34,6 @@ import { RouterModule } from "@angular/router";
 export const COMMON_IMPORTS = [
   CarouselModule,
   CommonModule,
-  FlexLayoutModule,
   FontAwesomeModule,
   FormsModule,
   MatBadgeModule,
@@ -83,7 +81,6 @@ export const FORM_IMPORTS = [
 ];
 
 export const LAYOUT_IMPORTS = [
-  FlexLayoutModule,
   MatToolbarModule,
   MatSidenavModule,
   MatListModule,

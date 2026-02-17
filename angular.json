@@ -146,7 +146,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "main": "src/main.server.ts",
+            "main": "src/server.ts",
             "outputPath": "dist/ditectrev-server",
             "tsConfig": "tsconfig.server.json"
           },

@@ -9,7 +9,7 @@ import { createWindow } from 'domino';
 import { join } from 'path';
 const indexHtml = join(
   process.cwd(),
-  'dist/apps/ditectrev-browser/index2.html'
+  'dist/ditectrev-browser/index2.html'
 );
 const win = createWindow(indexHtml);
 
@@ -283,5 +283,3 @@ exports.contactFormFunction = functions.firestore
   .onCreate(onCreateSendEmail);
 
 bootstrap().catch((err) => console.error(err));
-
-export * from '../apps/ditectrev/src/main.server';

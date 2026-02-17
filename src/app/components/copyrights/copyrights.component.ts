@@ -1,4 +1,4 @@
-import * as AOS from "aos";
+import AOS from "aos";
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';

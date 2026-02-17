@@ -5,7 +5,6 @@ import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
 } from "@angular/material/core";
-// import { FlexLayoutModule } from "@angular/flex-layout"; // Obsolete, using CSS Grid/Flexbox instead
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FooterComponent } from "./footer/footer.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -48,7 +47,6 @@ import { RouterModule } from "@angular/router";
     CarouselModule,
     // ChartsModule,
     CommonModule,
-    // FlexLayoutModule, // Obsolete, using CSS Grid/Flexbox instead
     FontAwesomeModule,
     // FooterComponent, // Now standalone component
     FormsModule,
@@ -86,7 +84,6 @@ import { RouterModule } from "@angular/router";
   imports: [
     CarouselModule,
     CommonModule,
-    // FlexLayoutModule, // Obsolete, using CSS Grid/Flexbox instead
     FontAwesomeModule,
     FormsModule,
     MatBadgeModule,
