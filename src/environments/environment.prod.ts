@@ -1,7 +1,8 @@
+// Prod browser config (swapped in via angular.json fileReplacements). Not read from .env.
+
 export const environment = {
   production: true,
   firebaseConfig: {
-    // These will be replaced at build time by webpack
     apiKey: 'FIREBASE_API_KEY_PRODUCTION',
     authDomain: 'FIREBASE_AUTH_DOMAIN_PRODUCTION',
     databaseURL: 'FIREBASE_DATABASE_URL_PRODUCTION',

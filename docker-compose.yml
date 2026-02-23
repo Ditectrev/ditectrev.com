@@ -12,7 +12,7 @@ services:
     image: "thesisapp" # Set up name of the docker repository.
     ports:
       - "4200:4200" # Casting localhost port to display the application in the browser in a development machine.
-      - "49153:49153" # Casting webpack port to live reload on the development machine.
+      - "49153:49153" # Live reload port (Angular dev server).
     volumes:
       - .:/home/node # Mount application folder to the container.
       - /home/node/node_modules # Mount node_modules installed during the build to the container.

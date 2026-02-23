@@ -119,7 +119,6 @@
     "codelyzer": "^6.0.2",
     "cypress": "^13.6.6",
     "domino": "^2.1.6",
-    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.57.0",
     "jasmine-core": "^5.13.0",
     "karma": "^6.4.4",
@@ -131,10 +130,6 @@
     "prettier": "3.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "~10.9.2",
-    "typescript": "~5.4.2",
-    "webpack": "^5.90.3",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.2",
-    "webpack-node-externals": "^3.0.0"
+    "typescript": "~5.4.2"
   }
 }

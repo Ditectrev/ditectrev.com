@@ -37,7 +37,7 @@ import {
 import { NestFactory } from '@nestjs/core';
 import { RateLimit } from 'express-rate-limit';
 
-require('dotenv').config(); // It has to be here, "dotenv-webpack" makes them accessible only the browser code.
+require('dotenv').config(); // Load .env for server/SSR (browser uses Angular env or build-time replacement).
 const helmet = require('helmet');
 
 enableProdMode(); // Faster server renders in production mode (development doesn't need it).

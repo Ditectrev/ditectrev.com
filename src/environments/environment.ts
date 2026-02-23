@@ -1,11 +1,10 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// Browser config: this file is compiled into the Angular bundle. The app does NOT read .env
+// (that is Node/server only). Use fileReplacements in angular.json for prod, or replace
+// these placeholders at build/deploy time (e.g. from CI env vars).
 
 export const environment = {
   production: false,
   firebaseConfig: {
-    // These will be replaced at build time by webpack
     apiKey: 'FIREBASE_API_KEY_STAGING',
     authDomain: 'FIREBASE_AUTH_DOMAIN_STAGING',
     databaseURL: 'FIREBASE_DATABASE_URL_STAGING',
