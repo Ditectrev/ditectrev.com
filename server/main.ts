@@ -19,13 +19,11 @@ const win = createWindow(indexHtml);
 (global as any).navigator = win.navigator;
 
 import * as admin from 'firebase-admin';
-import * as csurf from 'csurf';
 import * as express from 'express';
 import * as functions from 'firebase-functions';
 import * as logger from 'morgan';
 import * as nodemailer from 'nodemailer';
 import * as rateLimit from 'express-rate-limit';
-import * as session from 'express-session';
 import * as Mail from 'nodemailer/lib/mailer';
 import { ApplicationModule } from './app.module';
 import { enableProdMode } from '@angular/core';
@@ -157,10 +155,6 @@ async function bootstrap() {
   // expressApp.use(helmet.noCache()); // Disable client-side caching.
   expressApp.use(helmet.referrerPolicy({ policy: 'same-origin' })); // Send Referer header only for pages on the same origin.
 
-  // Handle HTTP POST request and expose it on "req.body".
-  expressApp.use(express.json());
-  expressApp.use(express.urlencoded({ extended: false })); // Accept only arrays or strings.
-
   const rateLimiter: RateLimit | any = rateLimit({
     max: 100, // Max 100 connections per windowMs can be done before sending HTTP 429 (Too Many Requests) response code. After 100 requests within 15 minutes block the IP.
     message:
@@ -168,21 +162,6 @@ async function bootstrap() {
     windowMs: 15 * 60 * 1000, // In milliseconds, keep records of requests in memory for 15 minutes.
   });
 
-  const sessionSettings: any = session({
-    cookie: {
-      maxAge: 3600000, // In milliseconds, keep the session for maximum 1 hour and later expire it. Cookie by default (in the csrf package) has the same expiration date.
-      secure: true, // Enforce cookies has to be transmitted only through HTTPS. It prevents cookie from being transmitted through insecure HTTP.
-      sameSite: true, // Mitigate risk of cross-origin information leakage. Robust refence against CSRF, mitigate XSSI too.
-      signed: true, // Sign a cookie to prevent from cookie forging.
-    },
-    name: 'SESSION_ID', // Change default name of session cookie which reveals application's internal technology. For Express apps this is "connect.sid".
-    resave: false, // Disable forcing session to be saved back to the sessions store, even if the session was never modified during the request. Enabling it could potentially create race conditions where client makes 2 parallels requests to the server.
-    saveUninitialized: true, // Save uninitialized session to the store.
-    secret: String(process.env['SESSION_SECRET']), // Make sure the environmental variable is a string.
-  });
-
-  expressApp.use(sessionSettings); // Improve sessions and cookies security.
-  expressApp.use(csurf()); // Enable CSRF protection. Must be after sessions and cookies security.
   expressApp.set('trust proxy', 1); // Trust first proxy. Enable because the application is behind reverse proxy (Firebase). For Node.js applications behind proxy it is required to enable it.
   expressApp.use(rateLimiter); // Apply to all requests.
 
@@ -191,10 +170,10 @@ async function bootstrap() {
     new ExpressAdapter(expressApp)
   );
 
-  // Enable Cross Origin Resource Sharing (CORS) to serve external resources.
+  // Enable CORS for SSR (only GET needed; no API endpoints).
   nestApp.enableCors({
-    maxAge: 3600, // In seconds, regard it for max 1 hour.
-    methods: 'POST',
+    maxAge: 3600,
+    methods: 'GET',
     origin: true,
   });
 
