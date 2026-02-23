@@ -1,15 +1,9 @@
-import { Component, SecurityContext } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { RouterModule } from "@angular/router";
-import { MatBadgeModule } from "@angular/material/badge";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTreeModule, MatTreeNestedDataSource } from "@angular/material/tree";
 import { NestedTreeControl } from "@angular/cdk/tree";
+import { Component, SecurityContext } from "@angular/core";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { FaqQuestions } from "../../interfaces";
+import { SharedModule } from "../shared.module";
 
 export const FAQ_QUESTIONS: FaqQuestions[] = [
   {
@@ -258,16 +252,7 @@ export const FAQ_QUESTIONS: FaqQuestions[] = [
 @Component({
   selector: "app-faq",
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatBadgeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDividerModule,
-    MatIconModule,
-    MatTreeModule,
-  ],
+  imports: [SharedModule],
   templateUrl: "./faq.component.html",
   styleUrls: ["./faq.component.scss"],
 })

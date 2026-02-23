@@ -1,9 +1,7 @@
 import AOS from "aos";
 import { Component, OnInit } from "@angular/core";
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { Legal } from '../../interfaces';
+import { SharedModule } from '../shared.module';
 
 /**
  * @component PrivacyAndSecurityComponent
@@ -15,7 +13,7 @@ import { Legal } from '../../interfaces';
   templateUrl: "./privacy-and-security.component.html",
   styleUrls: ["./privacy-and-security.component.scss"],
   standalone: true,
-  imports: [CommonModule, RouterModule, MatCardModule]
+  imports: [SharedModule]
 })
 export class PrivacyAndSecurityComponent implements OnInit {
   sections: Legal[] = [

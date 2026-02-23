@@ -1,29 +1,13 @@
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatListModule } from "@angular/material/list";
-import { CommonModule } from "@angular/common";
 import { MenuItem } from "../../interfaces";
+import { SharedModule } from "../shared.module";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatListModule,
-  ]
+  imports: [SharedModule]
 })
 export class HeaderComponent {
   public onServicesClick(event: Event): void {

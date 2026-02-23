@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { ServiceItem } from '@interfaces';
+import { SharedModule } from '../../shared.module';
 
 /**
  * @component ServiceDetailComponent
@@ -10,7 +9,7 @@ import { ServiceItem } from '@interfaces';
 @Component({
   selector: 'app-service-detail',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [SharedModule],
   templateUrl: './service-detail.component.html',
   styleUrls: ['./service-detail.component.scss'],
 })

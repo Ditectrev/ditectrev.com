@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SharedModule } from '../../shared.module';
 import { ParticlesConfig } from './particles/particles-config';
 
 declare let particlesJS: any; // Required to be properly interpreted by TypeScript.
@@ -15,7 +15,7 @@ declare let particlesJS: any; // Required to be properly interpreted by TypeScri
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [SharedModule]
 })
 export class HeroComponent implements OnInit, AfterViewInit {
   private headerText: string =

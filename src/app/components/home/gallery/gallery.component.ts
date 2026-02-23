@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { SharedModule } from '../../shared.module';
 
 interface GalleryImage {
   src: string;
@@ -14,7 +14,7 @@ interface GalleryImage {
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [SharedModule],
   animations: [
     trigger('slideAnimation', [
       transition('* => *', [

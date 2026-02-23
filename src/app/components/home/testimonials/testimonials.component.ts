@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { SharedModule } from '../../shared.module';
 import { Testimonial } from '@interfaces';
 
 @Component({
@@ -9,7 +8,7 @@ import { Testimonial } from '@interfaces';
   templateUrl: './testimonials.component.html',
   styleUrls: ['./testimonials.component.scss'],
   standalone: true,
-  imports: [CommonModule, CarouselModule]
+  imports: [SharedModule]
 })
 export class TestimonialsComponent {
   public customOptions: OwlOptions = {

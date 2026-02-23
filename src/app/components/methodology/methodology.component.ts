@@ -1,12 +1,6 @@
 import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatStepperModule } from "@angular/material/stepper";
-import { MatTooltipModule } from "@angular/material/tooltip";
 import { MethodologyStageItem } from "../../interfaces";
+import { SharedModule } from "../shared.module";
 
 /**
  * @component MethodologyComponent
@@ -17,15 +11,7 @@ import { MethodologyStageItem } from "../../interfaces";
   templateUrl: "./methodology.component.html",
   styleUrls: ["./methodology.component.scss"],
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatListModule,
-    MatStepperModule,
-    MatTooltipModule,
-  ],
+  imports: [SharedModule],
 })
 export class MethodologyComponent {
   // Array of arrays to hold all stages with all steps related to each stage.

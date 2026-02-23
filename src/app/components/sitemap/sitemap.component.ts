@@ -1,14 +1,12 @@
 import { Component } from "@angular/core";
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { SharedModule } from '../shared.module';
 
 @Component({
   selector: "app-sitemap",
   templateUrl: "./sitemap.component.html",
   styleUrls: ["./sitemap.component.scss"],
   standalone: true,
-  imports: [CommonModule, RouterModule, MatCardModule]
+  imports: [SharedModule]
 })
 export class SitemapComponent {
   public companyItems: { name: string; path: string }[] = [

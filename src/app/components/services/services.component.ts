@@ -1,4 +1,4 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,10 +10,8 @@ import {
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgChartsModule } from 'ng2-charts';
+import { SharedModule } from '../shared.module';
 import * as d3 from 'd3';
 import {
   ChartConfiguration,
@@ -44,14 +42,7 @@ import { GeoPath, GeoPermissibleObjects, GeoProjection } from 'd3';
   standalone: true,
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss'],
-  imports: [
-    CommonModule,
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatTooltipModule,
-    NgChartsModule,
-  ],
+  imports: [SharedModule, RouterLink, NgChartsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesComponent implements AfterViewInit {

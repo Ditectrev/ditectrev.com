@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { PartnershipItem } from '@interfaces';
+import { SharedModule } from '../shared.module';
 
 /**
  * @component PartnershipsComponent
@@ -14,7 +11,7 @@ import { PartnershipItem } from '@interfaces';
   templateUrl: './partnerships.component.html',
   styleUrls: ['./partnerships.component.scss'],
   standalone: true,
-  imports: [MatTabsModule, MatCardModule, MatIconModule, CommonModule],
+  imports: [SharedModule],
 })
 export class PartnershipsComponent {
   public partnershipsItems: PartnershipItem[] = [

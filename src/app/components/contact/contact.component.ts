@@ -11,31 +11,15 @@ import { catchError, debounceTime, finalize, map, startWith } from 'rxjs/operato
 import { EMPTY } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   FormGroupDirective,
-  ReactiveFormsModule,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import {
   RECAPTCHA_SETTINGS,
@@ -43,6 +27,7 @@ import {
   RecaptchaModule,
 } from 'ng-recaptcha';
 import { ByteFormatPipe } from '../../pipes/byte-format.pipe';
+import { SharedModule } from '../shared.module';
 
 const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
 
@@ -54,23 +39,8 @@ const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
   styleUrls: ['./contact.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatNativeDateModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatProgressBarModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
+    SharedModule,
     NgxMatIntlTelInputComponent,
-    ReactiveFormsModule,
     RecaptchaModule,
     RecaptchaFormsModule,
     ByteFormatPipe,

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TestimonialsComponent } from './testimonials/testimonials.component';
-import { SiriWaveComponent } from './siriwave/siriwave.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { HeroComponent } from './hero/hero.component';
+import { SiriWaveComponent } from './siriwave/siriwave.component';
+import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { SharedModule } from '../shared.module';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +11,11 @@ import { HeroComponent } from './hero/hero.component';
   styleUrls: ["./home.component.scss"],
   standalone: true,
   imports: [
-    CommonModule,
+    SharedModule,
     TestimonialsComponent,
     SiriWaveComponent,
     GalleryComponent,
-    HeroComponent
+    HeroComponent,
   ]
 })
 export class HomeComponent {}

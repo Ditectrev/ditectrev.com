@@ -1,9 +1,7 @@
 import AOS from "aos";
 import { Component, OnInit } from "@angular/core";
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { Legal } from '../../interfaces';
+import { SharedModule } from '../shared.module';
 
 /**
  * @component TermsOfUseComponent
@@ -15,7 +13,7 @@ import { Legal } from '../../interfaces';
   templateUrl: "./terms-of-use.component.html",
   styleUrls: ["./terms-of-use.component.scss"],
   standalone: true,
-  imports: [CommonModule, RouterModule, MatCardModule]
+  imports: [SharedModule]
 })
 export class TermsOfUseComponent implements OnInit {
   sections: Legal[] = [
