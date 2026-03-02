@@ -1,0 +1,193 @@
+# CI and deploy pipeline (migrated from GitLab CI).
+# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse CI; deploy SSR to Vercel.
+# Deploys on push to main, master, or feature. Set Vercel Dashboard → Project → Settings → Git → Production Branch to `feature` so production uses that branch.
+# Required GitHub Secrets: see .github/SECRETS.md (if present) or project docs.
+
+name: CI
+
+on:
+  push:
+    branches: [main, master, feature]
+  pull_request:
+    branches: [main, master, feature]
+
+env:
+  NODE_VERSION: "24"
+  PNPM_VERSION: "9.15.0"
+  NODE_OPTIONS: "--openssl-legacy-provider"
+
+jobs:
+  security-audit:
+    name: Dependencies audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      # Run audit but do not fail the pipeline (findings are reported only).
+      - name: Run audit
+        run: pnpm exec audit-ci --low || true
+
+  lint:
+    name: Lint (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+
+  format:
+    name: Code format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier --check "src/**/*.{ts,html,scss,json}" "*.json" || true
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run test
+
+  e2e:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run e2e
+    continue-on-error: true
+
+  build-staging:
+    name: Build (staging)
+    runs-on: ubuntu-latest
+    env:
+      FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+      FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+      GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:ssr
+    # TODO: Add staging deploy (e.g. Vercel preview) when needed. No observability (Lighthouse, etc.) for staging — Vercel generates a new URL per deployment.
+
+  build-production:
+    name: Build (production)
+    runs-on: ubuntu-latest
+    env:
+      FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+      FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+      GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:ssr:production
+
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    needs: [build-production]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build --configuration production
+      - name: Install Lighthouse CI
+        run: pnpm add -D @lhci/cli@0.13.x
+      - name: Run Lighthouse
+        run: pnpm exec lhci autorun
+        continue-on-error: true
+
+  deploy-production:
+    name: Deploy to Vercel (production)
+    runs-on: ubuntu-latest
+    needs: [lint, test, build-production]
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature') && github.event_name == 'push'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
+          vercel-args: "--prod"
+        env:
+          FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+          FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+          GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+          MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
