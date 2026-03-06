@@ -3,8 +3,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SharedModule } from '../../shared.module';
 import { ParticlesConfig } from './particles/particles-config';
 
-declare let particlesJS: any; // Required to be properly interpreted by TypeScript.
-
 /**
  * @component HeroComponent
  * @description Main hero section component with animated text and particles background.
@@ -50,12 +48,14 @@ export class HeroComponent implements OnInit, AfterViewInit {
    * @returns {void}
    */
   public ngOnInit(): void {
-    this.invokeParticles();
-    // Check if mobile device
-    this.isMobile = window.innerWidth <= 600;
-    // Use mobile text if on mobile device, otherwise use full text
+    if (typeof window !== 'undefined') {
+      const particles = (window as any).particlesJS;
+      if (typeof particles === 'function') {
+        this.invokeParticles();
+      }
+      this.isMobile = window.innerWidth <= 600;
+    }
     const textToUse = this.isMobile ? this.subheaderMobileText : this.subheaderFullText;
-    // Split text into individual letters for CSS animation
     this.subheaderLetters = textToUse.split('');
   }
 
@@ -79,7 +79,11 @@ export class HeroComponent implements OnInit, AfterViewInit {
    * @returns {void}
    */
   public invokeParticles(): void {
-    particlesJS('particles-js', ParticlesConfig, function () {});
+    if (typeof window === 'undefined') return;
+    const particles = (window as any).particlesJS;
+    if (typeof particles === 'function') {
+      particles('particles-js', ParticlesConfig, function () {});
+    }
   }
 
   /**

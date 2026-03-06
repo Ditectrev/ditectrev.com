@@ -193,7 +193,23 @@
           "options": {
             "browserTarget": "ditectrev:build:production",
             "serverTarget": "ditectrev:server:production",
-            "routes": ["/"]
+            "routes": [
+              "/",
+              "/about-us",
+              "/contact",
+              "/methodology",
+              "/services",
+              "/faq",
+              "/glossary",
+              "/sitemap",
+              "/copyrights",
+              "/terms-of-use",
+              "/privacy-and-security",
+              "/partnerships",
+              "/services/cyber-security",
+              "/services/digital-strategy",
+              "/services/software-development"
+            ]
           },
           "configurations": {
             "production": {}

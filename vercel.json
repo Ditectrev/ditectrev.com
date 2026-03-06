@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider pnpm run build:ssr:production",
+  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider pnpm run build:prerender",
   "outputDirectory": "dist/ditectrev-browser",
   "framework": null,
   "installCommand": "corepack enable pnpm && pnpm install",

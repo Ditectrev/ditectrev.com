@@ -63,6 +63,7 @@ export class GalleryComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    if (typeof window === 'undefined') return; // Don't start timers during SSR/prerender.
     this.startAutoPlay();
   }
 

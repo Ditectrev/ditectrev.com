@@ -25,6 +25,9 @@ export class SiriWaveComponent implements AfterViewInit {
    * @returns {void}
    */
   public ngAfterViewInit(): void {
+    // Guard for prerender/SSR where `window` isn't available.
+    if (typeof window === 'undefined') return;
+
     // Initialize SiriWave with its properties.
     new SiriWave({
       amplitude: 0.6,

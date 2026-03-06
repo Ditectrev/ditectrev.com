@@ -26,7 +26,23 @@ app.get('*', (req, res) => {
     });
 });
 
-const port = process.env['PORT'] || 4000;
-app.listen(port, () => {
-  console.log(`Node Express server listening on http://localhost:${port}`);
-});
+const defaultPort = Number(process.env['PORT']) || 4000;
+const portsToTry = [defaultPort, 4001, 4002, 4003].filter((p, i, a) => a.indexOf(p) === i);
+
+function tryListen(index: number) {
+  if (index >= portsToTry.length) {
+    throw new Error('All ports in use: ' + portsToTry.join(', '));
+  }
+  const port = portsToTry[index];
+  const server = app.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err?.code === 'EADDRINUSE') {
+      tryListen(index + 1);
+    } else {
+      throw err;
+    }
+  });
+}
+tryListen(0);
