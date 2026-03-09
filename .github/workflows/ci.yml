@@ -159,6 +159,37 @@ jobs:
         run: pnpm exec lhci autorun
         continue-on-error: true
 
+  observatory:
+    name: Mozilla Observatory (ditectrev.com)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Observatory scan
+        run: |
+          HOST="ditectrev.com"
+          API="https://http-observatory.security.mozilla.org/api/v1"
+          echo "Starting Observatory scan for $HOST..."
+          curl -s -X POST "$API/analyze" -d "host=$HOST" -d "rescan=true" | tee /tmp/scan_start.json
+          for i in $(seq 1 30); do
+            sleep 10
+            RESP=$(curl -s "$API/analyze?host=$HOST")
+            STATE=$(echo "$RESP" | jq -r '.state')
+            echo "Scan state: $STATE"
+            [ "$STATE" = "FINISHED" ] && echo "$RESP" > /tmp/scan_result.json && break
+            [ "$STATE" = "FAILED" ] && echo "Scan failed" && echo "$RESP" | jq . && exit 1
+          done
+          [ ! -f /tmp/scan_result.json ] && echo "Scan did not finish in time" && exit 1
+          GRADE=$(jq -r '.grade' /tmp/scan_result.json)
+          SCORE=$(jq -r '.score' /tmp/scan_result.json)
+          echo "Observatory grade: $GRADE (score: $SCORE)"
+          echo "grade=$GRADE" >> $GITHUB_OUTPUT
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          if [[ ! "$GRADE" == A* ]]; then
+            echo "Grade $GRADE is below A (expected A+, A, or A-)"
+            exit 1
+          fi
+          echo "Observatory scan passed with grade $GRADE"
+        continue-on-error: true
+
   deploy-production:
     name: Deploy to Vercel (production)
     runs-on: ubuntu-latest
