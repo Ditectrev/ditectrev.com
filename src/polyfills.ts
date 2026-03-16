@@ -58,8 +58,8 @@
 import 'zone.js'; // Included with Angular CLI.
 
 //! That's needed, Angular run from a browsers returns ERROR "Uncaught ReferenceError: process is not defined".
-// import * as process from 'process';
-// (window as any)['process'] = process;
+import * as process from 'process';
+(window as any)['process'] = process;
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
