@@ -17,15 +17,22 @@ const firebaseConfig = {
   measurementId: String(process.env['FIREBASE_MEASUREMENT_ID'] ?? ''),
 };
 
+const isFirebaseConfigured =
+  !!firebaseConfig.apiKey &&
+  !!firebaseConfig.projectId;
+
+const baseProviders = [
+  provideRouter(routes),
+  provideAnimations(),
+  provideHttpClient(),
+  {
+    provide: 'googleTagManagerId',
+    useValue: String(process.env['GOOGLE_TAG_MANAGER_ID']),
+  },
+];
+
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes),
-    provideAnimations(),
-    provideHttpClient(),
-    importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)),
-    {
-      provide: 'googleTagManagerId',
-      useValue: String(process.env['GOOGLE_TAG_MANAGER_ID']),
-    },
-  ]
+  providers: isFirebaseConfigured
+    ? [...baseProviders, importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig))]
+    : baseProviders,
 };
