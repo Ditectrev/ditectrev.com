@@ -56,6 +56,12 @@ const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
 })
 export class ContactComponent implements OnInit, OnDestroy {
   public acceptedTerms = false;
+  /** Whether backend integrations (Firebase, storage, reCAPTCHA) are available */
+  public readonly isBackendConfigured =
+    !!String(process.env['FIREBASE_API_KEY'] ?? '') &&
+    !!String(process.env['FIREBASE_PROJECT_ID'] ?? '') &&
+    !!String(process.env['FIRESTORE_COLLECTION_MESSAGES'] ?? '') &&
+    !!String(process.env['FIRESTORE_COLLECTION_FILES'] ?? '');
   private formPersistenceSub?: Subscription;
   private phoneValidationSub?: Subscription;
   private phoneHadValidValue = false;
@@ -358,6 +364,15 @@ export class ContactComponent implements OnInit, OnDestroy {
     form.fileUploader = this.downloadURL;
     form.fileName = this.fileName;
 
+    if (!this.isBackendConfigured) {
+      Swal.fire(
+        'Temporarily unavailable',
+        'Our contact form is temporarily unavailable. Please email us directly or try again later.',
+        'info'
+      );
+      return;
+    }
+
     this.angularFirestore
       .collection(
         String(process.env['FIRESTORE_COLLECTION_MESSAGES'])
@@ -491,6 +506,9 @@ export class ContactComponent implements OnInit, OnDestroy {
           finalize(() => {
             fileRef.getDownloadURL().subscribe({
               next: (downloadURL: string) => {
+                if (!this.isBackendConfigured) {
+                  return;
+                }
                 this.angularFirestore
                   .collection(
                     String(process.env['FIRESTORE_COLLECTION_FILES'])

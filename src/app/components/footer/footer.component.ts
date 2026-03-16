@@ -156,9 +156,9 @@ export class FooterComponent {
     const bField = String(process.env['MAILCHIMP_B_FIELD'] ?? '');
     if (!endpoint || !bField) {
       Swal.fire(
-        'Not configured.',
-        'Newsletter signup is not configured. Add MAILCHIMP_SUBSCRIBE_ENDPOINT and MAILCHIMP_B_FIELD to .env.',
-        'warning'
+        'Subscription unavailable',
+        'Our newsletter signup is temporarily unavailable. Please try again later or contact us directly if you would like to stay updated.',
+        'info'
       );
       return;
     }
