@@ -10,7 +10,7 @@ import {
 import { catchError, debounceTime, finalize, map, startWith } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { combineLatest } from 'rxjs';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -122,8 +122,8 @@ export class ContactComponent implements OnInit, OnDestroy {
    * @param cdr - Change detector ref for triggering change detection when needed.
    */
   constructor(
-    private angularFirestore: AngularFirestore,
-    private angularFireStorage: AngularFireStorage,
+    @Optional() private angularFirestore: AngularFirestore | null,
+    @Optional() private angularFireStorage: AngularFireStorage | null,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {
@@ -373,6 +373,15 @@ export class ContactComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.angularFirestore) {
+      Swal.fire(
+        'Temporarily unavailable',
+        'Our contact form is temporarily unavailable. Please email us directly or try again later.',
+        'info'
+      );
+      return;
+    }
+
     this.angularFirestore
       .collection(
         String(process.env['FIRESTORE_COLLECTION_MESSAGES'])
@@ -455,6 +464,16 @@ export class ContactComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.isBackendConfigured || !this.angularFireStorage) {
+      this.contactForm.get('fileUploader')?.setValue(null);
+      Swal.fire(
+        'File upload unavailable',
+        'File uploads are temporarily unavailable. Please try again later or contact us directly.',
+        'info'
+      );
+      return;
+    }
+
     this.downloadURL = [];
     this.contentType = [];
     this.persistedFileNames = [];
@@ -477,6 +496,9 @@ export class ContactComponent implements OnInit, OnDestroy {
    * @returns {void}
    */
   private uploadFile(files: FileList): void {
+    if (!this.angularFireStorage || !this.angularFirestore) {
+      return;
+    }
     const tasks: AngularFireUploadTask[] = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -506,7 +528,7 @@ export class ContactComponent implements OnInit, OnDestroy {
           finalize(() => {
             fileRef.getDownloadURL().subscribe({
               next: (downloadURL: string) => {
-                if (!this.isBackendConfigured) {
+                if (!this.isBackendConfigured || !this.angularFirestore) {
                   return;
                 }
                 this.angularFirestore
