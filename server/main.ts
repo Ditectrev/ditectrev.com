@@ -1,7 +1,6 @@
 // TODO: Check handling reporting violations (helmet) & bugs (sentry).
 // TODO: Add subresourceIntegrity (from Angular CLI).
 // TODO: Add nonce-based CSP.
-// TODO: Improve on TypeScript typings.
 import 'zone.js/dist/zone-node'; // Without that the app breaks on SSR.
 
 //! Fix ERROR "window is not defined" (at least for Agastya). Before upgrading to Angular 10 from Angular 8 it was working by simply using "applyDomino" in "server/app.module.ts". Maybe in the future the issue #451 (https://github.com/nestjs/ng-universal/issues/451) will fix this regression error.

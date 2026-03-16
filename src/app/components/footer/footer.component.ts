@@ -20,12 +20,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SharedModule } from '../shared.module';
-
-// TODO: Make this a separated file.
-interface ResponseMailChimp {
-  result: string;
-  msg: string;
-}
+import { ResponseMailChimp } from '../../interfaces';
 
 // TODO: Add invisible reCAPTCHA?
 // TODO: Zoom in a bit this section/region of footer (one of the three only: "Ditectrev", "Stay Informed", "Information") which is on hover.
@@ -63,8 +58,6 @@ export class FooterComponent {
   ]);
 
   public currentDate: Date = new Date();
-  public endpointMailChimp = ''; // TODO: Configure MailChimp endpoint
-  public error = '';
   public submitted = false;
 
   public bottomMenuItems: { name: string; path: string }[] = [
@@ -159,12 +152,21 @@ export class FooterComponent {
   }
 
   public onSubmit(): void {
+    const endpoint = String(process.env['MAILCHIMP_SUBSCRIBE_ENDPOINT'] ?? '');
+    const bField = String(process.env['MAILCHIMP_B_FIELD'] ?? '');
+    if (!endpoint || !bField) {
+      Swal.fire(
+        'Not configured.',
+        'Newsletter signup is not configured. Add MAILCHIMP_SUBSCRIBE_ENDPOINT and MAILCHIMP_B_FIELD to .env.',
+        'warning'
+      );
+      return;
+    }
     const params = new HttpParams()
       .set('EMAIL', this.formControlEmail.value)
-      .set('b_1234567890abcdef1234567890_abcdef123456', ''); // TODO: Configure MailChimp hidden input
-    const urlMailChimp = this.endpointMailChimp + params.toString();
+      .set(bField, '');
+    const urlMailChimp = endpoint + (endpoint.includes('?') ? '&' : '?') + params.toString();
 
-    // TODO: Fix this after upgrade to Angular 10 isn't working.
     this.httpClient.jsonp<ResponseMailChimp>(urlMailChimp, 'c').subscribe(
       (response) => {
         if (response.result && response.result !== 'error') {

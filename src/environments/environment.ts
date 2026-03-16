@@ -1,19 +1,8 @@
-// Browser config: this file is compiled into the Angular bundle. The app does NOT read .env
-// (that is Node/server only). Use fileReplacements in angular.json for prod, or replace
-// these placeholders at build/deploy time (e.g. from CI env vars).
+// Browser config: this file is compiled into the Angular bundle.
+// Firebase, GTM, Mailchimp, Firestore etc. come from .env via process.env (SSR/server).
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: 'FIREBASE_API_KEY_STAGING',
-    authDomain: 'FIREBASE_AUTH_DOMAIN_STAGING',
-    databaseURL: 'FIREBASE_DATABASE_URL_STAGING',
-    projectId: 'FIREBASE_PROJECT_ID_STAGING',
-    storageBucket: 'FIREBASE_STORAGE_BUCKET_STAGING',
-    messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID_STAGING',
-    appId: 'FIREBASE_APP_ID_STAGING',
-    measurementId: 'FIREBASE_MEASUREMENT_ID_STAGING',
-  },
 };
 
 /*

@@ -32,7 +32,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   providers: [
     {
       provide: 'googleTagManagerId',
-      useValue: String(process.env['GOOGLE_TAG_MANAGER_ID']), // TODO: This doesn't work, and the GTM is directly in index2.html at the moment.
+      useValue: String(process.env['GOOGLE_TAG_MANAGER_ID']),
     },
   ],
 })
