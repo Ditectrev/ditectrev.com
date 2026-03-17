@@ -30,9 +30,9 @@
     "predeploy": "firebase use --token $FIREBASE_DEPLOY_KEY $CI_ENVIRONMENT_SLUG",
     "deploy": "firebase deploy --token $FIREBASE_DEPLOY_KEY",
     "deploy:cloud_functions": "cd functions && firebase deploy --token $FIREBASE_DEPLOY_KEY",
-    "serve:ssr": "node functions/dist/apps/ditectrev-server/main.js",
+    "serve:ssr": "node dist/ditectrev-server/main.js",
     "serve:ssr:firebase": "firebase serve",
-    "root:starting:index:firebase": "mv functions/dist/apps/ditectrev-server/main.js functions/index.js"
+    "root:starting:index:firebase": "mkdir -p functions && mv dist/ditectrev-server/main.js functions/index.js"
   },
   "dependencies": {
     "@angular/animations": "^17.3.0",
