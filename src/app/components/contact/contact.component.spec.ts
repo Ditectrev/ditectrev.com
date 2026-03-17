@@ -47,6 +47,8 @@ describe('ContactComponent', () => {
     (window as any).process = (window as any).process || { env: {} };
     (window as any).process.env = {
       ...(window as any).process.env,
+      FIREBASE_API_KEY: 'test-api-key',
+      FIREBASE_PROJECT_ID: 'test-project-id',
       FIRESTORE_COLLECTION_MESSAGES: 'messages',
       FIRESTORE_COLLECTION_FILES: 'files',
     };
@@ -81,6 +83,8 @@ describe('ContactComponent', () => {
 
     const proc = typeof process !== 'undefined' ? process : (window as any).process;
     if (proc && proc.env) {
+      proc.env.FIREBASE_API_KEY = 'test-api-key';
+      proc.env.FIREBASE_PROJECT_ID = 'test-project-id';
       proc.env.FIRESTORE_COLLECTION_MESSAGES = 'messages';
       proc.env.FIRESTORE_COLLECTION_FILES = 'files';
     }
