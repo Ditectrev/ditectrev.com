@@ -207,9 +207,11 @@ jobs:
         run: |
           pnpm run build:ssr
           pnpm run root:starting:index:firebase
-          # Use sanitized branch name as channel (slashes not allowed)
-          CHANNEL_NAME="$(echo \"${GITHUB_REF_NAME}\" | tr '/' '-')"
-          firebase hosting:channel:deploy "$CHANNEL_NAME" --token "$FIREBASE_DEPLOY_KEY"
+          # Derive a safe channel name from the branch: remove invalid chars and trim to 40 chars.
+          RAW_BRANCH="${GITHUB_REF_NAME}"
+          CHANNEL_NAME="$(echo "${RAW_BRANCH}" | tr -cd '[:alnum:]._-' | cut -c1-40)"
+          echo "Deploying preview to Firebase Hosting channel: ${CHANNEL_NAME}"
+          firebase hosting:channel:deploy "${CHANNEL_NAME}" --token "${FIREBASE_DEPLOY_KEY}"
 
   deploy-firebase-production:
     name: Deploy to Firebase Hosting (production SSR)
