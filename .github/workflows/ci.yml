@@ -170,12 +170,8 @@ jobs:
     name: Deploy to Firebase Hosting (production SSR)
     runs-on: ubuntu-latest
     needs: [lint, test, build-production]
-    # Deploy on direct pushes to main/master or any feature branch (feature or feature/*).
-    if: github.event_name == 'push' && (
-      github.ref == 'refs/heads/main' ||
-      github.ref == 'refs/heads/master' ||
-      startsWith(github.ref, 'refs/heads/feature')
-    )
+    # Deploy on direct pushes to main/master or any feature/* branch.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/feature/'))
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
