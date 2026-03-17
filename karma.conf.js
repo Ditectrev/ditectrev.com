@@ -39,7 +39,10 @@ module.exports = function (config) {
       },
     },
     restartOnFileChange: true,
-    captureTimeout: 120000,
-    browserNoActivityTimeout: 60000,
+    // Increase timeouts to avoid flaky disconnects in CI (slow Chrome on shared runners).
+    captureTimeout: 240000,
+    browserNoActivityTimeout: 120000,
+    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 20000,
   });
 };
