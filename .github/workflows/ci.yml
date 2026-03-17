@@ -166,6 +166,51 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build:ssr:production
 
+  deploy-firebase-preview:
+    name: Deploy to Firebase Hosting (preview)
+    runs-on: ubuntu-latest
+    needs: [lint, test, build-staging]
+    # Deploy previews for any feature/* branch pushes.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Build and deploy SSR app to Firebase preview channel
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+          FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+          GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+          MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
+          MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
+        run: |
+          pnpm run build:ssr
+          pnpm run root:starting:index:firebase
+          # Use sanitized branch name as channel (slashes not allowed)
+          CHANNEL_NAME="$(echo \"${GITHUB_REF_NAME}\" | tr '/' '-')"
+          firebase hosting:channel:deploy "$CHANNEL_NAME" --token "$FIREBASE_DEPLOY_KEY"
+
   deploy-firebase-production:
     name: Deploy to Firebase Hosting (production SSR)
     runs-on: ubuntu-latest
