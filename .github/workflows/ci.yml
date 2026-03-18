@@ -1,6 +1,6 @@
-# CI and deploy pipeline (migrated from GitLab CI).
-# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse CI; deploy SSR to Vercel.
-# Deploys on push to main, master, or feature. Set Vercel Dashboard → Project → Settings → Git → Production Branch to `feature` so production uses that branch.
+# CI and deploy pipeline.
+# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse CI; deploy SSR to Firebase.
+# Feature branches deploy to the staging Firebase project; main/master deploy to production.
 # Required GitHub Secrets: see .github/SECRETS.md (if present) or project docs.
 
 name: CI
@@ -170,7 +170,7 @@ jobs:
     name: Deploy to Firebase Hosting (preview)
     runs-on: ubuntu-latest
     needs: [lint, test, build-staging]
-    # Deploy previews for any feature/* branch pushes.
+    # Deploy full SSR previews for any feature/* branch pushes to the staging Firebase project.
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
     steps:
       - uses: actions/checkout@v4
@@ -184,7 +184,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
-      - name: Build and deploy SSR app to Firebase preview channel
+      - name: Build and deploy SSR app to Firebase staging project
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
@@ -204,21 +204,15 @@ jobs:
           MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
           MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
           FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
-        run: |
-          pnpm run build:ssr
-          pnpm run root:starting:index:firebase
-          # Derive a safe channel name from the branch: remove invalid chars and trim to 40 chars.
-          RAW_BRANCH="${GITHUB_REF_NAME}"
-          CHANNEL_NAME="$(echo "${RAW_BRANCH}" | tr -cd '[:alnum:]._-' | cut -c1-40)"
-          echo "Deploying preview to Firebase Hosting channel: ${CHANNEL_NAME}"
-          firebase hosting:channel:deploy "${CHANNEL_NAME}" --token "${FIREBASE_DEPLOY_KEY}"
+          CI_ENVIRONMENT_SLUG: development
+        run: pnpm run build-and-deploy:ssr:staging:firebase
 
   deploy-firebase-production:
     name: Deploy to Firebase Hosting (production SSR)
     runs-on: ubuntu-latest
     needs: [lint, test, build-production]
-    # Deploy on direct pushes to main/master or any feature/* branch.
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/feature/'))
+    # Deploy production only from main/master pushes.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
