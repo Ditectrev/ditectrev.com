@@ -6,7 +6,7 @@ import 'dotenv/config';
 import 'zone.js/node';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import * as nodemailer from 'nodemailer';
 import { renderModule } from '@angular/platform-server';
 import { createWindow } from 'domino';
