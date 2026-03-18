@@ -4,7 +4,10 @@
     "public": "dist/ditectrev-browser",
     "rewrites": [
       {
-        "function": "angularUniversalFunction",
+        "function": {
+          "functionId": "angularUniversalFunction",
+          "region": "europe-west3"
+        },
         "source": "**"
       }
     ]

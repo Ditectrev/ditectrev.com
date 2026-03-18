@@ -101,9 +101,13 @@ async function onCreateSendEmail(snap: any, _context: any): Promise<void> {
   }
 }
 
-export const angularUniversalFunction = functions.https.onRequest(app);
+export const angularUniversalFunction = functions
+  .region('europe-west3')
+  .https.onRequest(app);
 
-export const contactFormFunction = functions.firestore
+export const contactFormFunction = functions
+  .region('europe-west3')
+  .firestore
   .document(`${String(process.env['FIRESTORE_COLLECTION_MESSAGES'] ?? '')}/{formControlEmail}`)
   .onCreate(onCreateSendEmail);
 
