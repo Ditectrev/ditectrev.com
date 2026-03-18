@@ -20,11 +20,20 @@ const app = express();
 const distFolder = join(process.cwd(), 'dist/ditectrev-browser');
 const indexHtml = readFileSync(join(distFolder, 'index2.html'), 'utf-8');
 
-// Some third-party libraries still touch browser globals during SSR.
-const windowRef = createWindow(indexHtml);
-(globalThis as any).window = windowRef;
-(globalThis as any).document = windowRef.document;
-(globalThis as any).navigator = windowRef.navigator;
+function ensureSsrDomGlobals(): void {
+  if ((globalThis as any).window?.document) {
+    return;
+  }
+
+  // Some third-party libraries still touch browser globals during SSR.
+  const windowRef = createWindow(indexHtml);
+  (globalThis as any).window = windowRef;
+  (globalThis as any).document = windowRef.document;
+  (globalThis as any).navigator = windowRef.navigator;
+  (globalThis as any).HTMLElement = (windowRef as any).HTMLElement;
+  (globalThis as any).HTMLTemplateElement = (windowRef as any).HTMLTemplateElement;
+  (globalThis as any).Node = (windowRef as any).Node;
+}
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -33,6 +42,7 @@ if (!admin.apps.length) {
 app.use(express.static(distFolder));
 
 app.get('*', (req, res) => {
+  ensureSsrDomGlobals();
   renderModule(AppServerModule, { document: indexHtml, url: req.url })
     .then((html) => res.send(html))
     .catch((err) => {
