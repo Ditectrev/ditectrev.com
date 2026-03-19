@@ -106,7 +106,7 @@ export const angularUniversalFunction = functions
   .https.onRequest(app);
 
 export const contactFormFunction = functions
-  .region('europe-west3')
+  .region('us-central1')
   .firestore
   .document(`${String(process.env['FIRESTORE_COLLECTION_MESSAGES'] ?? '')}/{formControlEmail}`)
   .onCreate(onCreateSendEmail);
