@@ -186,6 +186,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: Authenticate to Google Cloud
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
@@ -210,6 +211,7 @@ jobs:
           MAIL_PORT: ${{ secrets.MAIL_PORT }}
           MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
           MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT == '' && secrets.FIREBASE_DEPLOY_KEY || '' }}
           CI_ENVIRONMENT_SLUG: development
         run: pnpm run build-and-deploy:ssr:staging:firebase
 
@@ -233,6 +235,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: Authenticate to Google Cloud
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
@@ -257,6 +260,7 @@ jobs:
           MAIL_PORT: ${{ secrets.MAIL_PORT }}
           MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
           MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT == '' && secrets.FIREBASE_DEPLOY_KEY || '' }}
           CI_ENVIRONMENT_SLUG: production
         run: pnpm run build-and-deploy:ssr:production:firebase
 
