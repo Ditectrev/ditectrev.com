@@ -12,6 +12,7 @@ import { renderModule } from '@angular/platform-server';
 import { createWindow } from 'domino';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import helmet from 'helmet';
 import { AppServerModule } from './app/app.server.module';
 
 export { AppServerModule } from './app/app.server.module';
@@ -38,6 +39,9 @@ function ensureSsrDomGlobals(): void {
 if (!admin.apps.length) {
   admin.initializeApp();
 }
+
+// Add common security headers for SSR responses.
+app.use(helmet());
 
 app.use(express.static(distFolder));
 
