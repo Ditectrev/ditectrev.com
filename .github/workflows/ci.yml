@@ -103,6 +103,7 @@ jobs:
   build-staging:
     name: Build (staging)
     runs-on: ubuntu-latest
+    environment: Preview
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
@@ -136,6 +137,7 @@ jobs:
   build-production:
     name: Build (production)
     runs-on: ubuntu-latest
+    environment: Production
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
@@ -170,6 +172,7 @@ jobs:
     name: Deploy to Firebase Hosting (preview)
     runs-on: ubuntu-latest
     needs: [lint, test, build-staging]
+    environment: Preview
     permissions:
       contents: read
       id-token: write
@@ -214,6 +217,7 @@ jobs:
     name: Deploy to Firebase Hosting (production SSR)
     runs-on: ubuntu-latest
     needs: [lint, test, build-production]
+    environment: Production
     permissions:
       contents: read
       id-token: write
