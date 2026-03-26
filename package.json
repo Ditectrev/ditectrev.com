@@ -11,6 +11,7 @@
   "scripts": {
     "build": "ng build",
     "start": "ng serve --host 0.0.0.0 --poll 2000",
+    "start:e2e": "ng serve --host 127.0.0.1 --port 4311 --poll 2000",
     "build:ssr": "ng build && ng run ditectrev:server",
     "build:prerender": "ng run ditectrev:prerender:production",
     "build:ssr:production": "ng build --configuration production && ng run ditectrev:server:production",
@@ -18,7 +19,7 @@
     "build-and-deploy:ssr:production:firebase": "npm run build:ssr:production && npm run root:starting:index:firebase && firebase use \"$CI_ENVIRONMENT_SLUG\" --token \"$FIREBASE_DEPLOY_KEY\" && firebase deploy --force --token \"$FIREBASE_DEPLOY_KEY\"",
     "test": "ng test --no-watch",
     "lint": "ng lint",
-    "e2e": "echo \"E2E tests are temporarily disabled (no Angular e2e target configured)\"",
+    "e2e": "start-server-and-test start:e2e http://127.0.0.1:4311 \"playwright test\"",
     "root:starting:index:firebase": "mkdir -p functions/dist && rm -rf functions/dist/ditectrev-browser && cp -R dist/ditectrev-browser functions/dist/ditectrev-browser && mv dist/ditectrev-server/main.js functions/index.js"
   },
   "dependencies": {
@@ -91,6 +92,7 @@
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@compodoc/compodoc": "^1.1.23",
+    "@playwright/test": "^1.58.2",
     "@types/aos": "^3.0.7",
     "@types/d3": "^7.4.3",
     "@types/express-rate-limit": "^6.0.0",
@@ -105,7 +107,6 @@
     "audit-ci": "^7.0.0",
     "browser-sync": "^3.0.4",
     "codelyzer": "^6.0.2",
-    "cypress": "^13.6.6",
     "domino": "^2.1.6",
     "eslint": "^8.57.0",
     "jasmine-core": "^5.13.0",
@@ -116,6 +117,7 @@
     "karma-jasmine-html-reporter": "^2.2.0",
     "path": "^0.12.7",
     "prettier": "3.2.5",
+    "start-server-and-test": "^3.0.0",
     "ts-loader": "^9.5.1",
     "ts-node": "~10.9.2",
     "typescript": "~5.4.2"

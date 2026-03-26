@@ -97,8 +97,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm run e2e
-    continue-on-error: true
 
   build-staging:
     name: Build (staging)
