@@ -1,7 +1,7 @@
 import '@angular/compiler';
 import 'hammerjs';
 import { FormBuilder } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Injector } from '@angular/core';
 import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ContactComponent } from './contact.component';
@@ -89,10 +89,16 @@ describe('ContactComponent', () => {
       proc.env.FIRESTORE_COLLECTION_FILES = 'files';
     }
 
+    const injectorMock = {
+      get: (token: unknown) => {
+        if (token === AngularFirestore) return mockFirestore as unknown as AngularFirestore;
+        if (token === AngularFireStorage) return mockFireStorage as unknown as AngularFireStorage;
+        throw new Error('Unknown token');
+      },
+    } as unknown as Injector;
     const formBuilder = new FormBuilder();
     component = new ContactComponent(
-      mockFirestore as unknown as AngularFirestore,
-      mockFireStorage as unknown as AngularFireStorage,
+      injectorMock,
       formBuilder,
       mockCdr as unknown as ChangeDetectorRef
     );
