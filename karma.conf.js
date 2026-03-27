@@ -33,6 +33,10 @@ module.exports = function (config) {
           '--no-sandbox',
           '--headless',
           '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
           '--use-gl=angle',
           '--use-angle=swiftshader',
         ],
@@ -40,9 +44,9 @@ module.exports = function (config) {
     },
     restartOnFileChange: true,
     // Increase timeouts to avoid flaky disconnects in CI (slow Chrome on shared runners).
-    captureTimeout: 240000,
-    browserNoActivityTimeout: 120000,
-    browserDisconnectTolerance: 3,
-    browserDisconnectTimeout: 20000,
+    captureTimeout: 300000,
+    browserNoActivityTimeout: 300000,
+    browserDisconnectTolerance: 5,
+    browserDisconnectTimeout: 60000,
   });
 };
