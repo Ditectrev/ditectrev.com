@@ -34,3 +34,14 @@ if (typeof (g as any).process === 'undefined') {
 if (typeof (globalThis as any).process === 'undefined') {
   (globalThis as any).process = processStub;
 }
+
+/**
+ * Prevent runaway animation loops during unit tests.
+ * Many components schedule recursive requestAnimationFrame callbacks.
+ * In CI this can starve the browser event loop and cause Karma disconnects.
+ */
+if (typeof g.requestAnimationFrame === 'undefined') {
+  g.requestAnimationFrame = () => 0;
+} else {
+  g.requestAnimationFrame = () => 0;
+}

@@ -2,6 +2,8 @@
 // See https://karma-runner.github.io/latest/config/configuration-file.html
 
 module.exports = function (config) {
+  const isCi = !!process.env['CI'];
+
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -24,7 +26,7 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [{ type: 'html' }, { type: 'text-summary' }],
     },
-    reporters: ['progress', 'kjhtml', 'coverage'],
+    reporters: isCi ? ['progress', 'coverage'] : ['progress', 'kjhtml', 'coverage'],
     browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
@@ -34,15 +36,20 @@ module.exports = function (config) {
           '--headless',
           '--disable-dev-shm-usage',
           '--disable-gpu',
+          '--disable-extensions',
           '--disable-background-timer-throttling',
           '--disable-backgrounding-occluded-windows',
           '--disable-renderer-backgrounding',
           '--use-gl=angle',
           '--use-angle=swiftshader',
+          '--remote-debugging-port=9222',
         ],
       },
     },
-    restartOnFileChange: true,
+    autoWatch: !isCi,
+    singleRun: isCi,
+    restartOnFileChange: !isCi,
+    concurrency: 1,
     // Increase timeouts to avoid flaky disconnects in CI (slow Chrome on shared runners).
     captureTimeout: 300000,
     browserNoActivityTimeout: 300000,
