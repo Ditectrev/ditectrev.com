@@ -119,6 +119,7 @@ jobs:
       MAIL_PORT: ${{ secrets.MAIL_PORT }}
       MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
       MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+      RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -153,6 +154,7 @@ jobs:
       MAIL_PORT: ${{ secrets.MAIL_PORT }}
       MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
       MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+      RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -206,6 +208,7 @@ jobs:
           MAIL_PORT: ${{ secrets.MAIL_PORT }}
           MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
           MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
           FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
           CI_ENVIRONMENT_SLUG: development
         run: pnpm run build-and-deploy:ssr:staging:firebase
@@ -251,6 +254,7 @@ jobs:
           MAIL_PORT: ${{ secrets.MAIL_PORT }}
           MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
           MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
           FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
           CI_ENVIRONMENT_SLUG: production
         run: pnpm run build-and-deploy:ssr:production:firebase

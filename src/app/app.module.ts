@@ -11,6 +11,7 @@ import { HomeModule } from './home/home.module';
 import { NgModule } from '@angular/core';
 import { RoutingModule } from './routing/app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { getRuntimeEnv } from './utils/runtime-env';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -28,7 +29,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   providers: [
     {
       provide: 'googleTagManagerId',
-      useValue: String(process.env['GOOGLE_TAG_MANAGER_ID']),
+      useValue: getRuntimeEnv('GOOGLE_TAG_MANAGER_ID'),
     },
   ],
 })

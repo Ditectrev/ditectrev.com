@@ -10,7 +10,7 @@ import {
 import { catchError, debounceTime, finalize, map, startWith } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { combineLatest } from 'rxjs';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -28,6 +28,7 @@ import {
 } from 'ng-recaptcha';
 import { ByteFormatPipe } from '../../pipes/byte-format.pipe';
 import { SharedModule } from '../shared.module';
+import { getRuntimeEnv } from '../../utils/runtime-env';
 
 const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
 
@@ -49,19 +50,21 @@ const CONTACT_FORM_STORAGE_KEY = 'contactFormState';
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {
-        siteKey: String((globalThis as any).process?.env?.['RECAPTCHA_API_KEY'] || ''),
+        siteKey: getRuntimeEnv('RECAPTCHA_API_KEY'),
       },
     },
   ],
 })
 export class ContactComponent implements OnInit, OnDestroy {
   public acceptedTerms = false;
+  public readonly recaptchaSiteKey = getRuntimeEnv('RECAPTCHA_API_KEY');
+  public readonly isRecaptchaConfigured = this.recaptchaSiteKey.trim().length > 0;
   /** Whether backend integrations (Firebase, storage, reCAPTCHA) are available */
   public readonly isBackendConfigured =
-    !!String(process.env['FIREBASE_API_KEY'] ?? '') &&
-    !!String(process.env['FIREBASE_PROJECT_ID'] ?? '') &&
-    !!String(process.env['FIRESTORE_COLLECTION_MESSAGES'] ?? '') &&
-    !!String(process.env['FIRESTORE_COLLECTION_FILES'] ?? '');
+    !!getRuntimeEnv('FIREBASE_API_KEY') &&
+    !!getRuntimeEnv('FIREBASE_PROJECT_ID') &&
+    !!getRuntimeEnv('FIRESTORE_COLLECTION_MESSAGES') &&
+    !!getRuntimeEnv('FIRESTORE_COLLECTION_FILES');
   private formPersistenceSub?: Subscription;
   private phoneValidationSub?: Subscription;
   private phoneHadValidValue = false;
@@ -90,6 +93,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   public validatorNameMinLength: number = 2;
   public validatorPhoneMaxLength: number = 14;
   public validatorPhoneMinLength: number = 4;
+  private _angularFirestore: AngularFirestore | null | undefined;
+  private _angularFireStorage: AngularFireStorage | null | undefined;
 
   /** Preferred countries for phone input, with user's locale country first when detectable */
   public readonly preferredCountries: string[] = (() => {
@@ -122,8 +127,7 @@ export class ContactComponent implements OnInit, OnDestroy {
    * @param cdr - Change detector ref for triggering change detection when needed.
    */
   constructor(
-    @Optional() private angularFirestore: AngularFirestore | null,
-    @Optional() private angularFireStorage: AngularFireStorage | null,
+    private injector: Injector,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {
@@ -167,7 +171,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       Validators.minLength(8), // Catches 2+ digit incomplete (e.g. "+112"); "1" alone emits undefined
     ],
     formControlService: '',
-    recaptchaCheck: ['', Validators.required],
+    recaptchaCheck: ['', this.isRecaptchaConfigured ? Validators.required : Validators.nullValidator],
     });
 
     // ngx emits undefined for "1" (all countries); for "12","123" it emits e.g. "+112" - minLength(8) catches those
@@ -191,6 +195,30 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.formPersistenceSub = this.contactForm.valueChanges
       .pipe(debounceTime(500))
       .subscribe((value) => this.saveFormState(value));
+  }
+
+  private get angularFirestore(): AngularFirestore | null {
+    if (this._angularFirestore !== undefined) {
+      return this._angularFirestore;
+    }
+    try {
+      this._angularFirestore = this.injector.get(AngularFirestore);
+    } catch {
+      this._angularFirestore = null;
+    }
+    return this._angularFirestore;
+  }
+
+  private get angularFireStorage(): AngularFireStorage | null {
+    if (this._angularFireStorage !== undefined) {
+      return this._angularFireStorage;
+    }
+    try {
+      this._angularFireStorage = this.injector.get(AngularFireStorage);
+    } catch {
+      this._angularFireStorage = null;
+    }
+    return this._angularFireStorage;
   }
 
   /**
@@ -324,7 +352,10 @@ export class ContactComponent implements OnInit, OnDestroy {
    * @param {Date} date Instance of date.
    * @returns {boolean}
    */
-  public filterAvailableDays = (date: Date): boolean => {
+  public filterAvailableDays = (date: Date | null): boolean => {
+    if (!date) {
+      return false;
+    }
     const day = date.getDay();
     return day !== 0 && day !== 6; // Prevent Saturday and Sunday from being selected.
   };
@@ -384,7 +415,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     this.angularFirestore
       .collection(
-        String(process.env['FIRESTORE_COLLECTION_MESSAGES'])
+                    getRuntimeEnv('FIRESTORE_COLLECTION_MESSAGES')
       )
       .add(form)
       .then(() => {
@@ -533,7 +564,7 @@ export class ContactComponent implements OnInit, OnDestroy {
                 }
                 this.angularFirestore
                   .collection(
-                    String(process.env['FIRESTORE_COLLECTION_FILES'])
+                    getRuntimeEnv('FIRESTORE_COLLECTION_FILES')
                   )
                   .add({ downloadURL })
                   .catch((err) => {

@@ -21,6 +21,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SharedModule } from '../shared.module';
 import { ResponseMailChimp } from '../../interfaces';
+import { getRuntimeEnv } from '../../utils/runtime-env';
 
 // TODO: Add invisible reCAPTCHA?
 // TODO: Zoom in a bit this section/region of footer (one of the three only: "Ditectrev", "Stay Informed", "Information") which is on hover.
@@ -152,8 +153,8 @@ export class FooterComponent {
   }
 
   public onSubmit(): void {
-    const endpoint = String(process.env['MAILCHIMP_SUBSCRIBE_ENDPOINT'] ?? '');
-    const bField = String(process.env['MAILCHIMP_B_FIELD'] ?? '');
+    const endpoint = getRuntimeEnv('MAILCHIMP_SUBSCRIBE_ENDPOINT');
+    const bField = getRuntimeEnv('MAILCHIMP_B_FIELD');
     if (!endpoint || !bField) {
       Swal.fire(
         'Subscription unavailable',

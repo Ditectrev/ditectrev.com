@@ -271,7 +271,7 @@
             >
           </ng-container>
         </mat-selection-list>
-        <div class="form-section-content recaptcha-container">
+        <div *ngIf="isRecaptchaConfigured" class="form-section-content recaptcha-container">
           <re-captcha
             formControlName="recaptchaCheck"
             aria-label="This is a security check. In order to send a message to use please follow what is mentioned in the pop up window."
