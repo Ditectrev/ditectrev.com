@@ -92,7 +92,6 @@
           attr.aria-label="{{
             rightMenuItem.name
           }}. Click here to read more about {{ rightMenuItem.name }}."
-          role="menuitem"
           title="{{ rightMenuItem.name }}"
           >{{ rightMenuItem.name }}</a
         >
@@ -109,7 +108,6 @@
         <a *ngFor="let bottomMenuItem of bottomMenuItems"
           [routerLink]="bottomMenuItem.path"
           attr.aria-label="{{ bottomMenuItem.name }}. Click here to read more about {{ bottomMenuItem.name }}."
-          role="menuitem"
           title="{{ bottomMenuItem.name }}"
         >{{ bottomMenuItem.name }}</a>
       </div>
@@ -125,7 +123,6 @@
           target="_blank"
           [ngClass]="'social-appear social-appear-' + i"
           attr.aria-label="{{ socialItem.name }}. Click here to check our {{ socialItem.name }}."
-          role="menuitem"
           title="{{ socialItem.name }}"
         >
           <fa-icon class="test" [icon]="socialItem.icon"></fa-icon>

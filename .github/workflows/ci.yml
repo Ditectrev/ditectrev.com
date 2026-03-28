@@ -1,6 +1,8 @@
 # CI and deploy pipeline.
-# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse CI; deploy SSR to Firebase.
+# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse + axe against deployed URLs; deploy SSR to Firebase.
 # Feature branches deploy to the staging Firebase project; main/master deploy to production.
+# Lighthouse / axe / Observatory use staging URL except on main/master → https://ditectrev.com
+# After Firebase deploy: HTTP smoke (/ + /health) and Playwright smoke.spec against that environment.
 # Required GitHub Secrets: see .github/SECRETS.md (if present) or project docs.
 
 name: CI
@@ -260,13 +262,13 @@ jobs:
         run: pnpm run build-and-deploy:ssr:production:firebase
 
   lighthouse:
-    name: Lighthouse CI
+    name: Lighthouse CI (deployed URL)
     runs-on: ubuntu-latest
-    needs: [build-production]
+    needs: [lint, test]
+    env:
+      LHCI_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 20
       - uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
@@ -275,15 +277,39 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build --configuration production
-      - name: Install Lighthouse CI
-        run: pnpm add -D @lhci/cli@0.13.x
-      - name: Run Lighthouse
-        run: pnpm exec lhci autorun
+      - name: Run Lighthouse CI
+        run: |
+          echo "LHCI_BASE_URL=$LHCI_BASE_URL"
+          pnpm exec lhci autorun
+
+  accessibility-axe:
+    name: Accessibility (axe)
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      AXE_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run axe on deployed site
+        run: |
+          echo "AXE_BASE_URL=$AXE_BASE_URL"
+          pnpm run a11y:axe
 
   observatory:
-    name: Mozilla Observatory (ditectrev.com)
+    name: Mozilla Observatory (deployed host)
     runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      OBSERVATORY_HOST: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'ditectrev.com' || 'ditectrev-v3-staging-5ad41.web.app' }}
     # Third-party API often returns 502 for long stretches; we retry heavily then skip with a warning
     # so PRs are not blocked by mozilla.org outages. Check https://observatory.mozilla.org/ manually if needed.
     steps:
@@ -291,7 +317,7 @@ jobs:
         id: observatory
         run: |
           set -euo pipefail
-          HOST="ditectrev.com"
+          HOST="${OBSERVATORY_HOST}"
           API="https://http-observatory.security.mozilla.org/api/v1"
 
           json_ok() {
@@ -358,3 +384,70 @@ jobs:
             exit 1
           fi
           echo "Observatory scan passed with grade $GRADE"
+
+  http-smoke-staging:
+    name: HTTP smoke (staging after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-preview]
+    if: success() && github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    steps:
+      - name: curl / and /health
+        run: |
+          BASE="https://ditectrev-v3-staging-5ad41.web.app"
+          curl -fsS "$BASE/" -o /dev/null
+          curl -fsS "$BASE/health" -o /dev/null
+          echo "Staging HTTP OK"
+
+  http-smoke-production:
+    name: HTTP smoke (production after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-production]
+    if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - name: curl / and /health
+        run: |
+          curl -fsS "https://ditectrev.com/" -o /dev/null
+          curl -fsS "https://ditectrev.com/health" -o /dev/null
+          echo "Production HTTP OK"
+
+  e2e-deployed-staging:
+    name: E2E smoke — Playwright (staging after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-preview]
+    if: success() && github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    env:
+      E2E_BASE_URL: https://ditectrev-v3-staging-5ad41.web.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run smoke tests against deployed staging
+        run: pnpm exec playwright test e2e/smoke.spec.ts
+
+  e2e-deployed-production:
+    name: E2E smoke — Playwright (production after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-production]
+    if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    env:
+      E2E_BASE_URL: https://ditectrev.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run smoke tests against deployed production
+        run: pnpm exec playwright test e2e/smoke.spec.ts

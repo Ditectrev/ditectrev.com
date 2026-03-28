@@ -21,6 +21,8 @@
     "test": "ng test --no-watch",
     "lint": "ng lint",
     "e2e": "start-server-and-test start:e2e http://127.0.0.1:4311 \"playwright test\"",
+    "e2e:smoke:deployed": "playwright test e2e/smoke.spec.ts",
+    "a11y:axe": "playwright test e2e/a11y-axe.spec.ts",
     "root:starting:index:firebase": "mkdir -p functions/dist && rm -rf functions/dist/ditectrev-browser && cp -R dist/ditectrev-browser functions/dist/ditectrev-browser && mv dist/ditectrev-server/main.js functions/index.js"
   },
   "dependencies": {
@@ -82,10 +84,12 @@
     "@angular/cli": "^17.3.17",
     "@angular/compiler-cli": "^17.3.0",
     "@angular/language-service": "^17.3.0",
+    "@axe-core/playwright": "^4.11.1",
     "@babel/plugin-proposal-decorators": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@compodoc/compodoc": "^1.1.23",
+    "@lhci/cli": "0.13.x",
     "@playwright/test": "^1.58.2",
     "@types/aos": "^3.0.7",
     "@types/d3": "^7.4.3",

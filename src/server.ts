@@ -45,6 +45,11 @@ app.use(helmet());
 
 app.use(express.static(distFolder));
 
+// Cheap liveness probe for load balancers / CI HTTP smoke (must be before SPA fallback).
+app.get('/health', (_req, res) => {
+  res.status(200).type('text/plain').send('ok');
+});
+
 app.get('*', (req, res) => {
   ensureSsrDomGlobals();
   renderModule(AppServerModule, { document: indexHtml, url: req.url })
