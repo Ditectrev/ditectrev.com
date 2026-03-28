@@ -280,7 +280,6 @@ jobs:
         run: pnpm add -D @lhci/cli@0.13.x
       - name: Run Lighthouse
         run: pnpm exec lhci autorun
-        continue-on-error: true
 
   observatory:
     name: Mozilla Observatory (ditectrev.com)
