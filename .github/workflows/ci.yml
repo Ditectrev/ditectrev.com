@@ -284,6 +284,8 @@ jobs:
   observatory:
     name: Mozilla Observatory (ditectrev.com)
     runs-on: ubuntu-latest
+    # Third-party API often returns 502 for long stretches; we retry heavily then skip with a warning
+    # so PRs are not blocked by mozilla.org outages. Check https://observatory.mozilla.org/ manually if needed.
     steps:
       - name: Run Observatory scan
         id: observatory
@@ -298,23 +300,23 @@ jobs:
 
           echo "Starting Observatory scan for $HOST..."
 
-          # POST /analyze — API sometimes returns 502 HTML; retry until JSON
-          for attempt in $(seq 1 6); do
-            HTTP=$(curl -sS -o /tmp/scan_start.json -w "%{http_code}" \
+          # POST /analyze — API frequently returns 502 + HTML; retry then give up without failing the workflow
+          for attempt in $(seq 1 15); do
+            HTTP=$(curl -sS --retry 2 --retry-delay 8 -o /tmp/scan_start.json -w "%{http_code}" \
               -X POST "$API/analyze" -d "host=$HOST" -d "rescan=true" || true)
             if [ "$HTTP" = "200" ] && json_ok < /tmp/scan_start.json; then
               echo "Scan accepted (HTTP $HTTP)"
               cat /tmp/scan_start.json
               break
             fi
-            echo "Observatory POST returned HTTP $HTTP or non-JSON (attempt $attempt/6); retry in 20s..."
+            echo "Observatory POST returned HTTP $HTTP or non-JSON (attempt $attempt/15); retry in 45s..."
             head -c 400 /tmp/scan_start.json 2>/dev/null || true
             echo
-            if [ "$attempt" -eq 6 ]; then
-              echo "Observatory API did not return valid JSON after retries."
-              exit 1
+            if [ "$attempt" -eq 15 ]; then
+              echo "::warning::Mozilla Observatory API unavailable after 15 attempts (often HTTP 502). Skipping scan — verify manually at https://observatory.mozilla.org/analyze.html?host=$HOST"
+              exit 0
             fi
-            sleep 20
+            sleep 45
           done
 
           # Poll GET /analyze?host= until FINISHED or FAILED
