@@ -19,7 +19,7 @@ export { AppServerModule } from './app/app.server.module';
 
 const app = express();
 const distFolder = join(process.cwd(), 'dist/ditectrev-browser');
-const indexHtml = readFileSync(join(distFolder, 'index2.html'), 'utf-8');
+const indexHtml = readFileSync(join(distFolder, 'index.html'), 'utf-8');
 
 function ensureSsrDomGlobals(): void {
   if ((globalThis as any).window?.document) {

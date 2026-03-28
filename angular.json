@@ -17,7 +17,10 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/ditectrev-browser",
-            "index": "src/index2.html",
+            "index": {
+              "input": "src/index.html",
+              "output": "index.html"
+            },
             "main": "src/main.browser.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",

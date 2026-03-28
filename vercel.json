@@ -6,6 +6,6 @@
   "installCommand": "corepack enable pnpm && pnpm install",
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index2.html" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
