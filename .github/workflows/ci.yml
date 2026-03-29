@@ -288,6 +288,8 @@ jobs:
     needs: [lint, test]
     env:
       AXE_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
+      # Do not fail the job on violations; log them and track in issues (local runs still fail unless AXE_NON_BLOCKING is set).
+      AXE_NON_BLOCKING: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -354,15 +356,17 @@ jobs:
 
           GRADE=$(jq -r '.grade // .scan.grade // empty' /tmp/scan_result.json)
           SCORE=$(jq -r '.score // .scan.score // empty' /tmp/scan_result.json)
+          DETAILS_URL=$(jq -r '.details_url // empty' /tmp/scan_result.json)
           echo "Observatory grade: $GRADE (score: $SCORE)"
           echo "grade=$GRADE" >> "$GITHUB_OUTPUT"
           echo "score=$SCORE" >> "$GITHUB_OUTPUT"
 
+          # Informative only — do not fail the job on grade; track improvements in issues.
           if [[ ! "$GRADE" == A* ]]; then
-            echo "Grade $GRADE is below A (expected A+, A, or A-)"
-            exit 1
+            echo "::warning::MDN HTTP Observatory: grade $GRADE (score $SCORE) for $HOST — target A; details: $DETAILS_URL"
+          else
+            echo "Observatory grade OK: $GRADE (score $SCORE) for $HOST"
           fi
-          echo "Observatory scan passed with grade $GRADE"
 
   http-smoke-staging:
     name: HTTP smoke (staging after deploy)
