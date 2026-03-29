@@ -17,12 +17,17 @@ img {
   background: white;
   padding: 1.875rem 0 0.625rem;
   text-align: center;
+
+  p,
+  strong {
+    color: #424242;
+  }
 }
 
 .testimonial-name {
-  background: #007bff;
+  background: #3f51b5;
   border-radius: 20px;
-  color: white;
+  color: #ffffff;
   margin: 0.625rem auto 1.25rem;
   padding: 0.625rem 1.875rem;
   width: 10.625rem;

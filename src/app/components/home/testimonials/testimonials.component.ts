@@ -12,8 +12,9 @@ import { Testimonial } from '@interfaces';
 })
 export class TestimonialsComponent {
   public customOptions: OwlOptions = {
-    animateIn: 'fadeInRight',
-    animateOut: 'fadeOutLeft',
+    // Disable enter/exit CSS animations so slide text stays at full opacity (WCAG contrast; stable axe scans).
+    animateIn: false,
+    animateOut: false,
     autoHeight: false,
     autoplay: true,
     autoplayTimeout: 4000,

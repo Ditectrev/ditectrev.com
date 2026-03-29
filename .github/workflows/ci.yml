@@ -305,76 +305,55 @@ jobs:
           pnpm run a11y:axe
 
   observatory:
-    name: Mozilla Observatory (deployed host)
+    name: MDN HTTP Observatory (deployed host)
     runs-on: ubuntu-latest
     needs: [lint, test]
     env:
       OBSERVATORY_HOST: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'ditectrev.com' || 'ditectrev-v3-staging-5ad41.web.app' }}
-    # Third-party API often returns 502 for long stretches; we retry heavily then skip with a warning
-    # so PRs are not blocked by mozilla.org outages. Check https://observatory.mozilla.org/ manually if needed.
+    # Uses MDN HTTP Observatory API v2 (replaces deprecated mozilla.org v1 / observatory-cli — see https://github.com/mdn/mdn-http-observatory ).
+    # Third-party API may return 502; we retry then skip with a warning so PRs are not blocked.
     steps:
       - name: Run Observatory scan
         id: observatory
         run: |
           set -euo pipefail
           HOST="${OBSERVATORY_HOST}"
-          API="https://http-observatory.security.mozilla.org/api/v1"
+          API="https://observatory-api.mdn.mozilla.net/api/v2"
 
           json_ok() {
             jq -e . >/dev/null 2>&1
           }
 
-          echo "Starting Observatory scan for $HOST..."
+          echo "Starting MDN HTTP Observatory scan for $HOST..."
 
-          # POST /analyze — API frequently returns 502 + HTML; retry then give up without failing the workflow
+          # POST /scan?host= — single response with grade/score (algorithm v4); rate-limited per host (~1/min cached)
           for attempt in $(seq 1 15); do
-            HTTP=$(curl -sS --retry 2 --retry-delay 8 -o /tmp/scan_start.json -w "%{http_code}" \
-              -X POST "$API/analyze" -d "host=$HOST" -d "rescan=true" || true)
-            if [ "$HTTP" = "200" ] && json_ok < /tmp/scan_start.json; then
-              echo "Scan accepted (HTTP $HTTP)"
-              cat /tmp/scan_start.json
+            HTTP=$(curl -sS --retry 2 --retry-delay 8 -o /tmp/scan_result.json -w "%{http_code}" \
+              -X POST "$API/scan?host=$HOST" || true)
+            if [ "$HTTP" = "200" ] && json_ok < /tmp/scan_result.json; then
+              echo "Scan result (HTTP $HTTP)"
+              cat /tmp/scan_result.json
               break
             fi
             echo "Observatory POST returned HTTP $HTTP or non-JSON (attempt $attempt/15); retry in 45s..."
-            head -c 400 /tmp/scan_start.json 2>/dev/null || true
+            head -c 400 /tmp/scan_result.json 2>/dev/null || true
             echo
             if [ "$attempt" -eq 15 ]; then
-              echo "::warning::Mozilla Observatory API unavailable after 15 attempts (often HTTP 502). Skipping scan — verify manually at https://observatory.mozilla.org/analyze.html?host=$HOST"
+              echo "::warning::MDN Observatory API unavailable after 15 attempts (often HTTP 502). Skipping scan — verify manually at https://developer.mozilla.org/en-US/observatory/analyze?host=$HOST"
               exit 0
             fi
             sleep 45
           done
 
-          # Poll GET /analyze?host= until FINISHED or FAILED
-          for i in $(seq 1 36); do
-            sleep 10
-            HTTP=$(curl -sS -o /tmp/scan_poll.json -w "%{http_code}" "$API/analyze?host=$HOST" || true)
-            if [ "$HTTP" != "200" ] || ! json_ok < /tmp/scan_poll.json; then
-              echo "Poll $i: HTTP $HTTP or non-JSON; retrying..."
-              head -c 200 /tmp/scan_poll.json 2>/dev/null || true
-              echo
-              continue
-            fi
-            STATE=$(jq -r '.state // empty' /tmp/scan_poll.json)
-            echo "Scan state: $STATE"
-            if [ "$STATE" = "FINISHED" ]; then
-              cp /tmp/scan_poll.json /tmp/scan_result.json
-              break
-            fi
-            if [ "$STATE" = "FAILED" ]; then
-              echo "Scan failed"
-              jq . /tmp/scan_poll.json
-              exit 1
-            fi
-          done
-
-          if [ ! -f /tmp/scan_result.json ]; then
-            echo "Scan did not finish in time"
+          ERR=$(jq -r '.error // empty' /tmp/scan_result.json)
+          if [ -n "$ERR" ]; then
+            echo "Observatory API error: $ERR"
+            jq -r '.message // empty' /tmp/scan_result.json
             exit 1
           fi
 
-          GRADE=$(jq -r '.grade' /tmp/scan_result.json)
-          SCORE=$(jq -r '.score' /tmp/scan_result.json)
+          GRADE=$(jq -r '.grade // .scan.grade // empty' /tmp/scan_result.json)
+          SCORE=$(jq -r '.score // .scan.score // empty' /tmp/scan_result.json)
           echo "Observatory grade: $GRADE (score: $SCORE)"
           echo "grade=$GRADE" >> "$GITHUB_OUTPUT"
           echo "score=$SCORE" >> "$GITHUB_OUTPUT"

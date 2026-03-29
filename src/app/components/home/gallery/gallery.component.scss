@@ -58,8 +58,8 @@ h2 {
     opacity: 0.9;
   }
 
-    .gallery-link {
-      background: white;
+    a.gallery-link {
+      background: #ffffff;
       border-radius: 0.25rem;
       color: #3f51b5;
       font-weight: bold;
@@ -68,7 +68,11 @@ h2 {
 
       &:hover {
         background: #3f51b5;
-        color: white;
+        color: #ffffff;
+      }
+
+      &:visited {
+        color: #3f51b5;
       }
     }
 }
