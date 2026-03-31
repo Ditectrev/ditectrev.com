@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
 
 import { routes } from './app.routes';
@@ -25,7 +25,7 @@ const isFirebaseConfigured =
 const baseProviders = [
   provideRouter(routes),
   provideAnimations(),
-  provideHttpClient(),
+  provideHttpClient(withJsonpSupport()),
   {
     provide: 'googleTagManagerId',
     useValue: getRuntimeEnv('GOOGLE_TAG_MANAGER_ID'),
