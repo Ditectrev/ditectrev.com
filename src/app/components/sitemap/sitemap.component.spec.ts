@@ -52,9 +52,9 @@ describe('SitemapComponent', () => {
       expect(component.servicesItems.length).toBe(3);
 
       const expectedItems = [
-        { name: 'Cyber Security', path: '/cyber-security' },
-        { name: 'Digital Strategy', path: '/digital-strategy' },
-        { name: 'Software Development', path: '/software-development' }
+        { name: 'Cyber Security', path: '/services/cyber-security' },
+        { name: 'Digital Strategy', path: '/services/digital-strategy' },
+        { name: 'Software Development', path: '/services/software-development' }
       ];
 
       expect(component.servicesItems).toEqual(expectedItems);
@@ -62,7 +62,7 @@ describe('SitemapComponent', () => {
 
     it('should have valid paths for services items', () => {
       component.servicesItems.forEach(item => {
-        expect(item.path).toMatch(/^\/[\w-]*$/);
+        expect(item.path).toMatch(/^\/[\w-]+(?:\/[\w-]+)+$/);
         expect(item.name).toBeTruthy();
         expect(item.name.length).toBeGreaterThan(0);
       });

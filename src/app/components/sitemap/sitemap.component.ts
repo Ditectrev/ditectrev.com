@@ -30,8 +30,8 @@ export class SitemapComponent {
   ];
 
   public servicesItems: { name: string; path: string }[] = [
-    { name: "Cyber Security", path: "/cyber-security" },
-    { name: "Digital Strategy", path: "/digital-strategy" },
-    { name: "Software Development", path: "/software-development" },
+    { name: "Cyber Security", path: "/services/cyber-security" },
+    { name: "Digital Strategy", path: "/services/digital-strategy" },
+    { name: "Software Development", path: "/services/software-development" },
   ];
 }

@@ -4,8 +4,6 @@
   "outputDirectory": "dist/ditectrev-browser",
   "framework": null,
   "installCommand": "corepack enable pnpm && pnpm install",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
