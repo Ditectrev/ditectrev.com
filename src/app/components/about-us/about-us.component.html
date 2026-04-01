@@ -1,0 +1,70 @@
+<section aria-label="This is an about us page to introduce you to us.">
+  <!-- Card container that binds all together. -->
+  <mat-card
+    aria-label="These are about us details."
+    class="about-card mat-elevation-z24"
+    role="region"
+  >
+    <!-- Title of the card. -->
+    <mat-card-title aria-level="1" role="heading" title="About us"
+      >About us</mat-card-title
+    >
+    <mat-card-subtitle aria-level="3"
+      >Your Digital Transformation and Innovation Partner. Creativity and
+      Privacy-Preserving Approach describes us best. #cyber Security, #digital
+      Strategy and #software Development.</mat-card-subtitle
+    >
+    <!-- Actual content starts from here. -->
+    <mat-card-content class="progress-container">
+      <circle-progress
+        [animationDuration]="4000"
+        [innerStrokeColor]="'transparent'"
+        [percent]="100"
+        [maxPercent]="25"
+        [outerStrokeColor]="'transparent'"
+        [responsive]="true"
+        [showUnits]="false"
+        [subtitle]="'Technologies used'"
+        [subtitleColor]="'#0d47a1'"
+        [subtitleFontSize]="12"
+        [titleColor]="'#212121'"
+        [titleFontSize]="30"
+      ></circle-progress>
+      <circle-progress
+        [animationDuration]="4000"
+        [innerStrokeColor]="'#e7e8ea'"
+        [innerStrokeWidth]="5"
+        [maxPercent]="100"
+        [outerStrokeColor]="'#3f51b5'"
+        [outerStrokeGradient]="true"
+        [outerStrokeGradientStopColor]="'#bbdefb'"
+        [outerStrokeWidth]="5"
+        [percent]="96"
+        [radius]="60"
+        [responsive]="true"
+        [showUnits]="true"
+        [space]="-5"
+        [subtitle]="'Happy clients'"
+        [subtitleColor]="'#0d47a1'"
+        [subtitleFontSize]="15"
+        [titleColor]="'#212121'"
+        [unitsColor]="'#212121'"
+        [unitsFontSize]="20"
+      ></circle-progress>
+      <circle-progress
+        [animationDuration]="4000"
+        [innerStrokeColor]="'transparent'"
+        [percent]="100"
+        [maxPercent]="30"
+        [outerStrokeColor]="'transparent'"
+        [responsive]="true"
+        [showUnits]="false"
+        [subtitle]="'Delivered projects'"
+        [subtitleColor]="'#0d47a1'"
+        [subtitleFontSize]="12"
+        [titleColor]="'#212121'"
+        [titleFontSize]="30"
+      ></circle-progress>
+    </mat-card-content>
+  </mat-card>
+</section>

@@ -1,0 +1,138 @@
+<footer>
+  <aside class="footer-grid" role="region">
+    <!-- TODO: Rethink the "cdk-visually-hidden" here and in other places. -->
+    <span class="cdk-visually-hidden"
+      >This is a footer. These are footer elements.</span
+    >
+    <address class="footer-address" role="region">
+      <!-- Ditectrev's logo. -->
+      <a routerLink="/">
+        <img
+          alt="This is Ditectrev's logo"
+          src="assets/logo.svg"
+          title="Ditectrev"
+        />
+      </a>
+      <!-- Footer's menu items located on the left side. -->
+      <ng-container *ngFor="let informationItem of informationItems">
+        <p
+          attr.aria-label="This is our {{ informationItem.name }}. {{ informationItem.content }}."
+          title="{{ informationItem.content }}"
+        >
+          <fa-icon [icon]="informationItem.icon" aria-hidden="true"></fa-icon>&nbsp;
+          <ng-container *ngIf="informationItem.name === 'Phone number'; else emailOrPlainContent">
+            <a [href]="getPhoneHref(informationItem.content)" title="{{ informationItem.content }}">{{ informationItem.content }}</a>
+          </ng-container>
+          <ng-template #emailOrPlainContent>
+            <ng-container *ngIf="informationItem.name === 'Email'; else plainContent">
+              <a [href]="getEmailHref(informationItem.content)" title="{{ informationItem.content }}">{{ informationItem.content }}</a>
+            </ng-container>
+          </ng-template>
+          <ng-template #plainContent>{{ informationItem.content }}</ng-template>
+        </p>
+      </ng-container>
+    </address>
+    <div class="footer-newsletter" role="region">
+      <h3
+        aria-label="Here you can stay informed about company updates."
+        title="Stay informed"
+      >
+        Stay informed
+      </h3>
+      <p
+        aria-label="Here you can subscribe for a newsletter."
+        title="Subscribe"
+      >
+        Subscribe
+      </p>
+      <form aria-label="This is a form to subscribe for a newsletter.">
+        <mat-form-field appearance="outline" class="footer-newsletter-form">
+          <input
+            matInput
+            [formControl]="formControlEmail"
+            aria-label="Here provide your email address in order to subscribe for a newsletter."
+            placeholder="Your email"
+            title="Your email"
+            type="email"
+          />
+          <mat-hint>Email for a newsletter.</mat-hint>
+          <mat-error
+            *ngIf="
+              formControlEmail.hasError('email') &&
+              !formControlEmail.hasError('required')
+            "
+            >This is an <strong>invalid</strong> email address.</mat-error
+          >
+          <mat-error *ngIf="formControlEmail.hasError('required')"
+            >Email is <strong>required</strong>.</mat-error
+          >
+        </mat-form-field>
+      </form>
+      <button
+        (click)="onSubmit()"
+        [disabled]="!formControlEmail.valid"
+        mat-raised-button
+        matTooltip="Opt in"
+        aria-label="Click here to opt in for a newsletter."
+      >
+        Opt in
+      </button>
+    </div>
+    <div class="footer-information" role="navigation">
+      <!-- Footer's menu items located on the right side. -->
+      <h3
+        aria-label="These are information about IT Consulting Company."
+        title="Information"
+      >
+        Information
+      </h3>
+      <ng-container *ngFor="let rightMenuItem of rightMenuItems">
+        <a
+          routerLink="{{ rightMenuItem.path }}"
+          attr.aria-label="{{
+            rightMenuItem.name
+          }}. Click here to read more about {{ rightMenuItem.name }}."
+          title="{{ rightMenuItem.name }}"
+          >{{ rightMenuItem.name }}</a
+        >
+      </ng-container>
+    </div>
+    <div class="footer-resources" role="navigation">
+      <h3
+        aria-label="These are resources about Ditectrev."
+        title="Resources"
+      >
+        Resources
+      </h3>
+      <div class="resources-links">
+        <a *ngFor="let bottomMenuItem of bottomMenuItems"
+          [routerLink]="bottomMenuItem.path"
+          attr.aria-label="{{ bottomMenuItem.name }}. Click here to read more about {{ bottomMenuItem.name }}."
+          title="{{ bottomMenuItem.name }}"
+        >{{ bottomMenuItem.name }}</a>
+      </div>
+    </div>
+    <div class="footer-social" role="navigation">
+      <span class="cdk-visually-hidden"
+        >These are our social media profiles.</span
+      >
+      <ng-container *ngFor="let socialItem of socialItems; let i = index">
+        <a
+          href="{{ socialItem.url }}"
+          rel="noopener"
+          target="_blank"
+          [ngClass]="'social-appear social-appear-' + i"
+          attr.aria-label="{{ socialItem.name }}. Click here to check our {{ socialItem.name }}."
+          title="{{ socialItem.name }}"
+        >
+          <fa-icon class="test" [icon]="socialItem.icon"></fa-icon>
+        </a>
+      </ng-container>
+    </div>
+    <div class="footer-copyrights" role="region">
+      <p aria-label="These are copyrights." title="Copyright &copy; Ditectrev">
+        &copy; {{ currentDate.getFullYear() }} Ditectrev
+      </p>
+    </div>
+  </aside>
+</footer>

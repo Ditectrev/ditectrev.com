@@ -1,0 +1,222 @@
+<header>
+  <mat-sidenav-container class="container">
+    <!-- Desktop header main menu (toolbar). -->
+    <mat-toolbar color="primary">
+      <span class="cdk-visually-hidden"
+        >This is a toolbar with menu elements for large screen devices.</span
+      >
+      <!--
+        Show the button by default, and will be hidden only on devices with min-width: 960px.
+      -->
+      <button
+        mat-icon-button
+        matTooltip="Toggle sidenav"
+        (click)="sidenav.toggle()"
+        class="menu-toggle-button"
+        aria-label="Click here to toggle sidenav."
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- Ditectrev's logo. -->
+      <a routerLink="/">
+        <img
+          alt="This is Ditectrev's logo"
+          src="assets/logo.svg"
+          title="Ditectrev"
+        />
+      </a>
+      <!--
+        The below element is hidden by default, and will be shown only on devices with min-width: 960px.
+      -->
+      <div class="desktop-navigation" role="navigation">
+        <!-- Grouping element for list of menu items. -->
+        <ng-container
+          *ngFor="let menuItem of menuItems; let j = index; let lastItem = last"
+        >
+          <!-- Desktop main menu elements - Internal links -->
+          <a
+            mat-button
+            *ngIf="!lastItem && !menuItem.external"
+            [routerLink]="menuItem.path"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            title="{{ menuItem.name }}"
+            >{{ menuItem.name }}
+            <mat-icon
+              *ngIf="j === 1"
+              #menuTrigger="matMenuTrigger"
+              [matMenuTriggerFor]="menuDesktop"
+              (mouseenter)="menuTrigger.openMenu()"
+              aria-controls="menuServices"
+              aria-haspopup="true"
+              aria-label="Click here to read about available services."
+              >arrow_drop_down
+            </mat-icon></a
+          >
+          <!-- Desktop main menu elements - External links -->
+          <a
+            mat-button
+            *ngIf="!lastItem && menuItem.external"
+            [href]="menuItem.path"
+            [target]="'_blank'"
+            [attr.rel]="'noopener noreferrer'"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            title="{{ menuItem.name }}"
+            >{{ menuItem.name }}
+            <mat-icon
+              aria-label="This link opens in a new tab."
+              class="external-link-icon"
+              >open_in_new
+            </mat-icon></a
+          >
+          <!--
+            TODO: Once mouse leaves (focus, not only click) the mat-menu element hide it.
+          -->
+          <!-- Menu of services. -->
+          <mat-menu
+            id="menuServices"
+            #menuDesktop="matMenu"
+            [overlapTrigger]="false"
+            (mouseleave)="menuTrigger.closeMenu()"
+            aria-label="This is a list of our services."
+          >
+            <!-- Lazy loaded menu of services. -->
+            <ng-template matMenuContent>
+              <!-- Grouping element for list of menu items for services. -->
+              <ng-container *ngFor="let servicesItem of servicesItems">
+                <!-- Services elements. -->
+                <a
+                  mat-menu-item
+                  routerLink="{{ servicesItem.path }}"
+                  attr.aria-label="{{
+                    servicesItem.name
+                  }}. Click here to read more about {{ servicesItem.name }}."
+                  title="{{ servicesItem.name }}"
+                  >{{ servicesItem.name }}</a
+                ></ng-container
+              >
+            </ng-template>
+          </mat-menu>
+        </ng-container>
+      </div>
+    </mat-toolbar>
+    <!-- Mobile header main menu (sidenav). -->
+    <mat-sidenav #sidenav fixedInViewport="true">
+      <mat-toolbar
+        aria-label="This is a sidenav with menu elements for mobile devices."
+        color="primary"
+        >Menu</mat-toolbar
+      >
+      <!-- Navbar list. -->
+      <mat-nav-list role="navigation">
+        <!-- Grouping element for list of menu items. -->
+        <ng-container
+          *ngFor="let menuItem of menuItems; let i = index; let lastItem = last"
+        >
+          <!-- Services element in main menu (index 1). -->
+          <ng-container *ngIf="i === 1 && !lastItem">
+            <a
+              mat-list-item
+              [matMenuTriggerFor]="menuMobile"
+              (click)="onServicesClick($event)"
+              attr.aria-label="{{ menuItem.name }}. Click to read more about {{
+                menuItem.name
+              }}."
+              title="{{ menuItem.name }}"
+            >
+              <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon>
+              &nbsp;{{ menuItem.name }}
+              <mat-icon
+                >arrow_drop_down<span class="cdk-visually-hidden"
+                  >Click to check available services.</span
+                >
+              </mat-icon>
+            </a>
+          </ng-container>
+          <!-- Mobile main menu elements - Internal links -->
+          <a
+            mat-list-item
+            *ngIf="i !== 1 && !lastItem && !menuItem.external"
+            [routerLink]="menuItem.path"
+            (click)="sidenav.close()"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon
+            >&nbsp;{{ menuItem.name }}
+          </a>
+          <!-- Mobile main menu elements - External links -->
+          <a
+            mat-list-item
+            *ngIf="i !== 1 && !lastItem && menuItem.external"
+            [href]="menuItem.path"
+            [target]="'_blank'"
+            [attr.rel]="'noopener noreferrer'"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to read more about {{ menuItem.name }}."
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon
+            >&nbsp;{{ menuItem.name }}
+            <mat-icon
+              aria-label="This link opens in a new tab."
+              class="external-link-icon"
+              aria-hidden="true"
+              >open_in_new
+            </mat-icon>
+          </a>
+          <!-- Horizontal separator before close button. -->
+          <hr
+            *ngIf="lastItem"
+            aria-label="This is a separator between sidenav elements and close button for the sidenav."
+            role="separator"
+          />
+          <!-- Close button element in main menu. -->
+          <a
+            mat-list-item
+            *ngIf="lastItem"
+            (click)="sidenav.close()"
+            [routerLink]="menuItem.path"
+            attr.aria-label="{{
+              menuItem.name
+            }}. Click here to close the sidenav."
+            title="{{ menuItem.name }}"
+          >
+            <mat-icon aria-hidden="true">{{ menuItem.icon }}</mat-icon>
+            &nbsp;{{ menuItem.name }}
+          </a>
+          <!-- Menu of services. -->
+          <mat-menu #menuMobile="matMenu" role="navigation">
+            <!-- Lazy loaded menu of services. -->
+            <ng-template matMenuContent>
+              <!-- Grouping element for list of menu items for services. -->
+              <ng-container *ngFor="let servicesItem of servicesItems">
+                <!-- Services elements. -->
+                <a
+                  mat-menu-item
+                  routerLink="{{ servicesItem.path }}"
+                  (click)="sidenav.close()"
+                  attr.aria-label="{{
+                    servicesItem.name
+                  }}. Click here to read more about {{ servicesItem.name }}."
+                  title="{{ servicesItem.name }}"
+                >
+                  <mat-icon aria-hidden="true">{{
+                    servicesItem.icon
+                  }}</mat-icon>
+                  {{ servicesItem.name }}
+                </a>
+              </ng-container>
+            </ng-template>
+          </mat-menu>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</header>

@@ -1,10 +1,13 @@
 {
   "hosting": {
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "public": "functions/dist/apps/ditectrev-browser",
+    "public": "dist/ditectrev-browser",
     "rewrites": [
       {
-        "function": "angularUniversalFunction",
+        "function": {
+          "functionId": "angularUniversalFunction",
+          "region": "europe-west3"
+        },
         "source": "**"
       }
     ]

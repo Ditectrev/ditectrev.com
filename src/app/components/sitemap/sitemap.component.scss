@@ -1,0 +1,22 @@
+mat-card-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.sitemap-section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  strong {
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  mat-card-content {
+    grid-template-columns: 1fr;
+  }
+}

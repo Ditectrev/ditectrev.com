@@ -1,0 +1,339 @@
+// Social brand colors
+$discord-color: #5865F2;
+$facebook-color: #3b5998;
+$github-color: #181717;
+$instagram-color: #e1306c;
+$linkedin-color: #0077b5;
+$medium-color: #000000;
+$x-twitter-color: #000000;
+$youtube-color: #ff0000;
+
+/* Contact button wave animation - Global styles */
+.contact-btn {
+  display: inline-block;
+  font-weight: 700;
+  height: 3.125rem;
+  line-height: 3.125rem;
+  margin-top: 1rem;
+  padding: 0 1.5rem;
+  transition: background-position-x 2s linear;
+  width: auto;
+
+  &:hover {
+    animation: line 1s, colorInvert 1.5s 1s forwards, sizeIncrease 1.5s 1s forwards;
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0%0D%0AaD0iMzkwcHgiIGhlaWdodD0iNTBweCIgdmlld0JveD0iMCAwIDM5MCA1MCIgZW5hYmxlLWJhY2tn%0D%0Acm91bmQ9Im5ldyAwIDAgMzkwIDUwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZmlsbD0i%0D%0Abm9uZSIgc3Ryb2tlPSIjM2Y1MWI1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLW1pdGVybGlt%0D%0AaXQ9IjEwIiBkPSJNMCw0Ny41ODVjMCwwLDk3LjUsMCwxMzAsMAoJYzEzLjc1LDAsMjguNzQtMzgu%0D%0ANzc4LDQ2LjE2OC0xOS40MTZDMTkyLjY2OSw0Ni41LDI0My42MDMsNDcuNTg1LDI2MCw0Ny41ODVj%0D%0AMzEuODIxLDAsMTMwLDAsMTMwLDAiLz4KPC9zdmc+Cg==");
+    color: #3f51b5 !important;
+
+    span {
+      animation: textColorChange 1.5s 1s forwards;
+    }
+  }
+}
+
+@keyframes line {
+  0% {
+    background-position-x: 25rem;
+  }
+}
+
+@keyframes colorInvert {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: #3f51b5;
+    background-image: none;
+  }
+}
+
+@keyframes sizeIncrease {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes textColorChange {
+  0% {
+    color: #3f51b5;
+  }
+  100% {
+    color: #ffffff;
+  }
+}
+
+// App-specific colors
+$app-link-color: #3f51b5;
+$app-link-hover-color: #039be5;
+$app-bg-color: #fafafa;
+$app-footer-input-color: white;
+
+// Global link styles - applies to all links across the project
+a {
+  text-decoration: none;
+  color: $app-link-color;
+  transition: 1s;
+
+  &:hover {
+    color: $app-link-hover-color;
+
+    svg {
+      &.fa-discord {
+        path {
+          transition: 1s;
+          fill: $discord-color;
+        }
+      }
+      &.fa-facebook-f {
+        path {
+          transition: 1s;
+          fill: $facebook-color;
+        }
+      }
+      &.fa-github {
+        path {
+          transition: 1s;
+          fill: $github-color;
+        }
+      }
+      &.fa-instagram {
+        path {
+          transition: 1s;
+          fill: $instagram-color;
+        }
+      }
+      &.fa-linkedin-in {
+        path {
+          transition: 1s;
+          fill: $linkedin-color;
+        }
+      }
+      &.fa-medium {
+        path {
+          transition: 1s;
+          fill: $medium-color;
+        }
+      }
+      &.fa-x-twitter {
+        path {
+          transition: 1s;
+          fill: $x-twitter-color;
+        }
+      }
+      &.fa-youtube {
+        path {
+          transition: 1s;
+          fill: $youtube-color;
+        }
+      }
+    }
+  }
+}
+
+app-gallery {
+  a {
+    color: $app-link-color;
+    &:hover {
+      color: $app-link-hover-color;
+      transition: 1s;
+    }
+  }
+}
+
+html {
+  font-family: 'Lora', serif !important;
+}
+
+body {
+  font-family: 'Lora', serif !important;
+  margin: 0;
+}
+
+// Philosopher font for headings and buttons
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+mat-button,
+.mat-button,
+.mat-raised-button,
+.mat-flat-button,
+.mat-stroked-button,
+.mat-icon-button,
+.mat-fab,
+.mat-mini-fab,
+.contact-btn,
+.service-button,
+mat-card-title,
+.mat-card-title {
+  font-family: 'Philosopher', sans-serif !important;
+  font-weight: 400; // Regular weight by default
+}
+
+// Lora font for all other text
+.mat-tree-node,
+.mat-step-text-label,
+.mat-tab-label-content,
+a,
+mat-error,
+mat-header-cell,
+mat-hint,
+span,
+tspan,
+.mat-list-item-content,
+body,
+input[type='email'],
+input[type='tel'],
+input[type='text'],
+mat-card-subtitle,
+mat-menu-item,
+p,
+// TODO: textarea doesn't change the font.
+textarea {
+  font-family: 'Lora', serif !important;
+  font-weight: 400; // Regular weight by default
+}
+
+// Bold text should use weight 700
+strong {
+  font-family: 'Lora', serif !important;
+  font-weight: 700;
+}
+
+// Required to put it here in order to overwrite Angular Material's styles used in a footer.
+footer {
+  input,
+  mat-hint,
+  .placeholder,
+  .mat-form-field-label {
+    color: $app-footer-input-color !important;
+  }
+
+  mat-hint {
+    color: $app-footer-input-color !important;
+  }
+  .mat-form-field-hint-spacer {
+    display: none;
+  }
+  .mat-form-field-underline {
+    background-color: $app-footer-input-color !important;
+  }
+}
+
+body,
+html {
+  background-color: $app-bg-color;
+  height: 100%;
+  overflow-x: hidden; // Prevent horizontal scrolling
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+main {
+  margin-bottom: 3.125rem;
+}
+
+mat-card {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem auto;
+  padding-top: 1rem;
+  width: 50%;
+
+  @media (max-width: 1279px) {
+    width: 80%;
+  }
+
+  @media (max-width: 959px) {
+    width: 90%;
+  }
+
+  mat-card-subtitle {
+    margin-top: 2rem !important;
+  }
+
+  mat-card-content {
+    margin-top: 1rem;
+    h3 {
+      text-align: center;
+    }
+    p {
+      text-align: justify;
+    }
+  }
+
+  mat-card-title,
+  mat-card-subtitle {
+    text-align: center;
+  }
+
+  // Required to put it here in order to overwrite Angular Material's styles used in a contact.
+  .mat-form-field-subscript-wrapper {
+    padding: 0 !important;
+  }
+  .mat-datepicker-toggle-default-icon {
+    font-size: 2rem;
+  }
+  z-index: 0;
+}
+
+mat-tab-body {
+  margin-top: 1.25rem;
+}
+
+// Required to put it here in order overwrite Angular Material's styles for global behaviours.
+.mat-drawer-backdrop {
+  position: fixed !important;
+}
+
+// Required to put it here in order to overwrite Angular Material's styles used in partnerships.
+.mat-tab-body-content {
+  text-align: center;
+}
+
+// Remove unecessary default padding for first and last cell enforced by Angular Material on small and medium devices.
+// TODO: Use "clamp()" for fonts a.k.a. Fluid Typography.
+@media (max-width: 959px) {
+  mat-cell {
+    &:first-of-type,
+    &:last-of-type {
+      padding: 0 !important;
+    }
+  }
+}
+
+.mat-elevation-z24 {
+  box-shadow:
+    0 1.5rem 2.375rem 0.1875rem rgba(0, 0, 0, 0.14),
+    0 0.5625rem 2.875rem 0.5rem rgba(0, 0, 0, 0.12),
+    0 0.6875rem 0.9375rem -0.4375rem rgba(0, 0, 0, 0.2) !important;
+  border-radius: 1rem !important;
+}
+
+// Service card styles - shared across cyber-security, digital-strategy, and software-development components
+.service-card {
+  padding: 2rem;
+  width: 100%;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+// ngxsmk-tel-input flag images override
+.iti__flag {
+  background-image: url("/assets/intl-tel-input/img/flags.png");
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {
+    background-image: url("/assets/intl-tel-input/img/flags@2x.png");
+  }
+}

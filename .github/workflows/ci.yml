@@ -1,0 +1,436 @@
+# CI and deploy pipeline.
+# Node 24, pnpm, all checks; audit does not fail the pipeline; Lighthouse + axe against deployed URLs; deploy SSR to Firebase.
+# Feature branches deploy to the staging Firebase project; main/master deploy to production.
+# Lighthouse / axe / Observatory use staging URL except on main/master → https://ditectrev.com
+# After Firebase deploy: HTTP smoke (/ + /health) and Playwright smoke.spec against that environment.
+# Required GitHub Secrets: see .github/SECRETS.md (if present) or project docs.
+
+name: CI
+
+on:
+  push:
+    branches: [main, master, feature, "feature/**"]
+  pull_request:
+    branches: [main, master, feature, "feature/**"]
+
+env:
+  NODE_VERSION: "24"
+  PNPM_VERSION: "9.15.0"
+  NODE_OPTIONS: "--openssl-legacy-provider"
+
+jobs:
+  security-audit:
+    name: Dependencies audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      # Run audit but do not fail the pipeline (findings are reported only).
+      - name: Run audit
+        run: pnpm exec audit-ci --low || true
+
+  lint:
+    name: Lint (SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+
+  format:
+    name: Code format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier --check "src/**/*.{ts,html,scss,json}" "*.json" || true
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run test
+
+  e2e:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run e2e
+
+  build-staging:
+    name: Build (staging)
+    runs-on: ubuntu-latest
+    environment: Preview
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+      FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+      FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+      FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+      GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+      MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+      MAIL_HOST: ${{ secrets.MAIL_HOST }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_PORT: ${{ secrets.MAIL_PORT }}
+      MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
+      MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+      RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:ssr
+
+  build-production:
+    name: Build (production)
+    runs-on: ubuntu-latest
+    environment: Production
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+      FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+      FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+      FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+      GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+      MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+      MAIL_HOST: ${{ secrets.MAIL_HOST }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_PORT: ${{ secrets.MAIL_PORT }}
+      MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
+      MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+      RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:ssr:production
+
+  deploy-firebase-preview:
+    name: Deploy to Firebase Hosting (preview)
+    runs-on: ubuntu-latest
+    needs: [lint, test, build-staging]
+    environment: Preview
+    permissions:
+      contents: read
+      id-token: write
+    # Deploy full SSR previews for any feature/* branch pushes to the staging Firebase project.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Build and deploy SSR app to Firebase staging project
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+          FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+          GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+          MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
+          MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
+          FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
+          CI_ENVIRONMENT_SLUG: development
+        run: pnpm run build-and-deploy:ssr:staging:firebase
+
+  deploy-firebase-production:
+    name: Deploy to Firebase Hosting (production SSR)
+    runs-on: ubuntu-latest
+    needs: [lint, test, build-production]
+    environment: Production
+    permissions:
+      contents: read
+      id-token: write
+    # Deploy production only from main/master pushes.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Build and deploy SSR app to Firebase
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          FIRESTORE_COLLECTION_FILES: ${{ secrets.FIRESTORE_COLLECTION_FILES }}
+          FIRESTORE_COLLECTION_MESSAGES: ${{ secrets.FIRESTORE_COLLECTION_MESSAGES }}
+          GOOGLE_TAG_MANAGER_ID: ${{ secrets.GOOGLE_TAG_MANAGER_ID }}
+          MAIL_ACCOUNT: ${{ secrets.MAIL_ACCOUNT }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAILCHIMP_SUBSCRIBE_ENDPOINT: ${{ secrets.MAILCHIMP_SUBSCRIBE_ENDPOINT }}
+          MAILCHIMP_B_FIELD: ${{ secrets.MAILCHIMP_B_FIELD }}
+          RECAPTCHA_API_KEY: ${{ secrets.RECAPTCHA_API_KEY }}
+          FIREBASE_DEPLOY_KEY: ${{ secrets.FIREBASE_DEPLOY_KEY }}
+          CI_ENVIRONMENT_SLUG: production
+        run: pnpm run build-and-deploy:ssr:production:firebase
+
+  lighthouse:
+    name: Lighthouse CI (deployed URL)
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      LHCI_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - name: Run Lighthouse CI
+        run: |
+          echo "LHCI_BASE_URL=$LHCI_BASE_URL"
+          pnpm exec lhci autorun
+
+  accessibility-axe:
+    name: Accessibility (axe)
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      AXE_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
+      # Do not fail the job on violations; log them and track in issues (local runs still fail unless AXE_NON_BLOCKING is set).
+      AXE_NON_BLOCKING: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run axe on deployed site
+        run: |
+          echo "AXE_BASE_URL=$AXE_BASE_URL"
+          pnpm run a11y:axe
+
+  observatory:
+    name: MDN HTTP Observatory (deployed host)
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      OBSERVATORY_HOST: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'ditectrev.com' || 'ditectrev-v3-staging-5ad41.web.app' }}
+    # Uses MDN HTTP Observatory API v2 (replaces deprecated mozilla.org v1 / observatory-cli — see https://github.com/mdn/mdn-http-observatory ).
+    # Third-party API may return 502; we retry then skip with a warning so PRs are not blocked.
+    steps:
+      - name: Run Observatory scan
+        id: observatory
+        run: |
+          set -euo pipefail
+          HOST="${OBSERVATORY_HOST}"
+          API="https://observatory-api.mdn.mozilla.net/api/v2"
+
+          json_ok() {
+            jq -e . >/dev/null 2>&1
+          }
+
+          echo "Starting MDN HTTP Observatory scan for $HOST..."
+
+          # POST /scan?host= — single response with grade/score (algorithm v4); rate-limited per host (~1/min cached)
+          for attempt in $(seq 1 15); do
+            HTTP=$(curl -sS --retry 2 --retry-delay 8 -o /tmp/scan_result.json -w "%{http_code}" \
+              -X POST "$API/scan?host=$HOST" || true)
+            if [ "$HTTP" = "200" ] && json_ok < /tmp/scan_result.json; then
+              echo "Scan result (HTTP $HTTP)"
+              cat /tmp/scan_result.json
+              break
+            fi
+            echo "Observatory POST returned HTTP $HTTP or non-JSON (attempt $attempt/15); retry in 45s..."
+            head -c 400 /tmp/scan_result.json 2>/dev/null || true
+            echo
+            if [ "$attempt" -eq 15 ]; then
+              echo "::warning::MDN Observatory API unavailable after 15 attempts (often HTTP 502). Skipping scan — verify manually at https://developer.mozilla.org/en-US/observatory/analyze?host=$HOST"
+              exit 0
+            fi
+            sleep 45
+          done
+
+          ERR=$(jq -r '.error // empty' /tmp/scan_result.json)
+          if [ -n "$ERR" ]; then
+            echo "Observatory API error: $ERR"
+            jq -r '.message // empty' /tmp/scan_result.json
+            exit 1
+          fi
+
+          GRADE=$(jq -r '.grade // .scan.grade // empty' /tmp/scan_result.json)
+          SCORE=$(jq -r '.score // .scan.score // empty' /tmp/scan_result.json)
+          DETAILS_URL=$(jq -r '.details_url // empty' /tmp/scan_result.json)
+          echo "Observatory grade: $GRADE (score: $SCORE)"
+          echo "grade=$GRADE" >> "$GITHUB_OUTPUT"
+          echo "score=$SCORE" >> "$GITHUB_OUTPUT"
+
+          # Informative only — do not fail the job on grade; track improvements in issues.
+          if [[ ! "$GRADE" == A* ]]; then
+            echo "::warning::MDN HTTP Observatory: grade $GRADE (score $SCORE) for $HOST — target A; details: $DETAILS_URL"
+          else
+            echo "Observatory grade OK: $GRADE (score $SCORE) for $HOST"
+          fi
+
+  http-smoke-staging:
+    name: HTTP smoke (staging after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-preview]
+    if: success() && github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    steps:
+      - name: curl / and /health
+        run: |
+          BASE="https://ditectrev-v3-staging-5ad41.web.app"
+          curl -fsS "$BASE/" -o /dev/null
+          curl -fsS "$BASE/health" -o /dev/null
+          echo "Staging HTTP OK"
+
+  http-smoke-production:
+    name: HTTP smoke (production after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-production]
+    if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - name: curl / and /health
+        run: |
+          curl -fsS "https://ditectrev.com/" -o /dev/null
+          curl -fsS "https://ditectrev.com/health" -o /dev/null
+          echo "Production HTTP OK"
+
+  e2e-deployed-staging:
+    name: E2E smoke — Playwright (staging after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-preview]
+    if: success() && github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
+    env:
+      E2E_BASE_URL: https://ditectrev-v3-staging-5ad41.web.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run smoke tests against deployed staging
+        run: pnpm exec playwright test e2e/smoke.spec.ts
+
+  e2e-deployed-production:
+    name: E2E smoke — Playwright (production after deploy)
+    runs-on: ubuntu-latest
+    needs: [deploy-firebase-production]
+    if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    env:
+      E2E_BASE_URL: https://ditectrev.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run smoke tests against deployed production
+        run: pnpm exec playwright test e2e/smoke.spec.ts

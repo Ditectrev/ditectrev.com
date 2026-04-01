@@ -1,0 +1,206 @@
+// Project description textarea - minimum height
+.project-description-textarea,
+::ng-deep textarea[formcontrolname="formControlDescription"] {
+  min-height: 12rem !important; // ~8 lines
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.form-section-title {
+  text-align: center;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.form-section-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-radio-button {
+  margin: 0 1rem;
+}
+
+// Ensure ngx-mat-intl-tel-input flag selector and input are styled correctly
+::ng-deep {
+  ngx-mat-intl-tel-input {
+    display: block;
+    width: 100%;
+
+    .ngx-mat-tel-input-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+    }
+
+    // Country selector: position absolute (like before overlap fix) so flag stays visible when empty
+    .country-selector {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.375rem !important;
+      min-width: 6rem !important;
+      flex-shrink: 0 !important;
+      position: absolute !important;
+      left: 0 !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      z-index: 1 !important;
+    }
+
+    // Ensure the input has enough left padding so typed number doesn't overlap flag + dial code
+    input:not(.country-search) {
+      width: 100% !important;
+      border: none !important;
+      outline: none !important;
+      padding-left: 6rem !important; // ~96px - room for flag + longest dial code (e.g. +1684)
+    }
+
+    // Keep placeholder visible even when typing (like other fields)
+    input::placeholder {
+      opacity: 0.6 !important; // Keep placeholder visible (grayed out) when typing
+      color: rgba(0, 0, 0, 0.6) !important;
+      transition: opacity 0.2s !important;
+    }
+
+    // Keep placeholder visible when input has focus or content
+    input:focus::placeholder,
+    input:not(:placeholder-shown)::placeholder {
+      opacity: 0.6 !important; // Keep it visible even when focused or has content
+      color: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    // Ensure placeholder stays visible (override any default hiding behavior)
+    input[placeholder]:not(:placeholder-shown)::placeholder {
+      opacity: 0.6 !important;
+      visibility: visible !important;
+    }
+  }
+
+  // Style mat-form-field containing ngx-mat-intl-tel-input to ensure proper Material styling
+  mat-form-field {
+    ngx-mat-intl-tel-input {
+      ~ mat-icon {
+        display: inline-flex !important;
+      }
+    }
+
+    // Adjust label positioning for phone input to avoid overlap with flag
+    // The flag should stay completely on the left, only the label needs to move
+    &:has(ngx-mat-intl-tel-input) {
+      .mat-mdc-text-field-wrapper {
+        // Ensure no padding on the left side
+        padding-left: 0 !important;
+
+        .mat-mdc-form-field-flex {
+          padding-left: 0 !important;
+          padding-top: 0 !important;
+
+          // Adjust label position when inside the input (before floating)
+          .mat-mdc-floating-label {
+            left: 6rem !important; // Align with input padding to avoid flag overlap
+          }
+
+          // When label is floating (shrunken at the top), keep it at left: 0
+          .mat-mdc-floating-label.mdc-floating-label--float-above {
+            left: 0 !important; // Keep at original position when floating
+          }
+        }
+      }
+    }
+  }
+}
+
+// File upload container styling
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+
+  .file-upload-button {
+    align-self: flex-start;
+  }
+
+  .file-selection-info {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+    font-weight: 500;
+
+    .file-names-list {
+      margin: 0.25rem 0 0 1rem;
+      padding-left: 1rem;
+    }
+  }
+
+  .file-upload-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+
+    mat-progress-bar {
+      width: 100%;
+      max-width: 20rem;
+    }
+
+    .file-upload-progress-label {
+      font-size: 0.75rem;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .file-upload-hint {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+
+  .file-upload-error {
+    color: #f44336;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+}
+
+// Style reCAPTCHA container to ensure visibility
+.form-section-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Specific styling for reCAPTCHA container
+.recaptcha-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 1rem 0 !important;
+  min-height: 4.875rem; // Minimum height for reCAPTCHA widget
+
+  re-captcha {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 19rem; // Standard reCAPTCHA width
+
+    ::ng-deep {
+      div {
+        display: flex !important;
+        justify-content: center !important;
+      }
+    }
+  }
+}

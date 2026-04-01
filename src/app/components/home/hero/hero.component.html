@@ -1,0 +1,25 @@
+<div class="mat-elevation-z24" id="particles-js">
+  <div id="heading">
+    <!-- Contains mixing styles in HTML tags within a string, therefore "[innerHtml]" is required to correctly parse the code. -->
+    <h1 [innerHtml]="headerSafeHtml"></h1>
+    <div class="contact-btn-wrapper">
+      <a href="/contact" class="contact-btn">
+        <span>Contact Us</span>
+      </a>
+    </div>
+    <h2>
+      <span *ngFor="let letter of subheaderLetters" class="letter" [class.line-break]="letter === '\n'">{{ letter }}</span>
+    </h2>
+    <p>
+      Online Education and Information Technology (IT) Consulting. Ditectrev was founded in 2017 as consulting company, which in 2022 is transforming towards Online Education. In combination with IT Consulting, we aim to provide a unique combination for our students to grow and use their gained knowledge in our commercial projects. We want to build students' community around e-learning boot camps, courses, exam preparations, and open source projects around Cyber Security, Digital Strategy, and Software Development.
+    </p>
+    <div
+      class="scroll-down-wrapper"
+      (click)="scrollToNextSection()"
+      role="button"
+      tabindex="0"
+      aria-label="Scroll down to explore our services">
+      <span></span>
+    </div>
+  </div>
+</div>

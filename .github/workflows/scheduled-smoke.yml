@@ -1,0 +1,56 @@
+# Nightly / manual checks against live URLs (no PR noise).
+# - HTTP: / and /health on staging + production
+# - Broken links: shallow crawl of production (skips mailto/tel and common third-party CDNs)
+
+name: Scheduled smoke & link check
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-smoke
+  cancel-in-progress: false
+
+jobs:
+  http-smoke-urls:
+    name: HTTP smoke (staging + production)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Staging
+        run: |
+          curl -fsS "https://ditectrev-v3-staging-5ad41.web.app/" -o /dev/null
+          curl -fsS "https://ditectrev-v3-staging-5ad41.web.app/health" -o /dev/null
+      - name: Production
+        run: |
+          curl -fsS "https://ditectrev.com/" -o /dev/null
+          curl -fsS "https://ditectrev.com/health" -o /dev/null
+
+  broken-links-production:
+    name: Broken link crawl (production, shallow)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: linkinator (same-origin emphasis via skips for off-site CDNs/analytics)
+        run: |
+          npx --yes linkinator@6 https://ditectrev.com \
+            --recurse \
+            --max-depth 2 \
+            --timeout 30000 \
+            --verbosity error \
+            --skip "^mailto:" \
+            --skip "^tel:" \
+            --skip "^javascript:" \
+            --skip "^https?://www\\.googletagmanager\\.com" \
+            --skip "^https?://www\\.google-analytics\\.com" \
+            --skip "^https?://region[0-9]+\\.google-analytics\\.com" \
+            --skip "^https?://fonts\\.googleapis\\.com" \
+            --skip "^https?://fonts\\.gstatic\\.com" \
+            --skip "^https?://www\\.google\\.com/recaptcha/" \
+            --skip "^https?://www\\.gstatic\\.com/recaptcha/"

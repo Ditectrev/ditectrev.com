@@ -1,0 +1,90 @@
+<section aria-label="This is a privacy and security page to inform you about how do we protect your privacy.">
+  <!-- Card container that binds all together. -->
+  <mat-card aria-label="These are our privacy and security details." class="mat-elevation-z24" role="region">
+    <!-- Title of the card. -->
+    <mat-card-title aria-level="1" title="Privacy &amp; Security" role="heading">Privacy &amp; Security</mat-card-title>
+    <mat-card-subtitle aria-level="3" role="heading">We respect your privacy, but nowadays to exists we have to use some
+      of your data.</mat-card-subtitle>
+    <!-- Actual content starts from here. -->
+    <mat-card-content role="complementary">
+      <div *ngFor="let section of sections">
+        <h3 [attr.aria-label]="section.ariaLabel"
+            data-aos="fade-up"
+            [attr.data-aos-delay]="section.delay"
+            data-aos-duration="1500"
+            [attr.title]="section.title">
+          {{ section.title }}
+        </h3>
+        <div data-aos="fade-up"
+             [attr.data-aos-delay]="section.delay"
+             data-aos-duration="1500"
+             role="region">
+          <ng-container *ngIf="section.hasLinks; else regularContent">
+            <ng-container [ngSwitch]="section.title">
+              <ng-container *ngSwitchCase="'Information Scope'">
+                <p>We aim to provide your personal information as accurate, complete, relevant and up-to-date. <a
+                    routerLink="/privacy-and-security"
+                    aria-label="Privacy &amp; Security. Click here to read more about Privacy &amp; Security."
+                    title="Privacy &amp; Security">Privacy &amp; Security</a> gives an overview of what happens when you are
+                  using our Website and Asset (defined in <a routerLink="/terms-of-use"
+                    aria-label="Terms of Use. Click here to read more about Terms of Use." title="Terms of
+                    Use">Terms of
+                    Use</a>). Personal information is any data based on which you could be personally identified. Range of
+                  information about data collection, confidentiality, protection, scope, storage, usage and transfer can be
+                  found here. We do also cover lots of privacy topics related to anonymization, children, cookies, legal rights
+                  and more with in-depth information. If something is unclear to you please do not hesitate to contact us.
+                </p>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Data Collection'">
+                <p>Personal information refers to these type of data based on which you can be directly identified. These are for example your names and email address. Users also can be identified based on data that could be used on its own or in combination with other data to identify user. Data collected by the Website and our Assets is being controlled by IBStructure Daniel Danielecki with registered office which is Irysowa 18, 55-220 Jelcz-Laskowice, Poland. In all cases regarding data you can contact us:</p>
+                <ul>
+                  <li>By email: <a aria-label="contact&#64;ditectrev.com. Click here to send us an email."
+                      href="mailto:contact@ditectrev.com?subject=Mail from Privacy and Security&body=Hi Ditectrev!%0D%0A%0D%0AMy mail is about:%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0ABest regards,%0D%0A"
+                      title="contact&#64;ditectrev.com">contact&#64;ditectrev.com</a></li>
+                  <li>By mail: Irysowa 18, 55-220 Jelcz-Laskowice, Poland</li>
+                  <li>By phone: <a aria-label="+48 732 280 741. Click here give us a phone call." href="tel:+48 732 280 741"
+                      title="+48 732 280 741">+48 732 280 741</a></li>
+                </ul>
+                <p>You can always limit data collection by using third party software, however it may limit functionality of our Assets.</p>
+                <p>Your data is treated confidentially, in accordance with statutory data protection regulations and this <a
+                    routerLink="/privacy-and-security"
+                    aria-label="Privacy &amp; Security. Click here to read more about Privacy &amp; Security."
+                    title="Privacy &amp; Security">Privacy &amp; Security</a>. Inquiries from law enforcement to share your data will be accepted only if this is required by local law.</p>
+                <p>No digital application, platform, product, service or website can fully protect your data from third party access. Therefore, we cannot take the responsibility for loss of unlawfully accessed your personal information for our Assets. However, we do our best in the administrative, business, digital, managerial, organizational, physical, preventive, technical and technological measures to secure your data. All of our affiliates, business partners, cooperative third parties, contractors, employees are bound with confidentiality agreements. Even the fact we cannot guarantee 100% security, we do believe that these implemented measures might reduce our security Vulnerabilities to a level appropriate to the type of personal data and decrease potential damage if Data Breach would happen. Information Security is dependent by current state of technology on which we do not have influence. Your data will not be disclosed to anyone without your explicit consent, however to have our Assets working properly we may have some third party software integrations. Excluding legal authorities, trusted third parties, software which requires us to operate our Assets whose agreed to keep your information confidential and data to do so with your consent; we do not sell, trade or otherwise transfer your personal data. All hard copy records, if exists, are stored in European Union. We are using industry standard SSL/TLS for transmission protection of confidential content data transfers for our Assets. Information stored in a database is only accessible by authorized subjects with special access to it, as well as other than required no additional ports are open in our Assets.</p>
+                <p>You can use our Assets without providing personal information, providing so is always on voluntary basis. However, your choice may affect quality of our products and services. The personal information provided into our Assets (including server logs), but not limited to, may be: account details, browser, company, cookies, country, credit cards (last 3 digits only), cryptographic hashes, date, demographics, device, email address, HTTP headers, hostname, IP address, language, local storage availability, location, metadata, mobile network, name(s), operating system, purchase details, reactions, reviews, screen resolution, session data, server logs, social profiles, telephone number, timestamp, web browser. We may use social media or third party software into personal data collection. Sensitive information about yours: biometric, criminal record, genetic, health, sexual preferences and orientation, political opinions or membership of a political organization, membership of a professional association or trade union, philosophical beliefs, race or ethnic origin, religious beliefs and affiliations are not collected and we urge you never to share so.</p>
+                <p>Retaining time of your data is until you will request to withdraw your consent. All other data will be retained as long as required for the purposes we defined in the Purpose section. We may also keep information as required by law. Your data is stored in data centers located within European Union.</p>
+                <p>We collect data for accounting, administration, advertising, analysis, analytics, audits, business improvements, communication, data retention, legal basis, maintenance, marketing, operation, processing, profiling, reporting, research and statistics. The list covers most of our purposes, but is not limited to.</p>
+                <p>Collecting data is coming from these sources, but not limited to, such as applying for a job, contacting us, filling contact forms and surveys, participating in courses and events, social media, subscribing to our newsletters, webinars.</p>
+                <p>Your personal data may be transferred outside European Union. This is due to the third party software integrations we use which is being hosted in, for example, United States. If that is the case, we rely on safeguards of these software providers. In that case from legal perspective its compliant with, for example, Privacy Shield or Standard Contractual Clauses. By using our Assets you acknowledge and agree with this fact. We cannot prevent the use (or misuse) of such personal data by others.</p>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Data Protection Officer'">
+                <p>Data Protection Officer for our company is Daniel Danielecki. Compliance monitoring with data protection laws is one of the tasks of Data Protection Officer. The other relevant for you is to act as a first contact person for individuals whose data is processed by us. If you have any questions regarding your data please reach Daniel Danielecki by email <a aria-label="contact&#64;ditectrev.com. Click here to send us an email."
+                    href="mailto:contact@ditectrev.com?subject=Mail from Privacy and Security&body=Hi Ditectrev!%0D%0A%0D%0AMy mail is about:%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0ABest regards,%0D%0A"
+                    title="contact&#64;ditectrev.com">contact&#64;ditectrev.com</a> or phone <a
+                    aria-label="+48 732 280 741. Click here give us a phone call." href="tel:+48 732 280 741"
+                    title="+48 732 280 741">+48 732 280 741</a>.</p>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Cookies'">
+                <p>This website is using cookies and other identifiers such as local and session storage, but not limited to. Our Assets also may do so.</p>
+                <p>Cookies are small text files which are being transferred from a site or service provider to hard drive of your computer, smartphone, tablet or other device via web browser if certain permission was granted. These files recognize some information and are further processed by site owner, here &ndash; by us, in an anonymous way.</p>
+                <p>We use cookies to understand behavior of our users and to provide you better experience based on your preferences.</p>
+                <p>The types of Cookies, which are being used are divided on 5 categories: Strictly Necessary Cookies, Performance Cookies, Functionality Cookies, Targeting or Advertising Cookies and Third Party Cookies. Across our Assets we may use any or all of them and this is what they are being used for:</p>
+                <ul>
+                  <li><strong>Strictly Necessary Cookies</strong> &ndash; essential for lots of functionalities to work properly.</li>
+                  <li><strong>Performance Cookies</strong> &ndash; collects information about how users use websites.</li>
+                  <li><strong>Functionality Cookies</strong> &ndash; remembers user's interface personalization.</li>
+                  <li><strong>Targeting or Advertising Cookies</strong> &ndash; delivers advertisements relevant to your interest.</li>
+                  <li><strong>Third Party Cookies</strong> &ndash; others, provided by some third party software integrations we may use.</li>
+                </ul>
+                <p>You can always block, delete, disable or restrict some of all of cookies and similar technologies in the settings of your web browser, however it may limit functionality of our Assets.</p>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-template #regularContent>
+            <p [innerHTML]="section.content"></p>
+          </ng-template>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

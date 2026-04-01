@@ -1,0 +1,33 @@
+<h2>What can we do for You?</h2>
+<div class="gallery-container"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()">
+  <div class="gallery-main">
+    <img
+      [src]="images[currentIndex].src"
+      [alt]="images[currentIndex].title"
+      class="gallery-image"
+      [@slideAnimation]="currentIndex"
+    />
+    <div class="gallery-overlay">
+      <h3>{{ images[currentIndex].title }}</h3>
+      <p>{{ images[currentIndex].description }}</p>
+      <a [href]="images[currentIndex].link" class="gallery-link">Learn More</a>
+    </div>
+    <button class="gallery-nav gallery-prev" (click)="previous()" aria-label="Previous image">‹</button>
+    <button class="gallery-nav gallery-next" (click)="next()" aria-label="Next image">›</button>
+    <div class="gallery-progress-bar">
+      <div class="gallery-progress-fill" [style.width.%]="progress"></div>
+    </div>
+  </div>
+  <div class="gallery-thumbnails">
+    <img
+      *ngFor="let image of images; let i = index"
+      [src]="image.src"
+      [alt]="image.title"
+      class="thumbnail"
+      [class.active]="i === currentIndex"
+      (click)="goTo(i)"
+    />
+  </div>
+</div>

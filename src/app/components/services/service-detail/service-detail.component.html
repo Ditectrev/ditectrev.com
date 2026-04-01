@@ -1,0 +1,33 @@
+<section [attr.aria-label]="'This is ' + title + ' page to inform your about our ' + serviceName + ' services.'">
+  <h1 [title]="title">{{ title }}</h1>
+  <!-- Container for cards. -->
+  <div class="services-grid">
+    <ng-container *ngFor="let serviceItem of serviceItems">
+      <!-- Card container that binds all card information. -->
+      <mat-card
+        [attr.aria-label]="'This is ' + serviceItem.name + ' service short description.'"
+        class="mat-elevation-z24 service-card"
+        role="region"
+      >
+        <!-- Title of the card. -->
+        <mat-card-title [title]="serviceItem.name" aria-level="2" role="heading">
+          {{ serviceItem.name }}
+        </mat-card-title>
+        <img
+          [alt]="serviceItem.name"
+          [src]="serviceItem.src"
+          [title]="serviceItem.name"
+        />
+        <!-- Subtitle of the card. -->
+        <mat-card-subtitle
+          [attr.aria-label]="'We provide these services as part of ' + serviceItem.name + ': ' + serviceItem.description"
+          aria-level="3"
+          role="heading"
+        >
+          {{ serviceItem.description }}
+        </mat-card-subtitle>
+      </mat-card>
+    </ng-container>
+  </div>
+</section>
+

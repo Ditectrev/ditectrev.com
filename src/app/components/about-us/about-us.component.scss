@@ -1,0 +1,10 @@
+.progress-container {
+  display: flex;
+  justify-content: space-around;
+
+  @media (max-width: 959px) {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+}
