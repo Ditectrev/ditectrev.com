@@ -153,7 +153,10 @@
           "options": {
             "main": "src/server.ts",
             "outputPath": "dist/ditectrev-server",
-            "tsConfig": "tsconfig.server.json"
+            "tsConfig": "tsconfig.server.json",
+            "externalDependencies": [
+              "domino"
+            ]
           },
           "configurations": {
             "production": {
