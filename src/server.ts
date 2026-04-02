@@ -60,6 +60,34 @@ app.get('*', (req, res) => {
     });
 });
 
+function buildContactAttachments(
+  contactFormData: Record<string, unknown>
+): import('nodemailer/lib/mailer').Attachment[] | undefined {
+  const raw = contactFormData['fileUploader'];
+  if (raw == null || raw === '') {
+    return undefined;
+  }
+  const urls = Array.isArray(raw) ? raw : [raw];
+  const types = contactFormData['contentType'];
+  const names = contactFormData['fileName'];
+  const typeList = Array.isArray(types) ? types : [types];
+  const nameList = Array.isArray(names) ? names : [names];
+
+  const attachments: import('nodemailer/lib/mailer').Attachment[] = [];
+  for (let i = 0; i < urls.length; i++) {
+    const path = String(urls[i] ?? '').trim();
+    if (!path) {
+      continue;
+    }
+    attachments.push({
+      contentType: String(typeList[i] ?? typeList[0] ?? 'application/octet-stream'),
+      filename: String(nameList[i] ?? nameList[0] ?? `attachment-${i + 1}`),
+      path,
+    });
+  }
+  return attachments.length > 0 ? attachments : undefined;
+}
+
 async function onCreateSendEmail(snap: any, _context: any): Promise<void> {
   try {
     const contactFormData = snap.data();
@@ -79,14 +107,10 @@ async function onCreateSendEmail(snap: any, _context: any): Promise<void> {
       },
     });
 
+    const attachments = buildContactAttachments(contactFormData as Record<string, unknown>);
+
     await mailTransport.sendMail({
-      attachments: [
-        {
-          contentType: `${contactFormData.contentType ?? ''}`,
-          filename: `${contactFormData.fileName ?? ''}`,
-          path: `${contactFormData.fileUploader ?? ''}`,
-        },
-      ],
+      ...(attachments ? { attachments } : {}),
       bcc: 'contact@ditectrev.com',
       from: `${contactFormData.formControlName} <${contactFormData.formControlEmail}>`,
       html: `
@@ -117,10 +141,11 @@ export const angularUniversalFunction = functions
   .region('europe-west3')
   .https.onRequest(app);
 
+/** Any document ID — client uses `.add()` (auto IDs), not email as document ID. */
 export const contactFormFunction = functions
   .region('us-central1')
   .firestore
-  .document(`${firestoreMessagesCollection}/{formControlEmail}`)
+  .document(`${firestoreMessagesCollection}/{messageId}`)
   .onCreate(onCreateSendEmail);
 
 if (require.main === module) {
