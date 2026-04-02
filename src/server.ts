@@ -60,9 +60,17 @@ app.get('*', (req, res) => {
       });
       res.send(html);
     } catch (err: unknown) {
+      const errObj = err as any;
       const errMessage =
-        err instanceof Error ? err.message : err ? String(err) : 'Unknown error';
-      const errStack = err instanceof Error ? err.stack ?? '' : '';
+        errObj && typeof errObj === 'object' && 'message' in errObj
+          ? String(errObj.message)
+          : err
+            ? String(err)
+            : 'Unknown error';
+      const errStack =
+        errObj && typeof errObj === 'object' && 'stack' in errObj
+          ? String(errObj.stack ?? '')
+          : '';
 
       console.error('SSR render failed for', req.url, err);
 
