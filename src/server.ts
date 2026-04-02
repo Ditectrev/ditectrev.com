@@ -9,7 +9,7 @@ import * as express from 'express';
 import * as functions from 'firebase-functions/v1';
 import * as nodemailer from 'nodemailer';
 import { renderModule } from '@angular/platform-server';
-import { createWindow } from 'domino';
+import * as domino from 'domino';
 import { join } from 'path';
 import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
@@ -38,17 +38,30 @@ function ensureSsrDomGlobals(): void {
   }
 
   // Some third-party libraries still touch browser globals during SSR.
+  const htmlTemplateElementType = (() => {
+    try {
+      return typeof (domino as any)?.impl?.HTMLTemplateElement;
+    } catch {
+      return 'unknown';
+    }
+  })();
+
   let windowRef;
   try {
-    windowRef = createWindow(indexHtml);
+    console.error(
+      'SSR domino impl.HTMLTemplateElement typeof:',
+      htmlTemplateElementType
+    );
+    windowRef = (domino as any).createWindow(indexHtml);
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : err ? String(err) : 'Unknown error';
     const errStack = err instanceof Error ? err.stack ?? '' : '';
-    // Throw a new error that contains where we loaded index.html from.
+
     throw new Error(
-      `domino.createWindow failed: ${errMsg} (indexHtmlPath=${indexHtmlPath}, indexHtmlLen=${indexHtml.length})\n${errStack}`
+      `domino.createWindow failed: ${errMsg} (indexHtmlPath=${indexHtmlPath}, indexHtmlLen=${indexHtml.length}, domino.impl.HTMLTemplateElement typeof=${htmlTemplateElementType})\n${errStack}`
     );
   }
+
   (globalThis as any).window = windowRef;
   (globalThis as any).document = windowRef.document;
   (globalThis as any).navigator = windowRef.navigator;
