@@ -61,14 +61,35 @@ app.get('*', (req, res) => {
 
       // Keep response short by default; enable full stack by setting SSR_DEBUG=true.
       if (process.env['SSR_DEBUG'] === 'true') {
-        const errStack = err instanceof Error ? err.stack : '';
-        res.status(500).send(`Server error: ${errMessage}\n\n${errStack}`);
+        const errStack = err instanceof Error ? err.stack ?? '' : '';
+        res
+          .status(500)
+          .type('text/html')
+          .send(`<html><body><pre>Server error: ${escapeHtml(
+            errMessage
+          )}\n\n${escapeHtml(errStack)}</pre></body></html>`);
         return;
       }
 
-      res.status(500).send(`Server error: ${errMessage}`);
+      res
+        .status(500)
+        .type('text/html')
+        .send(
+          `<html><body><pre>Server error: ${escapeHtml(
+            errMessage
+          )}</pre></body></html>`
+        );
     });
 });
+
+function escapeHtml(s: string): string {
+  return s
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
 
 function buildContactAttachments(
   contactFormData: Record<string, unknown>
