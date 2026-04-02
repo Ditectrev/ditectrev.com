@@ -11,15 +11,26 @@ import * as nodemailer from 'nodemailer';
 import { renderModule } from '@angular/platform-server';
 import { createWindow } from 'domino';
 import { join } from 'path';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
 import { AppServerModule } from './app/app.server.module';
 
 export { AppServerModule } from './app/app.server.module';
 
 const app = express();
-const distFolder = join(process.cwd(), 'dist/ditectrev-browser');
-const indexHtml = readFileSync(join(distFolder, 'index.html'), 'utf-8');
+// Hosting runtimes sometimes have different `process.cwd()` values.
+// Prefer locating the browser dist next to this compiled server bundle.
+const distFolderFromCwd = join(process.cwd(), 'dist/ditectrev-browser');
+const distFolderFromDirname = join(__dirname, 'dist/ditectrev-browser');
+const distFolderFromDirnameAlt = join(__dirname, '..', 'ditectrev-browser');
+const distFolder = existsSync(distFolderFromDirname)
+  ? distFolderFromDirname
+  : existsSync(distFolderFromDirnameAlt)
+    ? distFolderFromDirnameAlt
+    : distFolderFromCwd;
+
+const indexHtmlPath = join(distFolder, 'index.html');
+const indexHtml = readFileSync(indexHtmlPath, 'utf-8');
 
 function ensureSsrDomGlobals(): void {
   if ((globalThis as any).window?.document) {
@@ -27,7 +38,17 @@ function ensureSsrDomGlobals(): void {
   }
 
   // Some third-party libraries still touch browser globals during SSR.
-  const windowRef = createWindow(indexHtml);
+  let windowRef;
+  try {
+    windowRef = createWindow(indexHtml);
+  } catch (err) {
+    const errMsg = err instanceof Error ? err.message : err ? String(err) : 'Unknown error';
+    const errStack = err instanceof Error ? err.stack ?? '' : '';
+    // Throw a new error that contains where we loaded index.html from.
+    throw new Error(
+      `domino.createWindow failed: ${errMsg} (indexHtmlPath=${indexHtmlPath}, indexHtmlLen=${indexHtml.length})\n${errStack}`
+    );
+  }
   (globalThis as any).window = windowRef;
   (globalThis as any).document = windowRef.document;
   (globalThis as any).navigator = windowRef.navigator;
