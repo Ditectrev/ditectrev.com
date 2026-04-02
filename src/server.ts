@@ -72,22 +72,26 @@ app.get('*', (req, res) => {
           ? String(errObj.stack ?? '')
           : '';
 
-      console.error('SSR render failed for', req.url, err);
+      const errDebug = (() => {
+        try {
+          if (errObj && typeof errObj === 'object') {
+            const ctorName = errObj?.constructor?.name ?? 'unknown';
+            const keys = Object.keys(errObj).slice(0, 20).join(', ');
+            return `type=object ctor=${ctorName} keys=[${keys}]`;
+          }
+          return `type=${typeof err} value=${String(err)}`;
+        } catch {
+          return `type=${typeof err}`;
+        }
+      })();
+
+      console.error('SSR render failed for', req.url);
+      console.error('SSR errMessage:', errMessage);
+      if (errStack) console.error('SSR errStack:\n', errStack);
+      console.error('SSR err raw:', err);
 
       // Keep response short by default; enable full stack by setting SSR_DEBUG=true.
-      if (process.env['SSR_DEBUG'] === 'true') {
-        res
-          .status(500)
-          .type('text/html')
-          .set('Cache-Control', 'no-store')
-          .send(
-            `<html><body><pre>Server error: ${escapeHtml(
-              errMessage
-            )}\n\n${escapeHtml(errStack)}</pre></body></html>`
-          );
-        return;
-      }
-
+      const stackToShow = errStack ? errStack.slice(0, 20000) : '';
       res
         .status(500)
         .type('text/html')
@@ -95,7 +99,7 @@ app.get('*', (req, res) => {
         .send(
           `<html><body><pre>Server error: ${escapeHtml(
             errMessage
-          )}</pre></body></html>`
+          )}\n${escapeHtml(errDebug)}${stackToShow ? `\n\n${escapeHtml(stackToShow)}` : ''}</pre></body></html>`
         );
     }
   })();
