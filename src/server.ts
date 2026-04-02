@@ -54,9 +54,19 @@ app.get('*', (req, res) => {
   ensureSsrDomGlobals();
   renderModule(AppServerModule, { document: indexHtml, url: req.url })
     .then((html) => res.send(html))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Server error');
+    .catch((err: unknown) => {
+      const errMessage =
+        err instanceof Error ? err.message : err ? String(err) : 'Unknown error';
+      console.error('SSR render failed for', req.url, err);
+
+      // Keep response short by default; enable full stack by setting SSR_DEBUG=true.
+      if (process.env['SSR_DEBUG'] === 'true') {
+        const errStack = err instanceof Error ? err.stack : '';
+        res.status(500).send(`Server error: ${errMessage}\n\n${errStack}`);
+        return;
+      }
+
+      res.status(500).send(`Server error: ${errMessage}`);
     });
 });
 
