@@ -38,28 +38,12 @@ function ensureSsrDomGlobals(): void {
   }
 
   // Some third-party libraries still touch browser globals during SSR.
-  const htmlTemplateElementType = (() => {
-    try {
-      return typeof (domino as any)?.impl?.HTMLTemplateElement;
-    } catch {
-      return 'unknown';
-    }
-  })();
-
   let windowRef;
   try {
-    console.error(
-      'SSR domino impl.HTMLTemplateElement typeof:',
-      htmlTemplateElementType
-    );
     windowRef = (domino as any).createWindow(indexHtml);
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : err ? String(err) : 'Unknown error';
-    const errStack = err instanceof Error ? err.stack ?? '' : '';
-
-    throw new Error(
-      `domino.createWindow failed: ${errMsg} (indexHtmlPath=${indexHtmlPath}, indexHtmlLen=${indexHtml.length}, domino.impl.HTMLTemplateElement typeof=${htmlTemplateElementType})\n${errStack}`
-    );
+    throw new Error(`domino.createWindow failed: ${errMsg} (indexHtmlPath=${indexHtmlPath})`);
   }
 
   (globalThis as any).window = windowRef;
@@ -74,8 +58,49 @@ if (!admin.apps.length) {
   admin.initializeApp();
 }
 
-// Add common security headers for SSR responses.
-app.use(helmet());
+// Security headers. Default Helmet CSP blocks reCAPTCHA (google.com / gstatic), GTM, and
+// inline bootstraps; extend explicitly for those integrations and Firebase client calls.
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+        formAction: ["'self'"],
+        frameAncestors: ["'self'"],
+        frameSrc: [
+          "'self'",
+          'https://www.google.com',
+          'https://recaptcha.google.com',
+        ],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        objectSrc: ["'none'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://www.google.com',
+          'https://www.gstatic.com',
+          'https://www.googletagmanager.com',
+        ],
+        scriptSrcAttr: ["'none'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        connectSrc: [
+          "'self'",
+          'https://www.google.com',
+          'https://www.gstatic.com',
+          'https://*.googleapis.com',
+          'https://*.googletagmanager.com',
+          'https://*.google-analytics.com',
+          'https://*.analytics.google.com',
+          'https://stats.g.doubleclick.net',
+          'wss://*.googleapis.com',
+        ],
+        upgradeInsecureRequests: [],
+      },
+    },
+  })
+);
 
 app.use(express.static(distFolder));
 
@@ -106,35 +131,14 @@ app.get('*', (req, res) => {
           ? String(errObj.stack ?? '')
           : '';
 
-      const errDebug = (() => {
-        try {
-          if (errObj && typeof errObj === 'object') {
-            const ctorName = errObj?.constructor?.name ?? 'unknown';
-            const keys = Object.keys(errObj).slice(0, 20).join(', ');
-            return `type=object ctor=${ctorName} keys=[${keys}]`;
-          }
-          return `type=${typeof err} value=${String(err)}`;
-        } catch {
-          return `type=${typeof err}`;
-        }
-      })();
+      console.error('SSR render failed', { url: req.url, err });
 
-      console.error('SSR render failed for', req.url);
-      console.error('SSR errMessage:', errMessage);
-      if (errStack) console.error('SSR errStack:\n', errStack);
-      console.error('SSR err raw:', err);
+      const debug = process.env['SSR_DEBUG'] === 'true';
+      const body = debug
+        ? `<html><body><pre>${escapeHtml(errMessage)}${errStack ? `\n\n${escapeHtml(errStack.slice(0, 20000))}` : ''}</pre></body></html>`
+        : '<html><body>Internal Server Error</body></html>';
 
-      // Keep response short by default; enable full stack by setting SSR_DEBUG=true.
-      const stackToShow = errStack ? errStack.slice(0, 20000) : '';
-      res
-        .status(500)
-        .type('text/html')
-        .set('Cache-Control', 'no-store')
-        .send(
-          `<html><body><pre>Server error: ${escapeHtml(
-            errMessage
-          )}\n${escapeHtml(errDebug)}${stackToShow ? `\n\n${escapeHtml(stackToShow)}` : ''}</pre></body></html>`
-        );
+      res.status(500).type('text/html').set('Cache-Control', 'no-store').send(body);
     }
   })();
 });
