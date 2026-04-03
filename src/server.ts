@@ -180,10 +180,50 @@ function buildContactAttachments(
   return attachments.length > 0 ? attachments : undefined;
 }
 
-async function onCreateSendEmail(snap: any, _context: any): Promise<void> {
+/** Safe for logs: which mail env vars are set (never log passwords). */
+function mailEnvSummary(): {
+  mailHost: string;
+  mailPort: number;
+  hasMailAccount: boolean;
+  hasMailPassword: boolean;
+} {
+  return {
+    mailHost: String(process.env['MAIL_HOST'] ?? '').trim(),
+    mailPort: Number(process.env['MAIL_PORT'] ?? 0) || 0,
+    hasMailAccount: String(process.env['MAIL_ACCOUNT'] ?? '').trim().length > 0,
+    hasMailPassword: String(process.env['MAIL_PASSWORD'] ?? '').length > 0,
+  };
+}
+
+async function onCreateSendEmail(snap: FirebaseFirestore.DocumentSnapshot, _context: any): Promise<void> {
+  const docId = snap.id;
+  const env = mailEnvSummary();
+
+  functions.logger.info('contactFormFunction: Firestore onCreate', {
+    docId,
+    collection: firestoreMessagesCollection,
+    mailEnv: env,
+  });
+
   try {
     const contactFormData = snap.data();
     if (!contactFormData) {
+      functions.logger.warn('contactFormFunction: no document data; skipping email', { docId });
+      return;
+    }
+
+    if (!env.mailHost) {
+      functions.logger.error(
+        'contactFormFunction: MAIL_HOST is not set. Set secrets/config in Firebase and redeploy.',
+        { docId }
+      );
+      return;
+    }
+    if (!env.hasMailAccount || !env.hasMailPassword) {
+      functions.logger.error(
+        'contactFormFunction: MAIL_ACCOUNT or MAIL_PASSWORD is missing. Set Firebase Functions secrets / env.',
+        { docId, hasMailAccount: env.hasMailAccount, hasMailPassword: env.hasMailPassword }
+      );
       return;
     }
 
@@ -192,37 +232,75 @@ async function onCreateSendEmail(snap: any, _context: any): Promise<void> {
         pass: String(process.env['MAIL_PASSWORD'] ?? ''),
         user: String(process.env['MAIL_ACCOUNT'] ?? ''),
       },
-      host: String(process.env['MAIL_HOST'] ?? ''),
-      port: Number(process.env['MAIL_PORT'] ?? 0),
+      host: env.mailHost,
+      port: env.mailPort || 587,
       tls: {
         rejectUnauthorized: false,
       },
     });
 
     const attachments = buildContactAttachments(contactFormData as Record<string, unknown>);
+    if (attachments?.length) {
+      functions.logger.info('contactFormFunction: including attachments', {
+        docId,
+        count: attachments.length,
+      });
+    }
 
-    await mailTransport.sendMail({
+    const toAddr = String(contactFormData['formControlEmail'] ?? '');
+    functions.logger.info('contactFormFunction: sending mail', {
+      docId,
+      toDomain: toAddr.includes('@') ? toAddr.split('@')[1] : '(invalid)',
+      hasAttachments: !!attachments?.length,
+    });
+
+    const deadline = contactFormData['formControlDeadline'] as { _seconds?: number } | undefined;
+    const info = await mailTransport.sendMail({
       ...(attachments ? { attachments } : {}),
       bcc: 'contact@ditectrev.com',
-      from: `${contactFormData.formControlName} <${contactFormData.formControlEmail}>`,
+      from: `${contactFormData['formControlName']} <${contactFormData['formControlEmail']}>`,
       html: `
         <p>A message from a contact form has been sent. That is a copy of your message.</p>
         <h3>Message content:</h3>
         <ul>
-          <li>Name: ${contactFormData.formControlName}</li>
-          <li>Email: ${contactFormData.formControlEmail}</li>
-          <li>Phone: ${contactFormData.formControlPhone}</li>
-          <li>Project deadline: ${contactFormData.formControlDeadline?._seconds ? new Date(contactFormData.formControlDeadline._seconds * 1000) : ''}</li>
-          <li>Project description: ${contactFormData.formControlDescription}</li>
-          <li>Preferred form of contact: ${contactFormData.formControlContactPreference}</li>
-          <li>Interested in the following services: ${contactFormData.formControlService}</li>
+          <li>Name: ${contactFormData['formControlName']}</li>
+          <li>Email: ${contactFormData['formControlEmail']}</li>
+          <li>Phone: ${contactFormData['formControlPhone']}</li>
+          <li>Project deadline: ${deadline?._seconds ? new Date(deadline._seconds * 1000) : ''}</li>
+          <li>Project description: ${contactFormData['formControlDescription']}</li>
+          <li>Preferred form of contact: ${contactFormData['formControlContactPreference']}</li>
+          <li>Interested in the following services: ${contactFormData['formControlService']}</li>
         </ul>
       `,
       subject: 'Contact Form: Ditectrev',
-      to: `${contactFormData.formControlEmail}`,
+      to: `${contactFormData['formControlEmail']}`,
     });
-  } catch (err) {
-    console.error(err);
+
+    functions.logger.info('contactFormFunction: mail sent OK', {
+      docId,
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      response: typeof info.response === 'string' ? info.response.slice(0, 500) : undefined,
+    });
+  } catch (err: unknown) {
+    const e = err as {
+      message?: string;
+      code?: string;
+      command?: string;
+      response?: string;
+      responseCode?: number;
+      stack?: string;
+    };
+    functions.logger.error('contactFormFunction: sendMail failed', {
+      docId,
+      errorMessage: e?.message ?? String(err),
+      code: e?.code,
+      command: e?.command,
+      response: e?.response,
+      responseCode: e?.responseCode,
+      stackPreview: e?.stack?.split('\n').slice(0, 8).join('\n'),
+    });
   }
 }
 
