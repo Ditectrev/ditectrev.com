@@ -87,6 +87,8 @@ app.use(
           'https://www.google.com',
           'https://www.gstatic.com',
           'https://www.googletagmanager.com',
+          // Mailchimp JSONP (`footer.component` subscribe) loads a script from *.list-manage.com
+          'https://*.list-manage.com',
         ],
         scriptSrcAttr: ["'none'"],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
@@ -99,6 +101,7 @@ app.use(
           'https://*.google-analytics.com',
           'https://*.analytics.google.com',
           'https://stats.g.doubleclick.net',
+          'https://*.list-manage.com',
           'wss://*.googleapis.com',
         ],
         upgradeInsecureRequests: [],
