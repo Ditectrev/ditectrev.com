@@ -2,7 +2,7 @@
  * Unified SSR server entrypoint used both locally (`node dist/ditectrev-server/main.js`)
  * and in Firebase Functions (`functions/index.js` generated from this bundle).
  */
-import 'dotenv/config';
+import { config as loadEnv } from 'dotenv';
 import 'zone.js/node';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
@@ -14,6 +14,11 @@ import { join } from 'path';
 import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
 import { AppServerModule } from './app/app.server.module';
+
+// CI writes `functions/.env` from GitHub secrets before `firebase deploy` (see `scripts/write-functions-env.mjs`).
+// Local dev: repo root `.env` (second line). Packaged `.env` is loaded first on Cloud Functions.
+loadEnv({ path: join(__dirname, '.env') });
+loadEnv({ path: join(process.cwd(), '.env') });
 
 export { AppServerModule } from './app/app.server.module';
 
