@@ -1,12 +1,11 @@
 {
   "author": "Daniel Danielecki",
-  "description": "Web Application for Ditectrev website",
+  "description": "Open Source Main Website developed by Ditectrev's Community.",
   "email": "contact@ditectrev.com",
-  "homepage": "https://gitlab.com/danieldanielecki/ditectrev.com_v3",
+  "homepage": "https://github.com/Ditectrev/ditectrev.com",
   "name": "ditectrev",
-  "private": true,
   "url": "https://ditectrev.com",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "prepare:browser-env": "node ./generate-browser-env.mjs",
