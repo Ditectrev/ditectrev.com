@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Ditectrev/ditectrev.com",
   "name": "ditectrev",
   "url": "https://ditectrev.com",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "prepare:browser-env": "node ./generate-browser-env.mjs",
