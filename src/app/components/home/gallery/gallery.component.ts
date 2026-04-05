@@ -46,19 +46,19 @@ export class GalleryComponent implements OnInit {
       src: './assets/cyber-security.avif',
       title: 'Cyber Security',
       description: 'Learn more about our cyber security services',
-      link: '/cyber-security'
+      link: '/services/cyber-security'
     },
     {
       src: 'assets/digital-strategy.avif',
       title: 'Digital Strategy',
       description: 'Explore our digital strategy solutions',
-      link: '/digital-strategy'
+      link: '/services/digital-strategy'
     },
     {
       src: 'assets/software-development.avif',
       title: 'Software Development',
       description: 'Discover our software development expertise',
-      link: '/software-development'
+      link: '/services/software-development'
     }
   ];
 
