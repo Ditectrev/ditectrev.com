@@ -49,9 +49,10 @@ describe('SitemapComponent', () => {
   describe('Services Items', () => {
     it('should have correct services items', () => {
       expect(component.servicesItems).toBeDefined();
-      expect(component.servicesItems.length).toBe(3);
+      expect(component.servicesItems.length).toBe(4);
 
       const expectedItems = [
+        { name: 'Services', path: '/services' },
         { name: 'Cyber Security', path: '/services/cyber-security' },
         { name: 'Digital Strategy', path: '/services/digital-strategy' },
         { name: 'Software Development', path: '/services/software-development' }
@@ -62,7 +63,7 @@ describe('SitemapComponent', () => {
 
     it('should have valid paths for services items', () => {
       component.servicesItems.forEach(item => {
-        expect(item.path).toMatch(/^\/[\w-]+(?:\/[\w-]+)+$/);
+        expect(item.path).toMatch(/^\/[\w-]+(?:\/[\w-]+)*$/);
         expect(item.name).toBeTruthy();
         expect(item.name.length).toBeGreaterThan(0);
       });
@@ -130,12 +131,12 @@ describe('SitemapComponent', () => {
       expect(component.resourcesItems).toBeDefined();
     });
 
-    it('should have total of 14 navigation items', () => {
+    it('should have total of 15 navigation items', () => {
       const totalItems = component.companyItems.length +
                         component.servicesItems.length +
                         component.informationItems.length +
                         component.resourcesItems.length;
-      expect(totalItems).toBe(14);
+      expect(totalItems).toBe(15);
     });
   });
 

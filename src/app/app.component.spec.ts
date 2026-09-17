@@ -2,6 +2,7 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Meta, Title } from '@angular/platform-browser';
 import { HomeModule } from './home/home.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,7 +19,8 @@ describe('AppComponent', () => {
         HomeModule,
         HttpClientTestingModule,
         RouterTestingModule,
-      ]
+      ],
+      providers: [Title, Meta]
     }).compileComponents();
   }));
 

@@ -10,19 +10,19 @@
         role="region"
       >
         <!-- Title of the card. -->
-        <mat-card-title [title]="serviceItem.name" aria-level="2" role="heading">
-          {{ serviceItem.name }}
+        <mat-card-title [title]="serviceItem.name">
+          <h2>{{ serviceItem.name }}</h2>
         </mat-card-title>
         <img
-          [alt]="serviceItem.name"
+          [alt]="serviceItem.name + ' service'"
           [src]="serviceItem.src"
           [title]="serviceItem.name"
+          decoding="async"
+          loading="lazy"
         />
         <!-- Subtitle of the card. -->
         <mat-card-subtitle
           [attr.aria-label]="'We provide these services as part of ' + serviceItem.name + ': ' + serviceItem.description"
-          aria-level="3"
-          role="heading"
         >
           {{ serviceItem.description }}
         </mat-card-subtitle>

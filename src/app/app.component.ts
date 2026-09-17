@@ -1,8 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SeoService } from './services/seo.service';
 
 // TODO: Outsource this to constants.
 const FADE_ANIMATION =
@@ -26,6 +29,20 @@ const FADE_ANIMATION =
 // TODO: Add unit tests coverage for these methods.
 // TODO: Uncomment ngx-spinner and fix it on Angular Universal, because now it's breaking.
 export class AppComponent {
+  private readonly router = inject(Router);
+  private readonly seoService = inject(SeoService);
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe((event) => {
+        this.seoService.updateForUrl(event.urlAfterRedirects);
+      });
+  }
+
   public getRouterOutletState(routerOutlet: RouterOutlet): string {
     const routeData = routerOutlet.activatedRouteData['animation'];
     return routeData ? routeData : 'rootPage';

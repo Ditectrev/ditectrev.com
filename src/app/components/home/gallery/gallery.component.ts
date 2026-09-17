@@ -43,7 +43,7 @@ export class GalleryComponent implements OnInit {
   // TODO: Change href on routerLink, issue #87.
   images: GalleryImage[] = [
     {
-      src: './assets/cyber-security.avif',
+      src: 'assets/cyber-security.avif',
       title: 'Cyber Security',
       description: 'Learn more about our cyber security services',
       link: '/services/cyber-security'

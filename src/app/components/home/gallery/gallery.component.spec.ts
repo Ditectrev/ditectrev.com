@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from "@angular/core/testing";
 import { GalleryComponent } from "./gallery.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("GalleryComponent", () => {
   let component: GalleryComponent;
@@ -8,7 +9,7 @@ describe("GalleryComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GalleryComponent, BrowserAnimationsModule],
+      imports: [GalleryComponent, BrowserAnimationsModule, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GalleryComponent);
@@ -191,7 +192,7 @@ describe("GalleryComponent", () => {
 
   describe("Images Data", () => {
     it("should have correct image sources", () => {
-      expect(component.images[0].src).toBe('./assets/cyber-security.avif');
+      expect(component.images[0].src).toBe('assets/cyber-security.avif');
       expect(component.images[1].src).toBe('assets/digital-strategy.avif');
       expect(component.images[2].src).toBe('assets/software-development.avif');
     });

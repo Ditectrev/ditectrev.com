@@ -261,6 +261,7 @@ mat-card {
 
   mat-card-content {
     margin-top: 1rem;
+    h2,
     h3 {
       text-align: center;
     }
@@ -272,6 +273,16 @@ mat-card {
   mat-card-title,
   mat-card-subtitle {
     text-align: center;
+  }
+
+  mat-card-title h1,
+  mat-card-title h2 {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    margin: 0;
+    text-align: inherit;
   }
 
   // Required to put it here in order to overwrite Angular Material's styles used in a contact.

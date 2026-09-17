@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Renderer2 } from "@angular/core";
+import { RouterTestingModule } from "@angular/router/testing";
 import { NotFoundComponent } from "./not-found.component";
 
 describe("NotFoundComponent", () => {
@@ -15,7 +16,7 @@ describe("NotFoundComponent", () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [NotFoundComponent],
+      imports: [NotFoundComponent, RouterTestingModule],
       providers: [
         { provide: Renderer2, useValue: mockRenderer2 },
       ],

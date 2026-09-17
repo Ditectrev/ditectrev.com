@@ -28,6 +28,8 @@
               "src/favicon.ico",
               "src/ads.txt",
               "src/robots.txt",
+              "src/llms.txt",
+              "src/llms-full.txt",
               "src/sitemap.xml",
               "src/assets",
               "src/manifest.webmanifest",

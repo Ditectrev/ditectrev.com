@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HeroComponent } from './hero.component';
 
 // Mock particlesJS
@@ -19,7 +20,7 @@ describe('HeroComponent', () => {
     window.particlesJS = jasmine.createSpy('particlesJS');
 
     await TestBed.configureTestingModule({
-      imports: [HeroComponent],
+      imports: [HeroComponent, RouterTestingModule],
       providers: [
         {
           provide: DomSanitizer,

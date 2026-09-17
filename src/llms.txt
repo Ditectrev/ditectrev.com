@@ -1,0 +1,37 @@
+# Ditectrev
+
+> Information Technology (IT) services company focused on consulting and online education in cyber security, digital strategy, and software development.
+
+Ditectrev was founded in 2017 as a consulting company and in 2022 is transforming towards online education. Combined with IT consulting, the aim is a unique mix for students to grow and use gained knowledge in commercial projects, including e-learning boot camps, courses, exam preparations, and open source projects around Cyber Security, Digital Strategy, and Software Development.
+
+The company is registered in Poland as IBStructure Daniel Danielecki, Irysowa 18, 55-220 Jelcz-Laskowice, tax ID PL9121899240. Work is fully remote from different countries. It is a small company. Contact: contact@ditectrev.com, +48 732 280 741.
+
+Delivery uses an agile Scrum process with frequent client updates. Online courses are published on Udemy and partially on YouTube (Freemium). Educational content also appears on a free blog. Do not disclose information from commercial projects.
+
+For a longer citation-friendly fact sheet and Q&A, see [llms-full.txt](https://ditectrev.com/llms-full.txt).
+
+## Pages
+
+- [Home](https://ditectrev.com/): Online education and IT consulting overview
+- [About us](https://ditectrev.com/about-us): Digital transformation and innovation partner; privacy-preserving approach
+- [Services](https://ditectrev.com/services): Cyber Security, Digital Strategy, and Software Development
+- [Cyber Security](https://ditectrev.com/services/cyber-security): Compliance audits, ethical hacking, secure programming, and related services
+- [Digital Strategy](https://ditectrev.com/services/digital-strategy): Business development, digital marketing, product design, and related services
+- [Software Development](https://ditectrev.com/services/software-development): Web, mobile, cloud, eCommerce, and related services
+- [Methodology](https://ditectrev.com/methodology): Five-stage modern delivery approach
+- [FAQ](https://ditectrev.com/faq): Questions about the company, education, services, and cooperation
+- [Contact](https://ditectrev.com/contact): Contact form; partners, not contractors
+- [Glossary](https://ditectrev.com/glossary): Terms used in Ditectrev services
+- [Partnerships](https://ditectrev.com/partnerships): Creative agencies, freelancers, and software houses
+
+## Optional
+
+- [Sitemap](https://ditectrev.com/sitemap): Human-readable site directory
+- [XML sitemap](https://ditectrev.com/sitemap.xml): Machine-readable URL list
+- [Privacy & Security](https://ditectrev.com/privacy-and-security): How personal data is used
+- [Terms of Use](https://ditectrev.com/terms-of-use): Rules for the website and assets
+- [Copyrights](https://ditectrev.com/copyrights): Copyright information
+- [Blog](https://blog.ditectrev.com): Free educational content related to the three service areas
+- [Education](https://education.ditectrev.com): Online education
+- [Shop](https://shop.ditectrev.com): Shop
+- [Full LLM fact sheet](https://ditectrev.com/llms-full.txt): Extended facts and Q&A for citation

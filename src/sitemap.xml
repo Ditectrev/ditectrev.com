@@ -8,78 +8,71 @@
 
 <url>
   <loc>https://ditectrev.com/</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/services</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/methodology</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/about-us</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/contact</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/services/cyber-security</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/services/digital-strategy</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/services/software-development</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/faq</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/glossary</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/partnerships</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/copyrights</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/privacy-and-security</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/sitemap</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://ditectrev.com/terms-of-use</loc>
-  <lastmod>2021-04-10T15:36:50+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://ditectrev.com/llms.txt</loc>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://ditectrev.com/llms-full.txt</loc>
+  <priority>0.60</priority>
 </url>
 
 
