@@ -217,7 +217,7 @@ export class SeoService {
       if (node.question && node.answer) {
         items.push({
           question: prefix ? `${prefix}: ${node.question}` : node.question,
-          answer: this.stripHtml(node.answer),
+          answer: stripHtml(node.answer),
         });
       }
       if (node.questions?.length) {
@@ -227,8 +227,21 @@ export class SeoService {
     }
     return items;
   }
+}
 
-  private stripHtml(value: string): string {
-    return value.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+/**
+ * Convert HTML to plain text for JSON-LD.
+ * Repeats tag stripping until the string is stable so nested markup such as
+ * `<<script>script>` cannot survive a single pass, then removes any leftover
+ * angle brackets so an unclosed `<script` cannot remain.
+ */
+export function stripHtml(value: string): string {
+  let sanitized = value;
+  let previous = '';
+  while (sanitized !== previous) {
+    previous = sanitized;
+    sanitized = sanitized.replace(/<[^>]*>/g, '');
   }
+  sanitized = sanitized.replace(/[<>]/g, '');
+  return sanitized.replace(/\s+/g, ' ').trim();
 }

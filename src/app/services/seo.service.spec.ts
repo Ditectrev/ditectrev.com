@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
-import { SeoService } from './seo.service';
+import { SeoService, stripHtml } from './seo.service';
 import {
   DEFAULT_OG_IMAGE,
   NOT_FOUND_SEO,
@@ -93,6 +93,23 @@ describe('SeoService', () => {
     );
     expect(serviceNode?.name).toBe('Cyber Security');
     expect(serviceNode?.url).toBe(`${SITE_ORIGIN}/services/cyber-security`);
+  });
+});
+
+describe('stripHtml', () => {
+  it('should keep link text and remove tags from FAQ-style markup', () => {
+    expect(
+      stripHtml(
+        'Please check our <a href="/privacy-and-security">Privacy & Security policy</a>.'
+      )
+    ).toBe('Please check our Privacy & Security policy.');
+  });
+
+  it('should not leave nested or unclosed script tags', () => {
+    expect(stripHtml('<<script>script>alert(1)</script>')).not.toMatch(/<script/i);
+    expect(stripHtml('<scr<script>ipt>alert(1)</script>')).not.toMatch(/<script/i);
+    expect(stripHtml('<script')).not.toMatch(/<script/i);
+    expect(stripHtml('<script')).toBe('script');
   });
 });
 
