@@ -28,6 +28,31 @@ test('about-us page uses a unique title and self-canonical', async ({
   );
 });
 
+test('serves llms.txt for AI agents', async ({ request }) => {
+  const response = await request.get('/llms.txt');
+  expect(response.ok()).toBeTruthy();
+  const body = await response.text();
+  expect(body).toMatch(/^# Ditectrev/m);
+  expect(body).toContain('https://ditectrev.com/faq');
+  expect(body).toContain('llms-full.txt');
+});
+
+test('serves llms-full.txt with citation Q&A', async ({ request }) => {
+  const response = await request.get('/llms-full.txt');
+  expect(response.ok()).toBeTruthy();
+  const body = await response.text();
+  expect(body).toContain('What is Ditectrev?');
+  expect(body).toContain('IBStructure Daniel Danielecki');
+});
+
+test('XML sitemap lists llms.txt for crawler discovery', async ({ request }) => {
+  const response = await request.get('/sitemap.xml');
+  expect(response.ok()).toBeTruthy();
+  const body = await response.text();
+  expect(body).toContain('https://ditectrev.com/llms.txt');
+  expect(body).toContain('https://ditectrev.com/llms-full.txt');
+});
+
 test('unknown routes are marked noindex', async ({ page }) => {
   await page.goto('/this-page-does-not-exist');
   await expect(page.locator('app-root')).toBeVisible({ timeout: 15000 });

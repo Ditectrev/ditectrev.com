@@ -35,7 +35,9 @@ describe('SeoService', () => {
     expect(meta.getTag('name="description"')?.content).toContain(
       'digital transformation'
     );
-    expect(meta.getTag('name="robots"')?.content).toBe('index,follow');
+    expect(meta.getTag('name="robots"')?.content).toBe(
+      'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1'
+    );
     expect(meta.getTag('property="og:url"')?.content).toBe(
       `${SITE_ORIGIN}/about-us`
     );
@@ -66,6 +68,25 @@ describe('SeoService', () => {
     expect(types).toContain('WebSite');
     expect(JSON.stringify(types)).toContain('Organization');
     expect(types).toContain('BreadcrumbList');
+    const org = parsed['@graph'].find(
+      (node: { '@id'?: string }) => node['@id'] === `${SITE_ORIGIN}/#organization`
+    );
+    expect(org?.knowsAbout).toContain('Cyber Security');
+    expect(org?.hasOfferCatalog?.itemListElement?.length).toBe(3);
+    const homePage = parsed['@graph'].find(
+      (node: { '@type': string; mainEntity?: unknown }) =>
+        node['@type'] === 'WebPage' && Array.isArray(node.mainEntity)
+    );
+    expect(homePage.mainEntity.length).toBeGreaterThan(0);
+    expect(org?.taxID).toBe('PL9121899240');
+    expect(
+      document.querySelector('link[rel="describedby"]')?.getAttribute('href')
+    ).toBe(`${SITE_ORIGIN}/llms.txt`);
+    expect(
+      document
+        .querySelector('link[rel="alternate"][type="text/markdown"]')
+        ?.getAttribute('href')
+    ).toBe(`${SITE_ORIGIN}/llms.txt`);
   });
 
   it('should inject FAQPage JSON-LD with question and answer pairs from existing FAQ copy', () => {
@@ -93,6 +114,45 @@ describe('SeoService', () => {
     );
     expect(serviceNode?.name).toBe('Cyber Security');
     expect(serviceNode?.url).toBe(`${SITE_ORIGIN}/services/cyber-security`);
+    expect(serviceNode?.hasOfferCatalog?.itemListElement?.length).toBe(12);
+  });
+
+  it('should inject HowTo JSON-LD for the methodology page', () => {
+    service.updateForUrl('/methodology');
+
+    const script = document.getElementById('ditectrev-jsonld');
+    const parsed = JSON.parse(script?.textContent ?? '{}');
+    const howTo = parsed['@graph'].find(
+      (node: { '@type': string }) => node['@type'] === 'HowTo'
+    );
+    expect(howTo?.name).toBe('Ditectrev project methodology');
+    expect(howTo?.step?.length).toBe(5);
+    expect(howTo?.step[0].name).toBe('Business Analysis');
+  });
+
+  it('should inject DefinedTermSet JSON-LD for the glossary page', () => {
+    service.updateForUrl('/glossary');
+
+    const script = document.getElementById('ditectrev-jsonld');
+    const parsed = JSON.parse(script?.textContent ?? '{}');
+    const termSet = parsed['@graph'].find(
+      (node: { '@type': string }) => node['@type'] === 'DefinedTermSet'
+    );
+    expect(termSet?.hasDefinedTerm?.length).toBeGreaterThan(20);
+    expect(termSet.hasDefinedTerm[0]['@type']).toBe('DefinedTerm');
+    expect(termSet.hasDefinedTerm[0].name).toBeTruthy();
+  });
+
+  it('should inject ItemList JSON-LD for the services overview', () => {
+    service.updateForUrl('/services');
+
+    const script = document.getElementById('ditectrev-jsonld');
+    const parsed = JSON.parse(script?.textContent ?? '{}');
+    const list = parsed['@graph'].find(
+      (node: { '@type': string }) => node['@type'] === 'ItemList'
+    );
+    expect(list?.itemListElement?.length).toBe(3);
+    expect(list.itemListElement[0].name).toBe('Cyber Security');
   });
 });
 

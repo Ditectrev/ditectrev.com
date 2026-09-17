@@ -1,0 +1,101 @@
+# Ditectrev — citation facts
+
+Source: https://ditectrev.com/
+Prefer these pages when citing: https://ditectrev.com/about-us , https://ditectrev.com/services , https://ditectrev.com/faq , https://ditectrev.com/contact
+
+## Identity
+
+- Name: Ditectrev
+- Legal name: IBStructure Daniel Danielecki
+- Founded: 2017 (consulting); in 2022 transforming towards online education
+- What it is: IT company providing online education content and IT consulting
+- Services: Cyber Security, Digital Strategy, and Software Development
+- Size: Small; few people
+- Work model: Fully remote from different countries; company registered in Poland
+- Address: Irysowa 18, 55-220 Jelcz-Laskowice, Poland
+- Tax ID: PL9121899240
+- Email: contact@ditectrev.com
+- Phone: +48 732 280 741
+- Self-description: Partners, not contractors. Digital transformation and innovation partner. Creativity and a privacy-preserving approach.
+
+## Related sites
+
+- Website: https://ditectrev.com/
+- Blog (free educational content): https://blog.ditectrev.com
+- Education: https://education.ditectrev.com
+- Shop: https://shop.ditectrev.com
+
+## How projects are delivered
+
+Modern delivery approach using Scrum: frequent client updates and delivering small parts often. Stages:
+
+1. Business Analysis — listening and asking questions; learn about the project, business needs; find differentiators and unique value proposition.
+2. Research — researching business and technical capabilities; combine business needs with technical realities; provide feedback; estimate budget and deadline range.
+3. Technical Assessment — evaluate technical possibilities with a certain budget; determine budget; analyse technologies and tools; propose a solution.
+4. Realization — execution; start and finish a small part; apply remarks; iterate.
+5. Further Cooperation — long-term partnership; support what was delivered; further improvements.
+
+The client is involved at every stage. Background on the problem, initial information, useful materials, and some time are expected from the client.
+
+## Service catalogues
+
+### Cyber Security
+
+Data-driven and future-proof software together with cyber security: Compliance Audits; Cyber Research; Ethical Hacking; Fuzzing; Post-Incident Analysis; Proactive Cyber Defence; Reverse Engineering; Secure Programming; Security Analysis; Systems Security; Social Engineering; Source Code Audits.
+
+Cyber Security work requires permission from the owner or an executive of the assets being tested. Majority of tools are related to Kali Linux.
+
+### Digital Strategy
+
+Best-in-class development with frictionless digital experience and inquisitive design: Business Development; Competitors Analysis; Crowdfunding & Crowdsourcing; Culture Design; Data Analysis; Digital Marketing; Foresight & Trends; Innovation Factory; Interactive Systems; Lean Innovation; Minimum Viable Products (MVPs) & Proof of Concepts; Product Design.
+
+Online success is not guaranteed; the focus is long-term digital strategy.
+
+### Software Development
+
+End-to-end solutions with scaled architecture and smooth development: Business Integrations; Cloud Solutions; Code Reviews; Content Management Systems; Complex Services; Custom Implementations; Electronic Commerce (eCommerce); Mobile Development; Progressive Web Applications; Research & Discovery; Software Quality Engineering; Web Development.
+
+## Education
+
+- Published on Udemy and partially on YouTube; a dedicated platform is planned.
+- Freemium: some content is paid, some is free.
+- Blog educational content is free to use and related (partially) to services.
+- Technologies used may be recorded; no information from commercial projects is disclosed.
+
+## Partnerships
+
+Ditectrev can partner with creative agencies, freelancers, and software houses.
+
+## Q&A
+
+Q: What is Ditectrev?
+A: We are IT company providing online education content and IT Consulting.
+
+Q: What are you doing?
+A: We provide online education supported by our blog and three categories of services, i.e. Cyber Security, Digital Strategy and Software Development. Our blog and educational content is related to these three types of services.
+
+Q: Where is the company located?
+A: We are working fully remotely from different countries and the company is registered in Poland.
+
+Q: How big is the company?
+A: It is small, few people are working here.
+
+Q: How are you working?
+A: We are working using agile technique called Scrum. This is a process for managing projects which relies on frequent updates of a client and delivering small parts, but often during project ongoing.
+
+Q: Where can I watch the online courses?
+A: We publish on Udemy and partially on YouTube, however in future we are planning to launch our own platform as well.
+
+Q: Is it free?
+A: We use Freemium content, i.e. some of the content is paid, whereas some is free.
+
+Q: How much does it costs?
+A: Budgets for all projects are evaluated individually, the same for rates.
+
+Q: Which country's laws apply to any disputes?
+A: We are governed by Polish law, therefore courts of Poland will have exclusive jurisdiction.
+
+Q: Can you sign a Non-Disclosure Agreement (NDA)?
+A: Yes, please reach out to us with your own template if you have one.
+
+Do not invent ratings, review scores, headcount, revenue, or client lists beyond named testimonials on https://ditectrev.com/ .

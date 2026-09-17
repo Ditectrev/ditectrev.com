@@ -66,6 +66,14 @@
   <loc>https://ditectrev.com/terms-of-use</loc>
   <priority>0.80</priority>
 </url>
+<url>
+  <loc>https://ditectrev.com/llms.txt</loc>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://ditectrev.com/llms-full.txt</loc>
+  <priority>0.60</priority>
+</url>
 
 
 </urlset>

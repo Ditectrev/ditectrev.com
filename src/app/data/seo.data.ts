@@ -2,6 +2,10 @@ export const SITE_ORIGIN = 'https://ditectrev.com';
 export const SITE_NAME = 'Ditectrev';
 export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/assets/icons/icon-512x512.png`;
 export const DEFAULT_OG_IMAGE_ALT = "Ditectrev's logo";
+export const LLMS_TXT_URL = `${SITE_ORIGIN}/llms.txt`;
+export const INDEX_ROBOTS =
+  'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1';
+export const NOINDEX_ROBOTS = 'noindex, follow';
 
 export const INDEXABLE_PATHS: readonly string[] = [
   '/',
@@ -176,10 +180,107 @@ export const NOT_FOUND_SEO: PageSeo = {
   title: 'Page Not Found | Ditectrev',
   description:
     'The page you requested was not found. Return to the Ditectrev homepage to continue.',
-  robots: 'noindex, follow',
+  robots: NOINDEX_ROBOTS,
   jsonLdType: 'WebPage',
   breadcrumbs: [homeCrumb, { name: 'Page not found', path: '' }],
 };
+
+/** Entity-defining Q&A copied from the FAQ page for homepage JSON-LD. */
+export const ENTITY_FAQS: readonly { question: string; answer: string }[] = [
+  {
+    question: 'What is Ditectrev?',
+    answer:
+      'We are IT company providing online education content and IT Consulting.',
+  },
+  {
+    question: 'What are you doing?',
+    answer:
+      'We provide online education supported by our blog and three categories of services, i.e. Cyber Security, Digital Strategy and Software Development. Our blog and educational content is related to these three types of services.',
+  },
+  {
+    question: 'Where is the company located?',
+    answer:
+      'We are working fully remotely from different countries and the company is registered in Poland.',
+  },
+  {
+    question: 'How are you working?',
+    answer:
+      'We are working using agile technique called Scrum. This is a process for managing projects which relies on frequent updates of a client and delivering small parts, but often during project ongoing.',
+  },
+];
+
+export const SERVICE_OFFERINGS: Record<string, readonly string[]> = {
+  '/services/cyber-security': [
+    'Compliance Audits',
+    'Cyber Research',
+    'Ethical Hacking',
+    'Fuzzing',
+    'Post-Incident Analysis',
+    'Proactive Cyber Defence',
+    'Reverse Engineering',
+    'Secure Programming',
+    'Security Analysis',
+    'Systems Security',
+    'Social Engineering',
+    'Source Code Audits',
+  ],
+  '/services/digital-strategy': [
+    'Business Development',
+    'Competitors Analysis',
+    'Crowdfunding & Crowdsourcing',
+    'Culture Design',
+    'Data Analysis',
+    'Digital Marketing',
+    'Foresight & Trends',
+    'Innovation Factory',
+    'Interactive Systems',
+    'Lean Innovation',
+    "Minimum Viable Products (MVP's) & Proof of Concepts (PoF's)",
+    'Product Design',
+  ],
+  '/services/software-development': [
+    'Business Integrations',
+    'Cloud Solutions',
+    'Code Reviews',
+    'Content Management Systems',
+    'Complex Services',
+    'Custom Implementations',
+    'Electronic Commerce (eCommerce)',
+    'Mobile Development',
+    'Progressive Web Applications',
+    'Research & Discovery',
+    'Software Quality Engineering',
+    'Web Development',
+  ],
+};
+
+export const METHODOLOGY_STEPS: readonly { name: string; text: string }[] = [
+  {
+    name: 'Business Analysis',
+    text:
+      'Stage of listening and asking question. Learn about your project, try to understand its business needs and ask questions. Find your differentiators and unique value proposition.',
+  },
+  {
+    name: 'Research',
+    text:
+      'Stage of researching business and technical capabilities. Investigate your business needs and combine them with a technical realities. Find a golden ratio for business needs and technical realities. Provide you a feedback what we can do. Estimate range of the project in terms of budget and deadline.',
+  },
+  {
+    name: 'Technical Assessment',
+    text:
+      'Stage of evaluation technical possibilities with certain budget. Determine the budget. Analysis what kind of technologies and tools to use. Propose a solution according to your needs and budget.',
+  },
+  {
+    name: 'Realization',
+    text:
+      'Stage of execution for the project. Start with small part of the project. Finish the small part of the project. Apply your remarks. Iterate these steps for yet another parts of the project.',
+  },
+  {
+    name: 'Further Cooperation',
+    text:
+      'Stage of long term partnership. Support you with what we delivered. Further improvements.',
+  },
+];
 
 export const ORGANIZATION_SAME_AS: readonly string[] = [
   'https://discord.com/invite/RFjtXKfJy3',
