@@ -56,23 +56,27 @@ describe('ServicesComponent', () => {
     ]);
   });
 
-  it('should render call-to-action buttons for each service', () => {
+  it('should render call-to-action links for each service', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const buttons = Array.from(compiled.querySelectorAll('button')).map(
-      (btn) => btn.textContent?.trim(),
+    const links = Array.from(compiled.querySelectorAll('a.service-button')).map(
+      (link) => link.textContent?.trim(),
     );
 
-    expect(buttons).toEqual(['Read more', 'Read more', 'Read more']);
+    expect(links).toEqual([
+      'Read more about Cyber Security',
+      'Read more about Digital Strategy',
+      'Read more about Software Development',
+    ]);
   });
 
-  it('should have correct router links on buttons', () => {
+  it('should have correct router links on service call-to-action links', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const buttons = compiled.querySelectorAll('button[routerLink]');
+    const links = compiled.querySelectorAll('a.service-button');
 
-    expect(buttons.length).toBe(3);
-    expect(buttons[0].getAttribute('routerLink')).toBe('/services/cyber-security');
-    expect(buttons[1].getAttribute('routerLink')).toBe('/services/digital-strategy');
-    expect(buttons[2].getAttribute('routerLink')).toBe('/services/software-development');
+    expect(links.length).toBe(3);
+    expect(links[0].getAttribute('routerLink')).toBe('/services/cyber-security');
+    expect(links[1].getAttribute('routerLink')).toBe('/services/digital-strategy');
+    expect(links[2].getAttribute('routerLink')).toBe('/services/software-development');
   });
 
   it('should render torus knot animation element', () => {

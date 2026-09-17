@@ -5,14 +5,15 @@
   <div class="gallery-main">
     <img
       [src]="images[currentIndex].src"
-      [alt]="images[currentIndex].title"
+      [alt]="images[currentIndex].description"
       class="gallery-image"
+      decoding="async"
       [@slideAnimation]="currentIndex"
     />
     <div class="gallery-overlay">
       <h3>{{ images[currentIndex].title }}</h3>
       <p>{{ images[currentIndex].description }}</p>
-      <a [href]="images[currentIndex].link" class="gallery-link">Learn More</a>
+      <a [routerLink]="images[currentIndex].link" class="gallery-link">Learn more about {{ images[currentIndex].title }}</a>
     </div>
     <button class="gallery-nav gallery-prev" (click)="previous()" aria-label="Previous image">‹</button>
     <button class="gallery-nav gallery-next" (click)="next()" aria-label="Next image">›</button>
@@ -24,9 +25,11 @@
     <img
       *ngFor="let image of images; let i = index"
       [src]="image.src"
-      [alt]="image.title"
+      [alt]="image.description"
       class="thumbnail"
       [class.active]="i === currentIndex"
+      decoding="async"
+      loading="lazy"
       (click)="goTo(i)"
     />
   </div>

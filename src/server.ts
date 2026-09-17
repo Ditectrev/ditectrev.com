@@ -14,6 +14,7 @@ import { join } from 'path';
 import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
 import { AppServerModule } from './app/app.server.module';
+import { isIndexablePath } from './app/data/seo.data';
 
 // CI writes `functions/.env` from GitHub secrets before `firebase deploy` (see `scripts/write-functions-env.mjs`).
 // Local dev: repo root `.env` (second line). Packaged `.env` is loaded first on Cloud Functions.
@@ -125,6 +126,10 @@ app.get('*', (req, res) => {
         document: indexHtml,
         url: req.url,
       });
+      if (!isIndexablePath(req.path || req.url)) {
+        res.status(404);
+        res.set('X-Robots-Tag', 'noindex, follow');
+      }
       res.send(html);
     } catch (err: unknown) {
       const errObj = err as any;

@@ -81,7 +81,7 @@ describe('ServiceDetailComponent', () => {
 
     images.forEach((img, index) => {
       const item = mockServiceItems[index];
-      expect(img.getAttribute('alt')).toBe(item.name);
+      expect(img.getAttribute('alt')).toBe(item.name + ' service');
       expect(img.getAttribute('src')).toBe(item.src);
       expect(img.getAttribute('title')).toBe(item.name);
     });

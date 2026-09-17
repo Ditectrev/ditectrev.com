@@ -5,6 +5,7 @@ import {
   Renderer2,
   ViewChild,
 } from "@angular/core";
+import { RouterLink } from "@angular/router";
 // @ts-ignore
 import * as THREE from 'three';
 
@@ -18,7 +19,7 @@ import * as THREE from 'three';
   templateUrl: "./not-found.component.html",
   styleUrls: ["./not-found.component.scss"],
   standalone: true,
-  imports: []
+  imports: [RouterLink]
 })
 export class NotFoundComponent implements AfterViewInit {
   @ViewChild("renderIcosahedron", { static: false })

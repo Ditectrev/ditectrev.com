@@ -1,4 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /health
+
 Sitemap: https://ditectrev.com/sitemap.xml
 Host: https://ditectrev.com

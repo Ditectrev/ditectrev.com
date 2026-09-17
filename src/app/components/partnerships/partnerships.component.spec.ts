@@ -95,8 +95,7 @@ describe('PartnershipsComponent', () => {
 
     expect(title).toBeTruthy();
     expect(title?.textContent?.trim()).toBe('Partnerships');
-    expect(title?.getAttribute('aria-level')).toBe('1');
-    expect(title?.getAttribute('role')).toBe('heading');
+    expect(title?.querySelector('h1')?.textContent?.trim()).toBe('Partnerships');
     expect(title?.getAttribute('title')).toBe('Partnerships');
   });
 
@@ -108,8 +107,6 @@ describe('PartnershipsComponent', () => {
     expect(subtitle?.textContent?.trim()).toBe(
       'We can partner with many entities.'
     );
-    expect(subtitle?.getAttribute('aria-level')).toBe('3');
-    expect(subtitle?.getAttribute('role')).toBe('heading');
   });
 
   it('should render mat-tab-group', () => {

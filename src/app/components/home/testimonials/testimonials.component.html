@@ -4,9 +4,13 @@
     <ng-template carouselSlide [id]="slidesItem.id">
       <div class="block-item">
         <img
-          [alt]="slidesItem.name"
+          [alt]="'Portrait of ' + slidesItem.name"
           [src]="slidesItem.src"
           [title]="slidesItem.name"
+          decoding="async"
+          height="100"
+          loading="lazy"
+          width="100"
         />
         <p>
           {{ slidesItem.testimonial }}

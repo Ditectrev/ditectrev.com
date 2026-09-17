@@ -189,7 +189,7 @@ describe('PrivacyAndSecurityComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement;
 
-      const titleHeading = compiled.querySelector('mat-card-title[role="heading"], [aria-level="1"]');
+      const titleHeading = compiled.querySelector('mat-card-title h1, h1');
       const h3s = compiled.querySelectorAll('h3');
       expect(titleHeading).toBeTruthy();
       expect(h3s.length).toBeGreaterThan(0);
