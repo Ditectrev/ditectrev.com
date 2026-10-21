@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -31,6 +32,7 @@ const FADE_ANIMATION =
 export class AppComponent {
   private readonly router = inject(Router);
   private readonly seoService = inject(SeoService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor() {
     this.router.events
@@ -40,7 +42,18 @@ export class AppComponent {
       )
       .subscribe((event) => {
         this.seoService.updateForUrl(event.urlAfterRedirects);
+        this.scrollToTop();
       });
+  }
+
+  /** html/body height:100% + overflow-x:hidden can make body the scroller, not window. */
+  private scrollToTop(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }
 
   public getRouterOutletState(routerOutlet: RouterOutlet): string {
