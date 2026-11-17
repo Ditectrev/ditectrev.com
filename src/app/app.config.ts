@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -23,7 +23,10 @@ const isFirebaseConfigured =
   !!firebaseConfig.appId;
 
 const baseProviders = [
-  provideRouter(routes),
+  provideRouter(
+    routes,
+    withInMemoryScrolling({ scrollPositionRestoration: 'top' })
+  ),
   provideAnimations(),
   provideHttpClient(withJsonpSupport()),
   {
