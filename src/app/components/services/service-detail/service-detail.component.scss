@@ -8,6 +8,11 @@ h1 {
   text-align: center;
 }
 
+img {
+  height: auto;
+  max-width: 100%;
+}
+
 .services-grid {
   display: grid;
   gap: 4rem;

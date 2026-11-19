@@ -5,6 +5,8 @@
   <div class="gallery-main">
     <img
       [src]="images[currentIndex].src"
+      [attr.srcset]="images[currentIndex].srcset"
+      sizes="(max-width: 64rem) 95vw, 64rem"
       [alt]="images[currentIndex].description"
       class="gallery-image"
       width="1024"
@@ -26,12 +28,12 @@
   <div class="gallery-thumbnails">
     <img
       *ngFor="let image of images; let i = index"
-      [src]="image.src"
+      [src]="image.srcSmall"
       [alt]="image.description"
       class="thumbnail"
       [class.active]="i === currentIndex"
-      width="1024"
-      height="576"
+      width="800"
+      height="450"
       decoding="async"
       loading="lazy"
       (click)="goTo(i)"

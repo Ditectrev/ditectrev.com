@@ -2,7 +2,6 @@
 // TODO: Add push notifications (something simple, e.g. sign up for a newsletter) and check offline worker after adding CSP.
 // TODO: Check Google Analytics and Hotjar if works after implementing CSP.
 // TODO: Convert all PNG files to SVG, alternatively some to AVIF.
-// TODO: Use native lazy loading on images (loading="lazy").
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
