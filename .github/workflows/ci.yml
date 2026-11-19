@@ -85,7 +85,8 @@ jobs:
 
   e2e:
     name: E2E tests
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no Chromium dependency list for ubuntu-latest (26.04).
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -284,7 +285,8 @@ jobs:
 
   accessibility-axe:
     name: Accessibility (axe)
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no Chromium dependency list for ubuntu-latest (26.04).
+    runs-on: ubuntu-24.04
     needs: [lint, test]
     env:
       AXE_BASE_URL: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && 'https://ditectrev.com' || 'https://ditectrev-v3-staging-5ad41.web.app' }}
@@ -395,7 +397,8 @@ jobs:
 
   e2e-deployed-staging:
     name: E2E smoke — Playwright (staging after deploy)
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no Chromium dependency list for ubuntu-latest (26.04).
+    runs-on: ubuntu-24.04
     needs: [deploy-firebase-preview]
     if: success() && github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/')
     env:
@@ -416,7 +419,8 @@ jobs:
 
   e2e-deployed-production:
     name: E2E smoke — Playwright (production after deploy)
-    runs-on: ubuntu-latest
+    # Playwright 1.58 has no Chromium dependency list for ubuntu-latest (26.04).
+    runs-on: ubuntu-24.04
     needs: [deploy-firebase-production]
     if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     env:
