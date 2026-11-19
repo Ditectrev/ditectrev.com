@@ -49,11 +49,14 @@ export class HeroComponent implements OnInit, AfterViewInit {
    */
   public ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      const particles = (window as any).particlesJS;
-      if (typeof particles === 'function') {
-        this.invokeParticles();
-      }
       this.isMobile = window.innerWidth <= 600;
+      // Particles keep the main thread busy. Start them after first paint.
+      const startParticles = () => this.invokeParticles();
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(startParticles, { timeout: 1500 });
+      } else {
+        setTimeout(startParticles, 200);
+      }
     }
     const textToUse = this.isMobile ? this.subheaderMobileText : this.subheaderFullText;
     this.subheaderLetters = textToUse.split('');

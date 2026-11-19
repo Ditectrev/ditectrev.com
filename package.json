@@ -5,8 +5,8 @@
   "homepage": "https://github.com/Ditectrev/ditectrev.com",
   "name": "ditectrev",
   "url": "https://ditectrev.com",
-  "version": "2.1.1",
-  "packageManager": "pnpm@9.15.0",
+  "version": "2.2.0",
+  "packageManager": "pnpm@12.21.0",
   "scripts": {
     "prepare:browser-env": "node ./generate-browser-env.mjs",
     "build": "pnpm run prepare:browser-env && ng build",

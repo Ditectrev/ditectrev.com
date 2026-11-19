@@ -20,13 +20,11 @@ interface GalleryImage {
       transition('* => *', [
         style({
           opacity: 0,
-          transform: 'scale(0.8) rotate(-10deg)',
-          filter: 'blur(5px)'
+          transform: 'scale(0.96)'
         }),
-        animate('600ms ease-in-out', style({
+        animate('400ms ease-out', style({
           opacity: 1,
-          transform: 'scale(1) rotate(0deg)',
-          filter: 'blur(0px)'
+          transform: 'scale(1)'
         }))
       ])
     ])

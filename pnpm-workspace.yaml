@@ -1,0 +1,5 @@
+allowBuilds:
+  '@compodoc/compodoc': set this to true or false
+  esbuild: set this to true or false
+  nice-napi: set this to true or false
+  protobufjs: set this to true or false

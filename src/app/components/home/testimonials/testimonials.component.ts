@@ -36,7 +36,7 @@ export class TestimonialsComponent {
       id: '1',
       name: 'Jarosław Miężał',
       position: 'Owner of VipSzofer',
-      src: 'assets/man.png',
+      src: 'assets/man.avif',
       testimonial:
         'Knowledge in a given topic and professionalism are features that should be mentioned when speaking about Ditectrev.',
     },
@@ -44,14 +44,14 @@ export class TestimonialsComponent {
       id: '2',
       name: 'Magdalena Czerwińska',
       position: 'Owner of Dziergalena',
-      src: 'assets/woman.png',
+      src: 'assets/woman.avif',
       testimonial: 'Efficient cooperation. Contact without a problem.',
     },
     {
       id: '3',
       name: 'Krzysztof Konopka',
       position: 'CEO of CSiR Jelcz-Laskowice',
-      src: 'assets/man.png',
+      src: 'assets/man.avif',
       testimonial:
         'Pragmatic technical arguments and easy to adopt for non-technology people.',
     },
@@ -59,7 +59,7 @@ export class TestimonialsComponent {
       id: '4',
       name: 'Hanna Głowacka',
       position: 'Owner of CoverX',
-      src: 'assets/woman.png',
+      src: 'assets/woman.avif',
       testimonial:
         'Successfully delivered project, and warm approach for clients.',
     },
@@ -67,7 +67,7 @@ export class TestimonialsComponent {
       id: '5',
       name: 'Sers Eire',
       position: 'Editor in EirerePublic',
-      src: 'assets/man.png',
+      src: 'assets/man.avif',
       testimonial: 'Remote cooperation without any problems.',
     },
   ];

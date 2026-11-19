@@ -62,16 +62,30 @@
     <link href="/favicon.ico" rel="icon" type="image/x-icon" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/ico" />
 
-    <!-- Google Fonts. -->
+    <!-- Google Fonts. optional avoids a late swap (desktop CLS). Preload the Latin files used above the fold. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Lora:wght@400;700&display=swap"
+      rel="preload"
+      href="https://fonts.gstatic.com/s/philosopher/v21/vEFV2_5QCwIS4_Dhez5jcWBuT00.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuMwr7Iw.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Lora:wght@400;700&display=optional"
       rel="stylesheet"
     />
 
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap"
       rel="stylesheet"
       type="text/css"
     />

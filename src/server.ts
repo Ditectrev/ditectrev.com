@@ -68,6 +68,11 @@ if (!admin.apps.length) {
 // inline bootstraps; extend explicitly for those integrations and Firebase client calls.
 app.use(
   helmet({
+    strictTransportSecurity: {
+      maxAge: 63072000,
+      includeSubDomains: true,
+    },
+    crossOriginOpenerPolicy: { policy: 'same-origin' },
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
