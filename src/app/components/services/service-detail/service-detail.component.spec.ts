@@ -12,11 +12,15 @@ describe('ServiceDetailComponent', () => {
       name: 'Test Service 1',
       description: 'Test description 1',
       src: 'assets/test1.png',
+      width: 200,
+      height: 200,
     },
     {
       name: 'Test Service 2',
       description: 'Test description 2',
       src: 'assets/test2.png',
+      width: 200,
+      height: 200,
     },
   ];
 
@@ -84,6 +88,8 @@ describe('ServiceDetailComponent', () => {
       expect(img.getAttribute('alt')).toBe(item.name + ' service');
       expect(img.getAttribute('src')).toBe(item.src);
       expect(img.getAttribute('title')).toBe(item.name);
+      expect(img.getAttribute('width')).toBe(String(item.width));
+      expect(img.getAttribute('height')).toBe(String(item.height));
     });
   });
 

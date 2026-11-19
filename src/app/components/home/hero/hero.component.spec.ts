@@ -150,6 +150,10 @@ describe('HeroComponent', () => {
     });
 
     it('should call particlesJS on initialization', () => {
+      spyOn(window, 'requestIdleCallback').and.callFake((cb: IdleRequestCallback) => {
+        cb({ didTimeout: false, timeRemaining: () => 50 });
+        return 1;
+      });
       component.ngOnInit();
       expect(window.particlesJS).toHaveBeenCalled();
     });
@@ -191,6 +195,10 @@ describe('HeroComponent', () => {
 
   describe('Lifecycle Hooks', () => {
     it('should call invokeParticles on ngOnInit', () => {
+      spyOn(window, 'requestIdleCallback').and.callFake((cb: IdleRequestCallback) => {
+        cb({ didTimeout: false, timeRemaining: () => 50 });
+        return 1;
+      });
       spyOn(component, 'invokeParticles');
       component.ngOnInit();
       expect(component.invokeParticles).toHaveBeenCalled();

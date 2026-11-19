@@ -23,6 +23,8 @@
           alt="Ditectrev logo"
           src="assets/logo.svg"
           title="Ditectrev"
+          width="2731"
+          height="467"
         />
       </a>
       <!--
@@ -104,14 +106,14 @@
       </div>
     </mat-toolbar>
     <!-- Mobile header main menu (sidenav). -->
-    <mat-sidenav #sidenav fixedInViewport="true">
+    <mat-sidenav #sidenav fixedInViewport="true" [attr.inert]="sidenav.opened ? null : ''">
       <mat-toolbar
         aria-label="This is a sidenav with menu elements for mobile devices."
         color="primary"
         >Menu</mat-toolbar
       >
       <!-- Navbar list. -->
-      <mat-nav-list role="navigation">
+      <mat-nav-list>
         <!-- Grouping element for list of menu items. -->
         <ng-container
           *ngFor="let menuItem of menuItems; let i = index; let lastItem = last"
@@ -120,6 +122,7 @@
           <ng-container *ngIf="i === 1 && !lastItem">
             <a
               mat-list-item
+              [href]="menuItem.path"
               [matMenuTriggerFor]="menuMobile"
               (click)="onServicesClick($event)"
               attr.aria-label="{{ menuItem.name }}. Click to read more about {{
@@ -192,7 +195,7 @@
             &nbsp;{{ menuItem.name }}
           </a>
           <!-- Menu of services. -->
-          <mat-menu #menuMobile="matMenu" role="navigation">
+          <mat-menu #menuMobile="matMenu">
             <!-- Lazy loaded menu of services. -->
             <ng-template matMenuContent>
               <!-- Grouping element for list of menu items for services. -->

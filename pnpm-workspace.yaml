@@ -1,0 +1,5 @@
+allowBuilds:
+  '@compodoc/compodoc': true
+  esbuild: true
+  nice-napi: true
+  protobufjs: true

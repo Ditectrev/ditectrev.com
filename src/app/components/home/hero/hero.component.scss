@@ -53,7 +53,13 @@
     white-space: pre; // Preserve spaces
 
     @media (max-width: 600px) {
-      transform: translateY(0.75rem); // Reduce transform distance on mobile
+      transform: translateY(0.75rem);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      opacity: 1;
+      transform: none;
     }
 
     &.line-break {
@@ -61,109 +67,14 @@
       width: 100%;
       height: 0;
     }
-  }
 
-  // Stagger the letter animations
-  h2 .letter:nth-child(1) { animation-delay: 0.1s; }
-  h2 .letter:nth-child(2) { animation-delay: 0.15s; }
-  h2 .letter:nth-child(3) { animation-delay: 0.2s; }
-  h2 .letter:nth-child(4) { animation-delay: 0.25s; }
-  h2 .letter:nth-child(5) { animation-delay: 0.3s; }
-  h2 .letter:nth-child(6) { animation-delay: 0.35s; }
-  h2 .letter:nth-child(7) { animation-delay: 0.4s; }
-  h2 .letter:nth-child(8) { animation-delay: 0.45s; }
-  h2 .letter:nth-child(9) { animation-delay: 0.5s; }
-  h2 .letter:nth-child(10) { animation-delay: 0.55s; }
-  h2 .letter:nth-child(11) { animation-delay: 0.6s; }
-  h2 .letter:nth-child(12) { animation-delay: 0.65s; }
-  h2 .letter:nth-child(13) { animation-delay: 0.7s; }
-  h2 .letter:nth-child(14) { animation-delay: 0.75s; }
-  h2 .letter:nth-child(15) { animation-delay: 0.8s; }
-  h2 .letter:nth-child(16) { animation-delay: 0.85s; }
-  h2 .letter:nth-child(17) { animation-delay: 0.9s; }
-  h2 .letter:nth-child(18) { animation-delay: 0.95s; }
-  h2 .letter:nth-child(19) { animation-delay: 1s; }
-  h2 .letter:nth-child(20) { animation-delay: 1.05s; }
-  h2 .letter:nth-child(21) { animation-delay: 1.1s; }
-  h2 .letter:nth-child(22) { animation-delay: 1.15s; }
-  h2 .letter:nth-child(23) { animation-delay: 1.2s; }
-  h2 .letter:nth-child(24) { animation-delay: 1.25s; }
-  h2 .letter:nth-child(25) { animation-delay: 1.3s; }
-  h2 .letter:nth-child(26) { animation-delay: 1.35s; }
-  h2 .letter:nth-child(27) { animation-delay: 1.4s; }
-  h2 .letter:nth-child(28) { animation-delay: 1.45s; }
-  h2 .letter:nth-child(29) { animation-delay: 1.5s; }
-  h2 .letter:nth-child(30) { animation-delay: 1.55s; }
-  h2 .letter:nth-child(31) { animation-delay: 1.6s; }
-  h2 .letter:nth-child(32) { animation-delay: 1.65s; }
-  h2 .letter:nth-child(33) { animation-delay: 1.7s; }
-  h2 .letter:nth-child(34) { animation-delay: 1.75s; }
-  h2 .letter:nth-child(35) { animation-delay: 1.8s; }
-  h2 .letter:nth-child(36) { animation-delay: 1.85s; }
-  h2 .letter:nth-child(37) { animation-delay: 1.9s; }
-  h2 .letter:nth-child(38) { animation-delay: 1.95s; }
-  h2 .letter:nth-child(39) { animation-delay: 2s; }
-  h2 .letter:nth-child(40) { animation-delay: 2.05s; }
-  h2 .letter:nth-child(41) { animation-delay: 2.1s; }
-  h2 .letter:nth-child(42) { animation-delay: 2.15s; }
-  h2 .letter:nth-child(43) { animation-delay: 2.2s; }
-  h2 .letter:nth-child(44) { animation-delay: 2.25s; }
-  h2 .letter:nth-child(45) { animation-delay: 2.3s; }
-  h2 .letter:nth-child(46) { animation-delay: 2.35s; }
-  h2 .letter:nth-child(47) { animation-delay: 2.4s; }
-  h2 .letter:nth-child(48) { animation-delay: 2.45s; }
-  h2 .letter:nth-child(49) { animation-delay: 2.5s; }
-  h2 .letter:nth-child(50) { animation-delay: 2.55s; }
-  h2 .letter:nth-child(51) { animation-delay: 2.6s; }
-  h2 .letter:nth-child(52) { animation-delay: 2.65s; }
-  h2 .letter:nth-child(53) { animation-delay: 2.7s; }
-  h2 .letter:nth-child(54) { animation-delay: 2.75s; }
-  h2 .letter:nth-child(55) { animation-delay: 2.8s; }
-  h2 .letter:nth-child(56) { animation-delay: 2.85s; }
-  h2 .letter:nth-child(57) { animation-delay: 2.9s; }
-  h2 .letter:nth-child(58) { animation-delay: 2.95s; }
-  h2 .letter:nth-child(59) { animation-delay: 3s; }
-  h2 .letter:nth-child(60) { animation-delay: 3.05s; }
-  h2 .letter:nth-child(61) { animation-delay: 3.1s; }
-  h2 .letter:nth-child(62) { animation-delay: 3.15s; }
-  h2 .letter:nth-child(63) { animation-delay: 3.2s; }
-  h2 .letter:nth-child(64) { animation-delay: 3.25s; }
-  h2 .letter:nth-child(65) { animation-delay: 3.3s; }
-  h2 .letter:nth-child(66) { animation-delay: 3.35s; }
-  h2 .letter:nth-child(67) { animation-delay: 3.4s; }
-  h2 .letter:nth-child(68) { animation-delay: 3.45s; }
-  h2 .letter:nth-child(69) { animation-delay: 3.5s; }
-  h2 .letter:nth-child(70) { animation-delay: 3.55s; }
-  h2 .letter:nth-child(71) { animation-delay: 3.6s; }
-  h2 .letter:nth-child(72) { animation-delay: 3.65s; }
-  h2 .letter:nth-child(73) { animation-delay: 3.7s; }
-  h2 .letter:nth-child(74) { animation-delay: 3.75s; }
-  h2 .letter:nth-child(75) { animation-delay: 3.8s; }
-  h2 .letter:nth-child(76) { animation-delay: 3.85s; }
-  h2 .letter:nth-child(77) { animation-delay: 3.9s; }
-  h2 .letter:nth-child(78) { animation-delay: 3.95s; }
-  h2 .letter:nth-child(79) { animation-delay: 4s; }
-  h2 .letter:nth-child(80) { animation-delay: 4.05s; }
-  h2 .letter:nth-child(81) { animation-delay: 4.1s; }
-  h2 .letter:nth-child(82) { animation-delay: 4.15s; }
-  h2 .letter:nth-child(83) { animation-delay: 4.2s; }
-  h2 .letter:nth-child(84) { animation-delay: 4.25s; }
-  h2 .letter:nth-child(85) { animation-delay: 4.3s; }
-  h2 .letter:nth-child(86) { animation-delay: 4.35s; }
-  h2 .letter:nth-child(87) { animation-delay: 4.4s; }
-  h2 .letter:nth-child(88) { animation-delay: 4.45s; }
-  h2 .letter:nth-child(89) { animation-delay: 4.5s; }
-  h2 .letter:nth-child(90) { animation-delay: 4.55s; }
-  h2 .letter:nth-child(91) { animation-delay: 4.6s; }
-  h2 .letter:nth-child(92) { animation-delay: 4.65s; }
-  h2 .letter:nth-child(93) { animation-delay: 4.7s; }
-  h2 .letter:nth-child(94) { animation-delay: 4.75s; }
-  h2 .letter:nth-child(95) { animation-delay: 4.8s; }
-  h2 .letter:nth-child(96) { animation-delay: 4.85s; }
-  h2 .letter:nth-child(97) { animation-delay: 4.9s; }
-  h2 .letter:nth-child(98) { animation-delay: 4.95s; }
-  h2 .letter:nth-child(99) { animation-delay: 5s; }
-  h2 .letter:nth-child(100) { animation-delay: 5.05s; }
+    // 0.1s, then +0.05s per letter, through the 100th (5.05s). Same stagger as the nth-child list.
+    @for $i from 1 through 100 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.1 + ($i - 1) * 0.05}s;
+      }
+    }
+  }
 
   p {
     font-size: 1.125rem;

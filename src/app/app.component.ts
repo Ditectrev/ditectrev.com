@@ -12,10 +12,10 @@ import { SeoService } from './services/seo.service';
 const FADE_ANIMATION =
   // Trigger name, needed to attach in HTML.
   trigger('routeState', [
-    // Route for 'enter' transition.
-    transition('*<=>*', [
-      style({ opacity: 0.1 }), // CSS styles at start of transition.
-      animate('1.2s', style({ opacity: 1 })), // Animation and styles at end of transition.
+    // `void` is the first load. Fading the whole page in from 0.1 over 1.2s delayed Speed Index.
+    transition((fromState) => fromState !== 'void', [
+      style({ opacity: 0.1 }),
+      animate('0.3s ease-out', style({ opacity: 1 })),
     ]),
   ]);
 

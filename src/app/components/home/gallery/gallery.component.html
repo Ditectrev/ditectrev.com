@@ -5,8 +5,12 @@
   <div class="gallery-main">
     <img
       [src]="images[currentIndex].src"
+      [attr.srcset]="images[currentIndex].srcset"
+      sizes="(max-width: 64rem) 95vw, 64rem"
       [alt]="images[currentIndex].description"
       class="gallery-image"
+      width="1024"
+      height="576"
       decoding="async"
       [@slideAnimation]="currentIndex"
     />
@@ -18,16 +22,18 @@
     <button class="gallery-nav gallery-prev" (click)="previous()" aria-label="Previous image">‹</button>
     <button class="gallery-nav gallery-next" (click)="next()" aria-label="Next image">›</button>
     <div class="gallery-progress-bar">
-      <div class="gallery-progress-fill" [style.width.%]="progress"></div>
+      <div class="gallery-progress-fill" [style.transform]="'scaleX(' + progress / 100 + ')'"></div>
     </div>
   </div>
   <div class="gallery-thumbnails">
     <img
       *ngFor="let image of images; let i = index"
-      [src]="image.src"
+      [src]="image.srcSmall"
       [alt]="image.description"
       class="thumbnail"
       [class.active]="i === currentIndex"
+      width="800"
+      height="450"
       decoding="async"
       loading="lazy"
       (click)="goTo(i)"

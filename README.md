@@ -8,7 +8,7 @@ This project uses [pnpm](https://pnpm.io) as the package manager. Install depend
 pnpm install
 ```
 
-(If you don't have pnpm, run `corepack enable` then `corepack prepare pnpm@9.15.0 --activate`, or install it via `npm install -g pnpm`.)
+(If you don't have pnpm, run `corepack enable` then `corepack prepare pnpm@12.21.0 --activate`, or install it via `npm install -g pnpm`.)
 
 ## Development server
 

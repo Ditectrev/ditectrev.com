@@ -4,6 +4,8 @@ import { SharedModule } from '../../shared.module';
 
 interface GalleryImage {
   src: string;
+  srcSmall: string;
+  srcset: string;
   title: string;
   description: string;
   link: string;
@@ -20,13 +22,11 @@ interface GalleryImage {
       transition('* => *', [
         style({
           opacity: 0,
-          transform: 'scale(0.8) rotate(-10deg)',
-          filter: 'blur(5px)'
+          transform: 'scale(0.96)'
         }),
-        animate('600ms ease-in-out', style({
+        animate('400ms ease-out', style({
           opacity: 1,
-          transform: 'scale(1) rotate(0deg)',
-          filter: 'blur(0px)'
+          transform: 'scale(1)'
         }))
       ])
     ])
@@ -44,18 +44,24 @@ export class GalleryComponent implements OnInit {
   images: GalleryImage[] = [
     {
       src: 'assets/cyber-security.avif',
+      srcSmall: 'assets/cyber-security-800.avif',
+      srcset: 'assets/cyber-security-800.avif 800w, assets/cyber-security.avif 1024w',
       title: 'Cyber Security',
       description: 'Learn more about our cyber security services',
       link: '/services/cyber-security'
     },
     {
       src: 'assets/digital-strategy.avif',
+      srcSmall: 'assets/digital-strategy-800.avif',
+      srcset: 'assets/digital-strategy-800.avif 800w, assets/digital-strategy.avif 1024w',
       title: 'Digital Strategy',
       description: 'Explore our digital strategy solutions',
       link: '/services/digital-strategy'
     },
     {
       src: 'assets/software-development.avif',
+      srcSmall: 'assets/software-development-800.avif',
+      srcset: 'assets/software-development-800.avif 800w, assets/software-development.avif 1024w',
       title: 'Software Development',
       description: 'Discover our software development expertise',
       link: '/services/software-development'
